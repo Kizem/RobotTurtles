@@ -9,13 +9,15 @@ public class Main {
 	public static int tourJoueur;//variable indiquant à quel joueur est-ce le tour de jouer
 	public static String[] couleurs = {"Bleu","Rouge","Vert","Rose"}; //tableau des couleurs pour chaque joueurs
 	public static String[] nomsTortue = {"Beep", "Pi", "Pangie", "Dot"};//tableau des noms de tortue
+	
 	// TODO remplacer Joueur[] par une liste
-	static Joueur[] joueurs; // tableau des objets joueurs// check index list si ca commence par zero ou un
+	static List<Joueur> joueurs = new ArrayList<>();
+	//static Joueur[] joueurs; // tableau des objets joueurs// check index list si ca commence par zero ou un
+	
 	static List<Joyau> joyaux = new ArrayList<>();
 	
 	public static Scanner scanner = new Scanner(System.in);	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		initialisation();
 		while(!finDuJeu()) {
 		updatePlateau();
@@ -49,18 +51,23 @@ public class Main {
 			nbJoueurs=scanner.nextInt();
 		}while(nbJoueurs<2 || nbJoueurs>4);
 		
-		joueurs = new Joueur[nbJoueurs];
+		//joueurs = new Joueur[nbJoueurs];
+		
 		//on cree le nombre de joueurs avec une couleur et un nom
 		for(int i = 0; i<nbJoueurs; i++) {
-			joueurs[i] = new Joueur(couleurs[i], nomsTortue[i], pioche);
+			
+			//joueurs[i] = new Joueur(couleurs[i], nomsTortue[i], pioche);
+			joueurs.add( new Joueur(couleurs[i], nomsTortue[i], pioche));
 		}
+		
 		//placement des joueurs sur le plateau et des joyaux
+		
 		switch(nbJoueurs) {
 		case 2:
-			joueurs[0].setPosition(0,1);
-			joueurs[0].setPositionDepart(0,1);
-			joueurs[1].setPosition(0,5);
-			joueurs[1].setPositionDepart(0,5);
+			joueurs.get(0).setPosition(0,1);
+			joueurs.get(0).setPositionDepart(0,1);
+			joueurs.get(1).setPosition(0,5);
+			joueurs.get(1).setPositionDepart(0,5);
 			joyaux.add(new Joyau("Vert", 7, 3));
 			plateau[7][3]="JoyauxVert";
 			for(int i=0; i<8;i++) {
@@ -69,13 +76,13 @@ public class Main {
 			
 			break;
 		case 3:
-			joueurs[0].setPosition(0,0);
-			joueurs[1].setPosition(0,3);
-			joueurs[2].setPosition(0,6);
+			joueurs.get(0).setPosition(0,0);
+			joueurs.get(1).setPosition(0,3);
+			joueurs.get(2).setPosition(0,6);
 			
-			joueurs[0].setPositionDepart(0,0);
-			joueurs[1].setPositionDepart(0,3);
-			joueurs[2].setPositionDepart(0,6);
+			joueurs.get(0).setPositionDepart(0,0);
+			joueurs.get(1).setPositionDepart(0,3);
+			joueurs.get(2).setPositionDepart(0,6);
 			joyaux.add(new Joyau("Vert", 7, 3));
 			joyaux.add(new Joyau("Violet", 7, 0));
 			joyaux.add(new Joyau("Bleu", 7, 6));
@@ -87,15 +94,15 @@ public class Main {
 			}
 			break;
 		case 4:
-			joueurs[0].setPosition(0,0);
-			joueurs[1].setPosition(0,2);
-			joueurs[2].setPosition(0,5);
-			joueurs[3].setPosition(0,7);
+			joueurs.get(0).setPosition(0,0);
+			joueurs.get(1).setPosition(0,2);
+			joueurs.get(2).setPosition(0,5);
+			joueurs.get(3).setPosition(0,7);
 			
-			joueurs[0].setPositionDepart(0,0);
-			joueurs[1].setPositionDepart(0,2);
-			joueurs[2].setPositionDepart(0,5);
-			joueurs[3].setPositionDepart(0,7);
+			joueurs.get(0).setPositionDepart(0,0);
+			joueurs.get(1).setPositionDepart(0,2);
+			joueurs.get(2).setPositionDepart(0,5);
+			joueurs.get(3).setPositionDepart(0,7);
 			
 			joyaux.add(new Joyau("Violet", 7, 1));
 			joyaux.add(new Joyau("Bleu", 7, 6));
@@ -109,8 +116,8 @@ public class Main {
 	
 	
 	public static void updatePlateau() {
-		for(int i=0; i < joueurs.length;i++) {
-			plateau[joueurs[i].getPositionY()][joueurs[i].getPositionX()]=joueurs[i].getName();
+		for(int i=0; i < joueurs.size();i++) {
+			plateau[joueurs.get(i).getPositionY()][joueurs.get(i).getPositionX()]=joueurs.get(i).getName();
 		}
 		//TODO ajouter affichage joyaux
 		for(int i=0; i< (plateau.length); i++) {
@@ -123,9 +130,9 @@ public class Main {
 	
 	public static boolean finDuJeu() {
 		boolean test=false;
-		for(int i=0; i < joueurs.length;i++) {
+		for(int i=0; i < joueurs.size();i++) {
 			for(int j=0; j< joyaux.size(); j++) {
-				if(joueurs[i].getPosition()==joyaux.get(j).getPosition()) {
+				if(joueurs.get(i).getPosition()==joyaux.get(j).getPosition()) {
 					test=true;
 				}
 			}
@@ -142,7 +149,7 @@ public class Main {
 	
 	public static void choixJoueur() {
 		int choix;
-		System.out.println("C'est le tour de : " + joueurs[tourJoueur].getName());
+		System.out.println("C'est le tour de : " + joueurs.get(tourJoueur).getName());
 		System.out.println("Choisissez entre ces trois option :");
 		System.out.println("1 - Compléter le programme");
 		System.out.println("2 - Construire un mur");
@@ -170,22 +177,22 @@ public class Main {
 		String carte;
 		String reponse;
 		while(!(programmeFini)) {
-			System.out.println(joueurs[tourJoueur].getMain());
+			System.out.println(joueurs.get(tourJoueur).getMain());
 			System.out.println("Entrez le nom de la carte pour réaliser votre programme");
 			//recuperation de la carte choisi par le joueur
 			do {
 				System.out.println("attention, vous devez posseder ces cartes");
 				carte= scanner.nextLine();
-			}while(!(joueurs[tourJoueur].getMain().contains(carte)));//on verifie que le joueur possede bien cette carte
-			joueurs[tourJoueur].ajouterInstruction(carte);//on ajoute la carte a la file d'instruction
-			joueurs[tourJoueur].retirerCarte(carte);// on retire la carte des mains du joueur
+			}while(!(joueurs.get(tourJoueur).getMain().contains(carte)));//on verifie que le joueur possede bien cette carte
+			joueurs.get(tourJoueur).ajouterInstruction(carte);//on ajoute la carte a la file d'instruction
+			joueurs.get(tourJoueur).retirerCarte(carte);// on retire la carte des mains du joueur
 			//TODO le joueur peut dans tout les cas choisir de retirer une carte
-			if(joueurs[tourJoueur].getMain().isEmpty()) { //sil na plus de cartes en main, son tour est fini
+			if(joueurs.get(tourJoueur).getMain().isEmpty()) { //sil na plus de cartes en main, son tour est fini
 				System.out.println("Votre tour est fini");
-				joueurs[tourJoueur].piocherCarte();
+				joueurs.get(tourJoueur).piocherCarte();
 				programmeFini=true;
 				}
-			// TODO refazire le mecanisme de defausse et de fin de tour	
+			// TODO refaire le mecanisme de defausse et de fin de tour	
 			else {
 				do {
 					System.out.println("Continuer le programme ?");//le joueur peut choisir de continuer le programme ou non
@@ -201,8 +208,8 @@ public class Main {
 						reponse = scanner.nextLine();
 					}while(!(reponse.equals("oui") || reponse.equals("non")));
 					if(reponse.contentEquals("oui")) {
-						joueurs[tourJoueur].defausserMain();
-						joueurs[tourJoueur].piocherCarte();
+						joueurs.get(tourJoueur).defausserMain();
+						joueurs.get(tourJoueur).piocherCarte();
 					}
 				}
 			}		
@@ -213,13 +220,13 @@ public class Main {
 		String mur;
 		int x;
 		int y;
-		System.out.println(joueurs[tourJoueur].getMurJoueur());
+		System.out.println(joueurs.get(tourJoueur).getMurJoueur());
 		System.out.println("Entrez le nom du mur que vous avez choisis");
 		//recuperation de la carte choisi par le joueur
 		do {
 			System.out.println("attention, vous devez posseder ce murs");
 			mur=scanner.nextLine();
-		}while(!(joueurs[tourJoueur].murInList(mur)));
+		}while(!(joueurs.get(tourJoueur).murInList(mur)));
 		System.out.println("Entrez les coordonnées ou vous souhaiter placer ce mur");
 		do {
 			System.out.println("Entrez une valeur correcte");
@@ -233,9 +240,9 @@ public class Main {
 	}
 	
 	static void executerProgramme() {
-		System.out.println(joueurs[tourJoueur].getInstructions());
-		while(joueurs[tourJoueur].getInstructions().isEmpty()) {
-			String instruction = joueurs[tourJoueur].getInstructions().pollFirst();
+		System.out.println(joueurs.get(tourJoueur).getInstructions());
+		while(joueurs.get(tourJoueur).getInstructions().isEmpty()) {
+			String instruction = joueurs.get(tourJoueur).getInstructions().pollFirst();
 			//TODO APPLIQUER INSTRUCTION
 			System.out.println(instruction);
 		}

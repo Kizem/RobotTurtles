@@ -1,4 +1,3 @@
-
 public class Carte {
 	String role;
 	public Carte(String role) {
