@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 // un joueur possede une couleur, un nom, une pioche de carte, une main, une liste d'intruction
-//Ajouter les murs !!!!
+//TODO: Ajouter les murs !!!!
 public class Joueur {
 	private String couleur;
 	private List<String> main = new ArrayList<String>();

@@ -10,7 +10,6 @@ public class Main {
 	public static String[] couleurs = {"Bleu","Rouge","Vert","Rose"}; //tableau des couleurs pour chaque joueurs
 	public static String[] nomsTortue = {"Beep", "Pi", "Pangie", "Dot"};//tableau des noms de tortue
 	
-	// TODO remplacer Joueur[] par une liste
 	static List<Joueur> joueurs = new ArrayList<>();
 	//static Joueur[] joueurs; // tableau des objets joueurs// check index list si ca commence par zero ou un
 	
@@ -46,7 +45,7 @@ public class Main {
 		//fin d'initialisation de la pioche
 		
 		//choix du nombre de joueurs
-		System.out.println("Combien de joueurs (2 à 4 joueurs autorisés");
+		System.out.println("Combien de joueurs (2 à 4 joueurs autorisés)");
 		do {
 			nbJoueurs=scanner.nextInt();
 		}while(nbJoueurs<2 || nbJoueurs>4);
@@ -186,6 +185,7 @@ public class Main {
 			}while(!(joueurs.get(tourJoueur).getMain().contains(carte)));//on verifie que le joueur possede bien cette carte
 			joueurs.get(tourJoueur).ajouterInstruction(carte);//on ajoute la carte a la file d'instruction
 			joueurs.get(tourJoueur).retirerCarte(carte);// on retire la carte des mains du joueur
+			
 			//TODO le joueur peut dans tout les cas choisir de retirer une carte
 			if(joueurs.get(tourJoueur).getMain().isEmpty()) { //sil na plus de cartes en main, son tour est fini
 				System.out.println("Votre tour est fini");
@@ -208,6 +208,7 @@ public class Main {
 						reponse = scanner.nextLine();
 					}while(!(reponse.equals("oui") || reponse.equals("non")));
 					if(reponse.contentEquals("oui")) {
+						
 						joueurs.get(tourJoueur).defausserMain();
 						joueurs.get(tourJoueur).piocherCarte();
 					}
