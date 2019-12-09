@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+//test
 public class Main {
 	// TODO essayer de faire un plateau de object
 	public static String plateau[][] = new String[8][8];
@@ -29,18 +29,18 @@ public class Main {
 	{
 		//initialisation de la pioche de base
 		// TODO créer l'objet carte au lieu de string
-		List<String> pioche = new ArrayList<String>();
+		List<Carte> pioche = new ArrayList<Carte>();
 		for(int i=0; i<18;i++) {
-			pioche.add("carteBleue");
+			pioche.add(new Carte("Bleue"));
 		}
 		for(int i=0; i<8;i++) {
-			pioche.add("carteJaune");
+			pioche.add(new Carte("Jaune"));
 		}
 		for(int i=0; i<8;i++) {
-			pioche.add("carteViolette");
+			pioche.add(new Carte("Violette"));
 		}
 		for(int i=0; i<3;i++) {
-			pioche.add("carteLaser");
+			pioche.add(new Carte("Laser"));
 		}
 		//fin d'initialisation de la pioche
 		
