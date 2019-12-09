@@ -70,7 +70,7 @@ public class Main {
 			joyaux.add(new Joyau("Vert", 7, 3));
 			plateau[7][3]="JoyauxVert";
 			for(int i=0; i<8;i++) {
-				plateau[i][7]="murDeBois";
+				plateau[i][7]= (new Mur(true, true,"murDeBois")).getNom();
 			}
 			
 			break;
@@ -89,7 +89,7 @@ public class Main {
 			plateau[7][0]="JoyauxViolet";
 			plateau[7][6]="JoyauxBleu";
 			for(int i=0; i<8;i++) {
-				plateau[i][7]="murDeBois";
+				plateau[i][7]=(new Mur(true, true,"murDeBois")).getNom();
 			}
 			break;
 		case 4:
@@ -236,7 +236,7 @@ public class Main {
 			System.out.println("Y = ?");
 			y=scanner.nextInt();
 		}while(!(caseLibre(x,y)));
-		plateau[y][x]=mur;
+		plateau[y][x]=joueurs.get(tourJoueur).retirerMur(mur).getNom();
 		//TODO ajouter defausser sa main
 	}
 	

@@ -112,12 +112,14 @@ public class Joueur {
 		return this.murs;
 	}
 	
-	public void retirerMur(String nomMur) {
+	public Mur retirerMur(String nomMur) {
 		for (Mur mr : murs) {
 			if (mr.getNom().equals(nomMur)){
 				this.murs.remove(mr);
+				return mr;
 			}
 		}
+		return new Mur(true, true, "bois");
 
 	}
 	public int[] getPositionDepart() {
@@ -138,4 +140,5 @@ public class Joueur {
 		}
 		return false;
 	}
+	
 }
