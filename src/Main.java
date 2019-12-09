@@ -173,7 +173,7 @@ public class Main {
 	static void completerProgramme() {
 		boolean programmeFini=false;
 		//recuperation de la main du joueur
-		String carte;
+		Carte carte = new Carte("");
 		String reponse;
 		while(!(programmeFini)) {
 			System.out.println(joueurs.get(tourJoueur).getMain());
@@ -181,7 +181,7 @@ public class Main {
 			//recuperation de la carte choisi par le joueur
 			do {
 				System.out.println("attention, vous devez posseder ces cartes");
-				carte= scanner.nextLine();
+				carte.role= scanner.nextLine();
 			}while(!(joueurs.get(tourJoueur).getMain().contains(carte)));//on verifie que le joueur possede bien cette carte
 			joueurs.get(tourJoueur).ajouterInstruction(carte);//on ajoute la carte a la file d'instruction
 			joueurs.get(tourJoueur).retirerCarte(carte);// on retire la carte des mains du joueur
@@ -242,10 +242,13 @@ public class Main {
 	
 	static void executerProgramme() {
 		System.out.println(joueurs.get(tourJoueur).getInstructions());
-		while(joueurs.get(tourJoueur).getInstructions().isEmpty()) {
-			String instruction = joueurs.get(tourJoueur).getInstructions().pollFirst();
+		while(!joueurs.get(tourJoueur).getInstructions().isEmpty()) {
+			Carte instruction = joueurs.get(tourJoueur).getInstructions().pollFirst();
 			//TODO APPLIQUER INSTRUCTION
 			System.out.println(instruction);
+			
+			//on vient placer la carte exécuté dans la pioche de défausse
+			joueurs.get(tourJoueur).piocheDefausse.add(instruction);
 		}
 		// TODO ajouter defausser sa main
 		

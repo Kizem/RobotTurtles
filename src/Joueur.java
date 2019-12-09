@@ -6,20 +6,21 @@ import java.util.List;
 //TODO: Ajouter les murs !!!!
 public class Joueur {
 	private String couleur;
-	private List<String> main = new ArrayList<String>();
-	private List<String> pioche ;
+	private List<Carte> main = new ArrayList<Carte>();
+	private List<Carte> pioche;
 	private List<Mur> murs = new ArrayList<Mur>();
-	private List<String> piocheDefausse = new ArrayList<String>();
+	//  piocheDefausse est en public pour que l'on puisse ajouter les cartes hors de la classe
+	public List<Carte> piocheDefausse = new ArrayList<Carte>();
 	private String nom;
 	private String direction = "Sud";
 	private int[] position = new int[2];
-	private ArrayDeque<String> file = new ArrayDeque<>();
+	private ArrayDeque<Carte> file = new ArrayDeque<>();
 	private int[] positionDepart = new int[2];
 	
 
 
 
-	public Joueur(String couleurTortue, String nomTortue, List<String> piocheDeBase) {
+	public Joueur(String couleurTortue, String nomTortue, List<Carte> piocheDeBase) {
 		this.couleur=couleurTortue;
 		this.nom=nomTortue;
 		//initialisation des murs : 3murs de pierre et 2murs de glace
@@ -29,7 +30,7 @@ public class Joueur {
 		this.murs.add(new Mur(false , true, "Glace"));
 		this.murs.add(new Mur(false , true, "Glace"));
 		//fin d'initialisation
-		this.pioche=new ArrayList<String>(piocheDeBase);//on recupere les cartes
+		this.pioche=new ArrayList<Carte>(piocheDeBase);//on recupere les cartes
 		Collections.shuffle(this.pioche);//on melange les cartes
 		//on cree la main du joueur
 		for(int i=0;i<5; i++) {
@@ -45,12 +46,12 @@ public class Joueur {
 	public String couleurJoueur() {
 		return this.couleur;
 	}
-	public List<String> getMain(){
+	public List<Carte> getMain(){
 		return this.main;
 	}
 	
 	//cette methode permet de retirer une carte de la main du joueur et de la mettre dans la liste de defausse
-	public void retirerCarte(String carte) {
+	public void retirerCarte(Carte carte) {
 		this.main.remove(carte);
 		this.piocheDefausse.add(carte);
 	}
@@ -99,11 +100,11 @@ public class Joueur {
 		this.direction=dir;
 	}
 	//ajoute une instruction a la file d'instruction du joueur
-	public void ajouterInstruction(String instruction) {
+	public void ajouterInstruction(Carte instruction) {
 		this.file.addLast(instruction);
 	}
 	
-	public ArrayDeque<String> getInstructions(){
+	public ArrayDeque<Carte> getInstructions(){
 		return this.file;
 	}
 	
