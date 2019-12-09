@@ -6,7 +6,8 @@ import java.util.List;
 //TODO: Ajouter les murs !!!!
 public class Joueur {
 	private String couleur;
-	private List<Carte> main = new ArrayList<Carte>();
+	//main est en public pour que l'on puisse récupérer la main du joueur dans le main
+	public List<Carte> main = new ArrayList<Carte>();
 	private List<Carte> pioche;
 	private List<Mur> murs = new ArrayList<Mur>();
 	//  piocheDefausse est en public pour que l'on puisse ajouter les cartes hors de la classe
@@ -46,26 +47,15 @@ public class Joueur {
 	public String couleurJoueur() {
 		return this.couleur;
 	}
-	
-	//getMain te renvoie la main du joueur sous forme d'une liste de rôles pour pouvoir avoir un affichage des cartes
-	
-	public List<String> getMain(){
-		
-		List<String> main_roles = new ArrayList<String>();
-		
-		for(int i=0; i<this.main.size();i++) {
-			
-			main_roles.add(this.main.get(i).role);
-			
-		}
-		
-		return main_roles;
+	public List<Carte> getMain(){
+		return this.main;
 	}
 	
 	//cette methode permet de retirer une carte de la main du joueur et de la mettre dans la liste de defausse
 	public void retirerCarte(Carte carte) {
 		this.main.remove(carte);
-		this.piocheDefausse.add(carte);
+		//TODO : cette ligne n'est-elle pas inutile si l'on met la carte dans la pile de défausse à l'éxécution du programme ?
+		//this.piocheDefausse.add(carte);
 	}
 	//on vide toutes les cartes de la main dans la liste de defausse
 	
