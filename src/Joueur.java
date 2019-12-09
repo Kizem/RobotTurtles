@@ -46,8 +46,20 @@ public class Joueur {
 	public String couleurJoueur() {
 		return this.couleur;
 	}
-	public List<Carte> getMain(){
-		return this.main;
+	
+	//getMain te renvoie la main du joueur sous forme d'une liste de rôles pour pouvoir avoir un affichage des cartes
+	
+	public List<String> getMain(){
+		
+		List<String> main_roles = new ArrayList<String>();
+		
+		for(int i=0; i<this.main.size();i++) {
+			
+			main_roles.add(this.main.get(i).role);
+			
+		}
+		
+		return main_roles;
 	}
 	
 	//cette methode permet de retirer une carte de la main du joueur et de la mettre dans la liste de defausse
@@ -58,11 +70,19 @@ public class Joueur {
 	//on vide toutes les cartes de la main dans la liste de defausse
 	
 	
-	public void defausserMain() {
-		for(int i=0; i<this.main.size();i++) {
-			this.piocheDefausse.add(this.main.get(i));
+	public void defausserMain(String action) {
+		
+		if(action.equals("toutes")) {
+			for(int i=0; i<this.main.size();i++) {
+				this.piocheDefausse.add(this.main.get(i));
+			}
+			this.main.clear();
 		}
-		this.main.clear();
+		else {
+			
+			
+			
+		}
 	}
 	//on pioche des cartes jusqu'a ce que le joueur en ait 5
 	public void piocherCarte() {

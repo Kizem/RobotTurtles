@@ -201,7 +201,7 @@ public class Main {
 				}while(!(reponse.equals("oui") || reponse.equals("non")));
 				if(reponse.equals("non")) {
 					programmeFini=true;
-					System.out.println("Défausser votre main ?");//sil arrete, il peut choisir de defausser sa main
+					System.out.println("Défausser votre main ?");//s'il arrete, il peut choisir de defausser sa main
 					do {
 						
 						System.out.println("oui ou non ?");
@@ -209,8 +209,29 @@ public class Main {
 					}while(!(reponse.equals("oui") || reponse.equals("non")));
 					if(reponse.contentEquals("oui")) {
 						
-						joueurs.get(tourJoueur).defausserMain();
-						joueurs.get(tourJoueur).piocherCarte();
+						System.out.println("Voulez-vous défausser une ou toutes vos cartes ?");
+						reponse = scanner.nextLine();
+						
+						do {
+							
+							System.out.println("une ou toutes ?");
+							reponse = scanner.nextLine();
+							
+						}while(!(reponse.equals("une") || reponse.equals("toutes")));
+						
+						if(reponse.contentEquals("une")) {
+							
+							System.out.println("Quelle carte ?");
+							
+						}
+						else {
+							joueurs.get(tourJoueur).defausserMain(reponse);
+							joueurs.get(tourJoueur).piocherCarte();
+						}
+						
+						
+						
+
 					}
 				}
 			}		
