@@ -173,16 +173,35 @@ public class Main {
 	static void completerProgramme() {
 		boolean programmeFini=false;
 		//recuperation de la main du joueur
-		Carte carte = new Carte("");
+		String role;
 		String reponse;
+		List<String> main_roles = new ArrayList<String>();
+		Carte carte = new Carte("");
 		while(!(programmeFini)) {
-			System.out.println(joueurs.get(tourJoueur).getMain());
+			
+			//cette boucle nous permet de récupérer les rôles associées aux cartes de la main pour pouvoir les afficher
+			main_roles.clear(); //nécessaires pour réafficher la main à chaque coup
+			for(int i=0; i<joueurs.get(tourJoueur).getMain().size();i++) {
+				main_roles.add(joueurs.get(tourJoueur).main.get(i).role);
+			}
+			
+			
+			System.out.println(main_roles);
+			
 			System.out.println("Entrez le nom de la carte pour réaliser votre programme");
 			//recuperation de la carte choisi par le joueur
 			do {
 				System.out.println("attention, vous devez posseder ces cartes");
-				carte.role= scanner.nextLine();
-			}while(!(joueurs.get(tourJoueur).getMain().contains(carte)));//on verifie que le joueur possede bien cette carte
+				role=scanner.nextLine();
+				carte.role = role;
+			}
+			while(!(main_roles.contains(role)));//on verifie que le joueur possede bien cette carte, étant donné que main_roles
+												// recence les cartes dans la main sous forme de string
+			
+			//while(!(joueurs.get(tourJoueur).getMain().contains(carte)));//on verifie que le joueur possede bien cette carte
+			
+			//TODO Voir comment traiter ici le retrait de la carte etc depuis qu'on est passé à des listes de carte
+			
 			joueurs.get(tourJoueur).ajouterInstruction(carte);//on ajoute la carte a la file d'instruction
 			joueurs.get(tourJoueur).retirerCarte(carte);// on retire la carte des mains du joueur
 			
@@ -201,7 +220,7 @@ public class Main {
 				}while(!(reponse.equals("oui") || reponse.equals("non")));
 				if(reponse.equals("non")) {
 					programmeFini=true;
-					System.out.println("Défausser votre main ?");//sil arrete, il peut choisir de defausser sa main
+					System.out.println("Défausser votre main ?");//s'il arrete, il peut choisir de defausser sa main
 					do {
 						
 						System.out.println("oui ou non ?");
@@ -209,8 +228,29 @@ public class Main {
 					}while(!(reponse.equals("oui") || reponse.equals("non")));
 					if(reponse.contentEquals("oui")) {
 						
-						joueurs.get(tourJoueur).defausserMain();
-						joueurs.get(tourJoueur).piocherCarte();
+						System.out.println("Voulez-vous défausser une ou toutes vos cartes ?");
+						reponse = scanner.nextLine();
+						
+						do {
+							
+							System.out.println("une ou toutes ?");
+							reponse = scanner.nextLine();
+							
+						}while(!(reponse.equals("une") || reponse.equals("toutes")));
+						
+						if(reponse.contentEquals("une")) {
+							
+							System.out.println("Quelle carte ?");
+							
+						}
+						else {
+							joueurs.get(tourJoueur).defausserMain(reponse);
+							joueurs.get(tourJoueur).piocherCarte();
+						}
+						
+						
+						
+
 					}
 				}
 			}		
@@ -250,7 +290,7 @@ public class Main {
 			//on vient placer la carte exécuté dans la pioche de défausse
 			joueurs.get(tourJoueur).piocheDefausse.add(instruction);
 		}
-		// TODO ajouter defausser sa main
+		
 		
 	}
 	

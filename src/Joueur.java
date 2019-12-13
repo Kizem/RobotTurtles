@@ -6,7 +6,8 @@ import java.util.List;
 //TODO: Ajouter les murs !!!!
 public class Joueur {
 	private String couleur;
-	private List<Carte> main = new ArrayList<Carte>();
+	//main est en public pour que l'on puisse récupérer la main du joueur dans le main
+	public List<Carte> main = new ArrayList<Carte>();
 	private List<Carte> pioche;
 	private List<Mur> murs = new ArrayList<Mur>();
 	//  piocheDefausse est en public pour que l'on puisse ajouter les cartes hors de la classe
@@ -53,16 +54,25 @@ public class Joueur {
 	//cette methode permet de retirer une carte de la main du joueur et de la mettre dans la liste de defausse
 	public void retirerCarte(Carte carte) {
 		this.main.remove(carte);
-		this.piocheDefausse.add(carte);
+		//TODO : cette ligne n'est-elle pas inutile si l'on met la carte dans la pile de défausse à l'éxécution du programme ?
+		//this.piocheDefausse.add(carte);
 	}
 	//on vide toutes les cartes de la main dans la liste de defausse
 	
 	
-	public void defausserMain() {
-		for(int i=0; i<this.main.size();i++) {
-			this.piocheDefausse.add(this.main.get(i));
+	public void defausserMain(String action) {
+		
+		if(action.equals("toutes")) {
+			for(int i=0; i<this.main.size();i++) {
+				this.piocheDefausse.add(this.main.get(i));
+			}
+			this.main.clear();
 		}
-		this.main.clear();
+		else {
+			
+			
+			
+		}
 	}
 	//on pioche des cartes jusqu'a ce que le joueur en ait 5
 	public void piocherCarte() {
