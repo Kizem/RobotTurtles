@@ -2,20 +2,19 @@ import javax.swing.JFrame;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import java.awt.Component;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+
 import javax.swing.JLabel;
+
 import javax.swing.JButton;
 import java.awt.Cursor;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.GridBagLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.factories.FormFactory;
-import java.awt.GridLayout;
 
-public class InterfaceGraphique {
+import java.awt.GridLayout;
+import javax.swing.JLayeredPane;
+
+public class InterfaceGraphique extends JFrame{
 	public  InterfaceGraphique() {
 		JFrame fenetre = new JFrame();
 		fenetre.setResizable(false);
@@ -26,41 +25,90 @@ public class InterfaceGraphique {
 		fenetre.setLocationRelativeTo(null);
 		fenetre.getContentPane().setLayout(null);
 		
-		JLabel titreConteneur = new JLabel("Bondour, bienvenue dans le wobot tuhtle");
-		titreConteneur.setBounds(364, 43, 299, 20);
-		fenetre.getContentPane().add(titreConteneur);
+		JLayeredPane panelPrincipal = new JLayeredPane();
+		panelPrincipal.setBounds(15, 16, 1044, 648);
+		fenetre.getContentPane().add(panelPrincipal);
+		panelPrincipal.setLayout(null);
 		
-		JButton boutonFini = new JButton("J'ai fini");
-		boutonFini.setBounds(871, 624, 115, 29);
-		boutonFini.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-		fenetre.getContentPane().add(boutonFini);
 		
-		JButton carte1 = new JButton("carte");
-		carte1.setBounds(51, 499, 84, 154);
-		fenetre.getContentPane().add(carte1);
 		
-		JButton carte2 = new JButton("New button");
-		carte2.setBounds(133, 499, 84, 154);
-		fenetre.getContentPane().add(carte2);
+		JPanel panelTableau = new JPanel();
+		panelTableau.setBounds(263, 64, 494, 403);
+		panelPrincipal.add(panelTableau);
+		panelTableau.setLayout(new GridLayout(8,8));
 		
-		JButton carte3 = new JButton("New button");
-		carte3.setBounds(215, 499, 84, 154);
-		fenetre.getContentPane().add(carte3);
-		
-		JButton carte4 = new JButton("New button");
-		carte4.setBounds(296, 499, 84, 154);
-		fenetre.getContentPane().add(carte4);
-		
-		JButton carte5 = new JButton("New button");
-		carte5.setBounds(378, 499, 84, 154);
-		fenetre.getContentPane().add(carte5);
+		for(int i=0;i<8;i++) {
+			for(int j =0; j<8;j++) {
+				JPanel square = new JPanel(new BorderLayout());
+				panelTableau.add(square);
+				if((i%2)==0) {
+					if((j%2==0)) {
+						square.setBackground(Color.blue);
+					}
+					else {
+						square.setBackground(Color.white);
+					}
+				}
+				else {
+					if((j%2==0)) {
+						square.setBackground(Color.white);
+					}
+					else {
+						square.setBackground(Color.blue);
+					}
+				}
+			}
+		}
+		/*for (int i = 0; i < 64; i++) {
+			  JPanel square = new JPanel(new BorderLayout());
+			  panelTableau.add(square);
+			  int row = (int)(i / 8) % 2;
+			  if (row == 0)
+			  square.setBackground( i % 2 == 0 ? Color.blue : Color.white );
+			  else
+			  square.setBackground( i % 2 == 0 ? Color.white : Color.blue );
+		}*/
 		
 		JButton boutonValiderCarte = new JButton("Valider Carte");
-		boutonValiderCarte.setBounds(496, 624, 150, 29);
-		fenetre.getContentPane().add(boutonValiderCarte);
+		boutonValiderCarte.setBounds(529, 586, 150, 29);
+		panelPrincipal.add(boutonValiderCarte);
+		
+		JButton boutonFini = new JButton("J'ai fini");
+		boutonFini.setBounds(826, 587, 115, 29);
+		panelPrincipal.add(boutonFini);
+		boutonFini.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		
+		JButton carte1 = new JButton("carte");
+		carte1.setBounds(15, 478, 84, 154);
+		panelPrincipal.add(carte1);
+		
+		JButton carte2 = new JButton("New button");
+		carte2.setBounds(97, 478, 84, 154);
+		panelPrincipal.add(carte2);
+		
+		JButton carte3 = new JButton("New button");
+		carte3.setBounds(178, 478, 84, 154);
+		panelPrincipal.add(carte3);
+		
+		JButton carte4 = new JButton("New button");
+		carte4.setBounds(259, 478, 84, 154);
+		panelPrincipal.add(carte4);
+		
+		JButton carte5 = new JButton("New button");
+		carte5.setBounds(341, 478, 84, 154);
+		panelPrincipal.add(carte5);
 		
 		
 		
+		JLabel titreConteneur = new JLabel("Bondour, bienvenue dans le wobot tuhtle");
+		titreConteneur.setBounds(366, 16, 299, 20);
+		panelPrincipal.add(titreConteneur);
+		
+		
+		
+		
+		
+		System.out.println("bla");
 		
 		
 	}

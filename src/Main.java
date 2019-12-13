@@ -21,11 +21,11 @@ public class Main {
 	public static void main(String[] args) {
 		initialisation();
 		new InterfaceGraphique();
-		while(!finDuJeu()) {
+		/*while(!finDuJeu()) {
 		updatePlateau();
 		choixJoueur();
 		joueurSuivant();
-		}
+		}*/
 	}
 	
 	public static void initialisation()
