@@ -13,9 +13,11 @@ import java.awt.Cursor;
 
 import java.awt.GridLayout;
 import javax.swing.JLayeredPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class InterfaceGraphique extends JFrame{
-	public  InterfaceGraphique() {
+	 public  InterfaceGraphique() {
 		JFrame fenetre = new JFrame();
 		fenetre.setResizable(false);
 		fenetre.setSize(new Dimension(1080, 720));
@@ -78,7 +80,12 @@ public class InterfaceGraphique extends JFrame{
 		panelPrincipal.add(boutonFini);
 		boutonFini.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 		
-		JButton carte1 = new JButton("carte");
+		final JButton carte1 = new JButton("carte");
+		carte1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				carte1.setBackground(Color.blue);
+			}
+		});
 		carte1.setBounds(15, 478, 84, 154);
 		panelPrincipal.add(carte1);
 		
