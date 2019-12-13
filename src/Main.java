@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import javax.swing.JOptionPane;
 //test
 public class Main {
 	// TODO essayer de faire un plateau de object
@@ -18,6 +20,7 @@ public class Main {
 	public static Scanner scanner = new Scanner(System.in);	
 	public static void main(String[] args) {
 		initialisation();
+		new InterfaceGraphique();
 		while(!finDuJeu()) {
 		updatePlateau();
 		choixJoueur();
@@ -43,13 +46,23 @@ public class Main {
 			pioche.add(new Carte("Laser"));
 		}
 		//fin d'initialisation de la pioche
-		
+		Integer[] nombre = {2, 3, 4};
+	    JOptionPane jop = new JOptionPane(), jop2 = new JOptionPane();
+	    nbJoueurs = (int)jop.showInputDialog(null, 
+	      "Veuillez indiquer le nombre de joueur",
+	      "Nombre de joueurs",
+	      JOptionPane.QUESTION_MESSAGE,
+	      null,
+	      nombre,
+	      nombre[0]);
+	    
+	    System.out.println(nbJoueurs);
 		//choix du nombre de joueurs
-		System.out.println("Combien de joueurs (2 à 4 joueurs autorisés)");
+		/*System.out.println("Combien de joueurs (2 à 4 joueurs autorisés)");
 		do {
 			nbJoueurs=scanner.nextInt();
 		}while(nbJoueurs<2 || nbJoueurs>4);
-		
+		*/
 		//joueurs = new Joueur[nbJoueurs];
 		
 		//on cree le nombre de joueurs avec une couleur et un nom
