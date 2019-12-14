@@ -16,11 +16,12 @@ public class Main {
 	//static Joueur[] joueurs; // tableau des objets joueurs// check index list si ca commence par zero ou un
 	
 	static List<Joyau> joyaux = new ArrayList<>();
-	
+	public static InterfaceGraphique gui;
 	public static Scanner scanner = new Scanner(System.in);	
 	public static void main(String[] args) {
 		initialisation();
-		new InterfaceGraphique();
+		gui = new InterfaceGraphique();
+		updatePlateau();
 		/*while(!finDuJeu()) {
 		updatePlateau();
 		choixJoueur();
@@ -138,6 +139,8 @@ public class Main {
 			}
 			System.out.println();
 		}
+		gui.setMain(joueurs.get(tourJoueur).main);
+		
 	}
 	
 	public static boolean finDuJeu() {
