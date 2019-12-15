@@ -4,8 +4,11 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 //test
+
+//TODO : Ajouter la rotation de l'image torute
+//TODO : Rogner les images de tortues pour avoir les bonnes couleurs
+
 public class Main {
-	// TODO essayer de faire un plateau de object
 	public static String plateau[][] = new String[8][8];
 	public static int nbJoueurs;
 	public static int tourJoueur;//variable indiquant à quel joueur est-ce le tour de jouer
@@ -230,7 +233,6 @@ public class Main {
 			
 			//while(!(joueurs.get(tourJoueur).getMain().contains(carte)));//on verifie que le joueur possede bien cette carte
 			
-			//TODO Voir comment traiter ici le retrait de la carte etc depuis qu'on est passé à des listes de carte
 			
 			joueurs.get(tourJoueur).ajouterInstruction(carte);//on ajoute la carte a la file d'instruction
 			joueurs.get(tourJoueur).retirerCarte(carte);// on retire la carte des mains du joueur
@@ -250,13 +252,11 @@ public class Main {
 			gui.setMain(joueurs.get(tourJoueur).getMain());//actualisation de la main sur la gui
 			
 			
-			//TODO le joueur peut dans tout les cas choisir de retirer une carte
 			if(joueurs.get(tourJoueur).getMain().isEmpty()) { //sil na plus de cartes en main, son tour est fini
 				System.out.println("Votre tour est fini");
 				joueurs.get(tourJoueur).piocherCarte();
 				programmeFini=true;
 				}
-			// TODO refaire le mecanisme de defausse et de fin de tour	// plus besoin, la defausse est a present dynamique
 			else {
 				
 				/* ancienne methode avec la saisie sur linvite de commande
@@ -479,12 +479,26 @@ public class Main {
 						 * — S’il y a plus de deux joueurs, la tortue touchée retourne à sa position de départ.
 						 * */
 					case "Beep":
+
+						// Appel d'une fonction qui, en fonction du nombre de joueurs, va venir modifier les caractéristiques
+						// de la tortue touchée : soit lui faire faire un demi tour, soit la renvoyer à sa position initale.
+						shoot("Beep");
+						
 						break;
 					case "Pi":
+						
+						shoot("Pi");
+						
 						break;
 					case "Pangie":
+						
+						shoot("Pangie");
+						
 						break;
 					case "Dot":
+						
+						shoot("Dot");
+						
 						break;
 					}
 				}	
@@ -620,5 +634,64 @@ public class Main {
 		
 	}
 
+	static void go_depart_tortue(String nom) {
+		int[] positionDep = new int[2];
+		
+		//On parcours les tortues jusqu'à trouver celle sur laquelle on vient de tirer
+		
+		for(int i=0; i<joueurs.size();i++) {
+			Joueur j = joueurs.get(i);
+			
+			if(j.nom.equals(nom)) {
+				//maintenant que l'on sait qu'on est bien sur la bonne tortue, alors on récupère sa position de depart
+				positionDep=j.getPositionDepart();
+				
+				//on vient maintenant replacer la tortue à sa position de départ
+				j.setPosition(positionDep[0], positionDep[1]);
+			}
+			else {}
+		}
+		
+		
+	}
+	
+	static void shoot(String nom) {
+		int[] positionDep = new int[2];
+		
+		if(joueurs.size()>2) {
+			
+			//On parcours les tortues jusqu'à trouver celle sur laquelle on vient de tirer
+			
+			for(int i=0; i<joueurs.size();i++) {
+				Joueur j = joueurs.get(i);
+				
+				if(j.nom.equals(nom)) {
+					//maintenant que l'on sait qu'on est bien sur la bonne tortue, alors on récupère sa position de depart
+					positionDep=j.getPositionDepart();
+					
+					//on vient maintenant replacer la tortue à sa position de départ
+					j.setPosition(positionDep[0], positionDep[1]);
+				}
+				else {}
+			}
+		}
+		
+		else {
+			
+			//On parcours les tortues jusqu'à trouver celle sur laquelle on vient de tirer
 
+			for(int i=0; i<joueurs.size();i++) {
+				Joueur j = joueurs.get(i);
+				
+				if(j.nom.equals(nom)) {
+					//maintenant que l'on sait qu'on est bien sur la bonne tortue, alors on lui fait faire un demi-tour
+					j.setDirection(demiTour(j.getDirection()));
+				}
+				else {}
+			}
+			
+		}
+		
+		
+	}
 }

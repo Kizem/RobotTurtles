@@ -12,7 +12,8 @@ public class Joueur {
 	private List<Mur> murs = new ArrayList<Mur>();
 	//  piocheDefausse est en public pour que l'on puisse ajouter les cartes hors de la classe
 	public List<Carte> piocheDefausse = new ArrayList<Carte>();
-	private String nom;
+	//le nom du joueurs est en public pour que l'on puisse savoir quel joueur se fait tirer dessus
+	public String nom;
 	private String direction;
 	private int[] position = new int[2];
 	private ArrayDeque<Carte> file = new ArrayDeque<>();
