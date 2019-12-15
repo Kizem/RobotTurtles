@@ -40,7 +40,7 @@ public class InterfaceGraphique extends JFrame{
 	private JButton[] boutonCarte = new JButton[5];
 	private JButton[][] boutonPlateau = new JButton[8][8];
 	private static String murSelectionne; //variable qui permettra au main de savoir quel mur a ete selectionne
-	private static boolean evenementMur; // variable qui permettra au main de savoir s'il y a eu un evenement
+	private boolean evenementMur; // variable qui permettra au main de savoir s'il y a eu un evenement
 	private boolean evenementPlateau; // variable qui permettra au main de savoir s'il y a eu un evenement sur le plateau
 	private int[] coordonnee = new int[2];
 	 public  InterfaceGraphique() {
@@ -78,9 +78,8 @@ public class InterfaceGraphique extends JFrame{
 						String[] temp=b.getName().split(";");
 						coordonnee[0]=Integer.parseInt(temp[0]);
 						coordonnee[1]=Integer.parseInt(temp[1]);
-						System.out.println(coordonnee);
 						evenementPlateau=true;
-						System.out.println(evenementPlateau);
+						
 					}
 				});
 				boutonPlateau[i][j]=boutton;
@@ -123,7 +122,7 @@ public class InterfaceGraphique extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				murSelectionne = "Pierre";
 				evenementMur = true;
-				
+				System.out.println(murSelectionne);
 			}
 		});
 		boutonPierre.setIcon(pierre);
@@ -134,7 +133,7 @@ public class InterfaceGraphique extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				murSelectionne = "Bois";
 				evenementMur = false;
-				
+				System.out.println(murSelectionne);
 			}
 		});
 		boutonBois.setIcon(murDeBois);
@@ -145,7 +144,7 @@ public class InterfaceGraphique extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				murSelectionne = "Glace";
 				evenementMur = true;
-				
+				System.out.println(murSelectionne);
 			}
 		});
 		boutonGlace.setIcon(glace);
@@ -215,8 +214,10 @@ public class InterfaceGraphique extends JFrame{
 					 boutonPlateau[i][j].setIcon(this.tortue);
 					 break;
 				 case "Glace":
+					 boutonPlateau[i][j].setIcon(this.glace);
 					 break;
 				 case "Pierre":
+					 boutonPlateau[i][j].setIcon(this.pierre);
 					 break;
 				 }
 				 

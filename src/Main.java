@@ -11,7 +11,7 @@ public class Main {
 	public static int tourJoueur;//variable indiquant à quel joueur est-ce le tour de jouer
 	public static String[] couleurs = {"Bleu","Rouge","Vert","Rose"}; //tableau des couleurs pour chaque joueurs
 	public static String[] nomsTortue = {"Beep", "Pi", "Pangie", "Dot"};//tableau des noms de tortue
-	public static int[] coo = new int[2];
+	public static int[] coordonneeEntree = new int[2];
 	static List<Joueur> joueurs = new ArrayList<>();
 	//static Joueur[] joueurs; // tableau des objets joueurs// check index list si ca commence par zero ou un
 	
@@ -22,20 +22,23 @@ public class Main {
 		initialisation();
 		gui = new InterfaceGraphique();
 		updatePlateau();
-		while(true) {
+		/*while(true) {
+			
 			if(gui.getEvenementPlateau()) {
-				coo=gui.getCoordonnee();
-				System.out.println(coo[0]+"x "+coo[1]+"y");
+				
+				System.out.println(coo);
+				
 				System.out.println("bonjour");
 			}
+			System.out.println(coo[0]+"x "+coo[1]+"y");
 			
 			
-		}
-		/*while(!finDuJeu()) {
+		}*/
+		while(!finDuJeu()) {
 		updatePlateau();
 		choixJoueur();
 		joueurSuivant();
-		}*/
+		}
 	}
 	
 	public static void initialisation()
@@ -295,21 +298,36 @@ public class Main {
 		System.out.println(joueurs.get(tourJoueur).getMurJoueur());
 		System.out.println("Entrez le nom du mur que vous avez choisis");
 		//recuperation de la carte choisi par le joueur
-		do {
-			System.out.println("attention, vous devez posseder ce murs");
-			//mur=scanner.nextLine();
-		}while(!gui.getEvenementMur()); // tant quil ny a pas devenement// on a plus besoin de ca while(!(joueurs.get(tourJoueur).murInList(mur)));
+		while(!(gui.getEvenementMur() )) {// tant quil ny a pas devenement// on a plus besoin de ca while(!(joueurs.get(tourJoueur).murInList(mur)));
+			//System.out.println(gui.getEvenementMur());
+			try {
+			    Thread.sleep(200);
+			} catch (InterruptedException e) {
+
+			    e.printStackTrace();
+			}
+		}
 		mur=gui.getMurSelectionne();
 		System.out.println(mur);
 		System.out.println("Entrez les coordonnées ou vous souhaiter placer ce mur");
+		
 		do {
-			System.out.println("Entrez une valeur correcte");
-			System.out.println("X = ?");
-			x=scanner.nextInt();
-			System.out.println("Y = ?");
-			y=scanner.nextInt();
+			while(!(gui.getEvenementPlateau())) {//on attend un evenement de l'utilisateur
+				//System.out.println(gui.getEvenementPlateau());
+				//permet de ne pas bloquer linterface graphique
+				try {
+				    Thread.sleep(200);
+				} catch (InterruptedException e) {
+
+				    e.printStackTrace();
+				}
+			}
+			coordonneeEntree=gui.getCoordonnee();
+			y=coordonneeEntree[0];
+			x=coordonneeEntree[1];
 		}while((!(caseLibre(x,y))) && bloquePasJoyau(x,y));
 		plateau[y][x]=joueurs.get(tourJoueur).retirerMur(mur).getNom();
+		
 		//TODO ajouter defausser sa main
 	}
 	
