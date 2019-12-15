@@ -11,7 +11,7 @@ public class Main {
 	public static int tourJoueur;//variable indiquant à quel joueur est-ce le tour de jouer
 	public static String[] couleurs = {"Bleu","Rouge","Vert","Rose"}; //tableau des couleurs pour chaque joueurs
 	public static String[] nomsTortue = {"Beep", "Pi", "Pangie", "Dot"};//tableau des noms de tortue
-	
+	public static int[] coo = new int[2];
 	static List<Joueur> joueurs = new ArrayList<>();
 	//static Joueur[] joueurs; // tableau des objets joueurs// check index list si ca commence par zero ou un
 	
@@ -22,6 +22,15 @@ public class Main {
 		initialisation();
 		gui = new InterfaceGraphique();
 		updatePlateau();
+		while(true) {
+			if(gui.getEvenementPlateau()) {
+				coo=gui.getCoordonnee();
+				System.out.println(coo[0]+"x "+coo[1]+"y");
+				System.out.println("bonjour");
+			}
+			
+			
+		}
 		/*while(!finDuJeu()) {
 		updatePlateau();
 		choixJoueur();
@@ -288,8 +297,10 @@ public class Main {
 		//recuperation de la carte choisi par le joueur
 		do {
 			System.out.println("attention, vous devez posseder ce murs");
-			mur=scanner.nextLine();
-		}while(!(joueurs.get(tourJoueur).murInList(mur)));
+			//mur=scanner.nextLine();
+		}while(!gui.getEvenementMur()); // tant quil ny a pas devenement// on a plus besoin de ca while(!(joueurs.get(tourJoueur).murInList(mur)));
+		mur=gui.getMurSelectionne();
+		System.out.println(mur);
 		System.out.println("Entrez les coordonnées ou vous souhaiter placer ce mur");
 		do {
 			System.out.println("Entrez une valeur correcte");
@@ -297,7 +308,7 @@ public class Main {
 			x=scanner.nextInt();
 			System.out.println("Y = ?");
 			y=scanner.nextInt();
-		}while(!(caseLibre(x,y)));
+		}while((!(caseLibre(x,y))) && bloquePasJoyau(x,y));
 		plateau[y][x]=joueurs.get(tourJoueur).retirerMur(mur).getNom();
 		//TODO ajouter defausser sa main
 	}
@@ -320,10 +331,22 @@ public class Main {
 		if(x<0|| x>7|| y<0|| y>7) {
 			return false;
 		}
-		if(plateau[x][y]==null) {
+		if(plateau[x][y]=="rien") {
 			return true;
 		}
 		else return false;
+	}
+	static boolean bloquePasJoyau(int x, int y) {
+		for(int i=0; i<joyaux.size();i++) {
+			if((x == joyaux.get(i).getX()) || (x == joyaux.get(i).getX()+1) || (x == joyaux.get(i).getX()-1)){
+				return true;
+			}
+			else if((y == joyaux.get(i).getY()) || (y == joyaux.get(i).getY()+1) || (y == joyaux.get(i).getY()-1)){
+				return true;
+			}
+			
+		}
+		return false;
 	}
 
 
