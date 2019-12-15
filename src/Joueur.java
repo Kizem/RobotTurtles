@@ -53,7 +53,7 @@ public class Joueur {
 	
 	//cette methode permet de retirer une carte de la main du joueur et de la mettre dans la liste de defausse
 	public void retirerCarte(Carte carte) {
-		this.pioche.add(carte);
+		this.piocheDefausse.add(carte);
 		this.main.remove(carte);
 		//TODO : cette ligne n'est-elle pas inutile si l'on met la carte dans la pile de défausse à l'éxécution du programme ? Non, le constructeur est effectué qu'une seule fois
 		//this.piocheDefausse.add(carte);
@@ -151,5 +151,9 @@ public class Joueur {
 		}
 		return false;
 	}
+	
+	/*TODO ajouter une fonction pour savoir combien de mur il reste au joueur
+	 * comme ca on pourra l'afficher sur l'interface fraphique*/
+	 
 	
 }

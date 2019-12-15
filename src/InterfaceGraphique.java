@@ -1,11 +1,8 @@
 import javax.swing.JFrame;
 import java.awt.Dimension;
 import javax.swing.JPanel;
-import javax.swing.JTable;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Cursor;
@@ -13,13 +10,9 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import javax.swing.JLayeredPane;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.net.URL;
 import java.util.List;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
+
 
 public class InterfaceGraphique extends JFrame{
 	JPanel panelMain = new JPanel(new GridLayout(1, 5));
@@ -303,5 +296,5 @@ public class InterfaceGraphique extends JFrame{
 		 }
 		 
 	 }
-	 
+	 //les fonction getEvenement renvoie vrai sil y a eu un evenement sur les boutons
 }
