@@ -74,7 +74,11 @@ public class Main {
 		}
 		
 		//placement des joueurs sur le plateau et des joyaux
-		
+		for(int i=0;i<plateau.length;i++) {
+			for(int j=0;j<plateau[0].length;j++) {
+				plateau[i][j]="rien";
+			}
+		}
 		switch(nbJoueurs) {
 		case 2:
 			joueurs.get(0).setPosition(0,1);
@@ -119,7 +123,8 @@ public class Main {
 			
 			joyaux.add(new Joyau("Violet", 7, 1));
 			joyaux.add(new Joyau("Bleu", 7, 6));
-			plateau[7][0]="JoyauxViolet";
+			//mettre plutot les coordonnee en appelant l'objet joyau au lieu de mettre les coordonnées brutes
+			plateau[7][1]="JoyauxViolet";
 			plateau[7][6]="JoyauxBleu";
 			break;
 		}	
@@ -140,6 +145,7 @@ public class Main {
 			System.out.println();
 		}
 		gui.setMain(joueurs.get(tourJoueur).main);
+		gui.updateTableau(plateau);
 		
 	}
 	
