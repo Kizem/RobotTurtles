@@ -125,7 +125,7 @@ public class InterfaceGraphique extends JFrame{
 		
 		
 		
-		JLabel titreConteneur = new JLabel("Bondour, bienvenue dans le wobot tuhtle");
+		JLabel titreConteneur = new JLabel("Bonjour, bienvenue dans Robot Turtles");
 		titreConteneur.setBounds(366, 16, 299, 20);
 		this.panelPrincipal.add(titreConteneur);
 		

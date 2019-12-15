@@ -5,7 +5,11 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 //test
 
-//TODO : Ajouter la rotation de l'image torute
+//TODO : Ajouter la rotation de l'image tortue
+
+
+
+
 //TODO : Rogner les images de tortues pour avoir les bonnes couleurs
 
 public class Main {
@@ -473,11 +477,7 @@ public class Main {
 							joueurs.get(tourJoueur).setDirection(demiTour(joueurs.get(tourJoueur).getDirection()));
 						}
 						break;
-					//TODO ajouter le code dans le cas ou le laser touche une autre tortue :
-						/*— Si une tortue est touchée par un laser, il y a deux cas possibles :
-						 * — S’il n’y a que deux joueurs, la tortue touchée fait un demi-tour ;
-						 * — S’il y a plus de deux joueurs, la tortue touchée retourne à sa position de départ.
-						 * */
+
 					case "Beep":
 
 						// Appel d'une fonction qui, en fonction du nombre de joueurs, va venir modifier les caractéristiques
