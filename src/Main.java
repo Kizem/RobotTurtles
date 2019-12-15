@@ -386,6 +386,17 @@ public class Main {
 			System.out.println(instruction);
 			switch(instruction.getRole()) {
 			case "Bleue":
+				//TODO cest la partie la plus difficile, il y a beaucoup de regles : 
+				/*
+				 * — Les cartes bleues font avancer la tortue d’une case ;
+				 * 
+				 * — Si une tortue se heurte à un mur, elle va faire demi-tour. Le programme
+				 * continue ensuite son exécution.
+				 * — Si une tortue se heurte à une autre tortue, les deux tortues retournent
+				 * à leurs positions de départ, et le programme continue son exécution.
+				 * 
+				 * aussi bah si la tortue rencontre un joyau, elle gagne directement et du coup faire un break
+				 */
 				
 				break;
 			case "Jaune":
@@ -395,6 +406,7 @@ public class Main {
 				joueurs.get(tourJoueur).setDirection(changementDeDirection(90, direction));
 				break;
 			case "Laser":
+				//TODO finir cette condition entierement
 				//la carte laser detruit le mur de glace quil y a a la case suivant
 				
 				//on verifie dabord quon depasse pas le plateau
@@ -451,6 +463,11 @@ public class Main {
 							joueurs.get(tourJoueur).setDirection(demiTour(joueurs.get(tourJoueur).getDirection()));
 						}
 						break;
+					//TODO ajouter le code dans le cas ou le laser touche une autre tortue :
+						/*— Si une tortue est touchée par un laser, il y a deux cas possibles :
+						 * — S’il n’y a que deux joueurs, la tortue touchée fait un demi-tour ;
+						 * — S’il y a plus de deux joueurs, la tortue touchée retourne à sa position de départ.
+						 * */
 					case "Beep":
 						break;
 					case "Pi":
@@ -470,6 +487,7 @@ public class Main {
 		
 	}
 	
+	//fonction qui vérifie si la case du plateau possede rien
 	static boolean caseLibre(int x, int y) {
 		if(x<0|| x>7|| y<0|| y>7) {
 			return true;
@@ -483,6 +501,8 @@ public class Main {
 		}
 		
 	}
+	
+	//fonction qui verifie si le mur ne sera pas placé autour dun joyau
 	static boolean bloquePasJoyau(int x, int y) {
 		int xJoyau;
 		int yJoyau;
@@ -499,6 +519,8 @@ public class Main {
 		}
 		return false;
 	}
+	
+	
 	
 	//fonction permettant de trouver la nouvelle direction de la tortue
 	static String changementDeDirection(int rotation, String direction) {
@@ -541,6 +563,9 @@ public class Main {
 		
 	}
 	
+	
+	
+	//fonction qui renvoie les coordonnee suivante en fonction de la direction de la tortue
 	static int[] coordonneeSuivante(int y, int x, String direction) {
 		 int[] coo = new int[2];
 		 coo[0]=y;
@@ -563,6 +588,9 @@ public class Main {
 		
 	}
 	
+	
+	
+	//fonction qui renvoie loppose de la direction recu
 	static String demiTour(String direction) {
 		switch(direction) {
 		case "s":
