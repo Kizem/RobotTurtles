@@ -371,16 +371,21 @@ public class Main {
 	static void executerProgramme() {
 		String direction;
 		int[] coordonneeSuivante= new int[2];
+		int[] coordonneeTortue= new int[2];
 		System.out.println(joueurs.get(tourJoueur).getInstructions());
 		while(!joueurs.get(tourJoueur).getInstructions().isEmpty()) {
 			direction = joueurs.get(tourJoueur).getDirection();
-			coordonneeSuivante=joueurs.get(tourJoueur).getPosition();
+			
+			coordonneeTortue=joueurs.get(tourJoueur).getPosition();
+			coordonneeSuivante=coordonneeTortue;
+			//appel de la fonction coordonneeSuivante qui vas renvoyer les coordonnee suivante en fonction de la direction
 			coordonneeSuivante=coordonneeSuivante(coordonneeSuivante[0],coordonneeSuivante[1],direction);
 			Carte instruction = joueurs.get(tourJoueur).getInstructions().pollFirst();
 			//TODO APPLIQUER INSTRUCTION
 			System.out.println(instruction);
 			switch(instruction.getRole()) {
 			case "Bleue":
+				
 				break;
 			case "Jaune":
 				joueurs.get(tourJoueur).setDirection(changementDeDirection(-90, direction));
@@ -395,11 +400,51 @@ public class Main {
 				if(coordonneeSuivante[1]<0|| coordonneeSuivante[1]>7|| coordonneeSuivante[0]<0|| coordonneeSuivante[0]>7) {
 					
 				}
-				//si la case suivante est un mur de glace, on le detruit
-				else if(plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]=="Glace") {
-					plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]="rien";
-				}
-				break;
+				else {
+					switch(plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]) {
+					case "Glace":
+						plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]="rien";
+						//si la case suivante est un mur de glace, on le detruit
+						break;
+					case "rien":
+						break;
+					/* si la case suivante est un joyau alors : 
+					 * le laser est réfléchi et se retourne contre la tortue. 
+					 * -Celle-ci fait donc un demi-tour (s’il n’y a que deux joueurs) 
+					 * -retourne à sa position de départ (s’il y a plus de deux joueurs).
+					 */
+					case "JoyauViolet":
+						if(joueurs.size()>2) {
+							
+						}
+						else {
+							//demi tour de la tortue
+							//on appelle la fonction demitour
+							joueurs.get(tourJoueur).setDirection(demiTour(joueurs.get(tourJoueur).getDirection()));
+						}
+						break;
+					case "JoyauBleu":
+						if(joueurs.size()>2) {
+							
+						}
+						else {
+							//demi tour de la tortue
+							//on appelle la fonction demitour
+							joueurs.get(tourJoueur).setDirection(demiTour(joueurs.get(tourJoueur).getDirection()));
+						}
+						break;
+					case "JoyauVert":
+						if(joueurs.size()>2) {
+							
+						}
+						else {
+							//demi tour de la tortue
+							//on appelle la fonction demitour
+							joueurs.get(tourJoueur).setDirection(demiTour(joueurs.get(tourJoueur).getDirection()));
+						}
+						break;
+					}
+				}	
 			}
 			
 			//on vient placer la carte exécuté dans la pioche de défausse
@@ -499,6 +544,25 @@ public class Main {
 			 break;
 		 }
 		 return coo;
+		
+	}
+	
+	static String demiTour(String direction) {
+		switch(direction) {
+		case "s":
+			 direction = "n";
+			 break;
+		case "n":
+			 direction = "s";
+			 break;
+		case "e":
+			 direction = "o";
+			 break;
+		case "o":
+			 direction = "e";
+			 break;
+		}
+		return direction;
 		
 	}
 
