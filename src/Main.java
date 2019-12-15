@@ -208,7 +208,7 @@ public class Main {
 		Carte carte = new Carte("");
 		while(!(programmeFini)) {
 			
-			/* 
+			/* jai mis en commentaire, plus besoin de ca pcq on choisi lindex de la main avec l'interface graphique
 			//cette boucle nous permet de récupérer les rôles associées aux cartes de la main pour pouvoir les afficher
 			main_roles.clear(); //nécessaires pour réafficher la main à chaque coup
 			for(int i=0; i<joueurs.get(tourJoueur).getMain().size();i++) {
@@ -244,7 +244,7 @@ public class Main {
 				    e.printStackTrace();
 				}
 			}
-			indexCarte=gui.getCarteSelectionne();
+			indexCarte=gui.getCarteSelectionne();//on recupere l'index de la carte choisi par lutilisateur
 			joueurs.get(tourJoueur).ajouterInstruction( joueurs.get(tourJoueur).getMain().get(indexCarte) ); //on ajoute la carte dans la file dinstruction
 			joueurs.get(tourJoueur).retirerCarte( joueurs.get(tourJoueur).getMain().get(indexCarte)); //on retire la carte de la main du joueur
 			gui.setMain(joueurs.get(tourJoueur).getMain());//actualisation de la main sur la gui
@@ -256,7 +256,7 @@ public class Main {
 				joueurs.get(tourJoueur).piocherCarte();
 				programmeFini=true;
 				}
-			// TODO refaire le mecanisme de defausse et de fin de tour	
+			// TODO refaire le mecanisme de defausse et de fin de tour	// plus besoin, la defausse est a present dynamique
 			else {
 				
 				/* ancienne methode avec la saisie sur linvite de commande
@@ -374,6 +374,13 @@ public class Main {
 		int[] coordonneeTortue= new int[2];
 		int[] positionDepart= new int[2];
 		System.out.println(joueurs.get(tourJoueur).getInstructions());
+		//TODO le mecanisme de recuperation d'instruction est faux
+		/*
+		 * il faut créer une file d'instrucion locale
+		 * il faut ensuite l'initiliser avec la file du joueur
+		 * une fois que la file du joueur est lu, il faut vider la file du joueur
+		 * le while suivant se fera avec la file locale
+		 */
 		while(!joueurs.get(tourJoueur).getInstructions().isEmpty()) {
 			direction = joueurs.get(tourJoueur).getDirection();
 			
