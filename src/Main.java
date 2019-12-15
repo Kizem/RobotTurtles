@@ -22,7 +22,6 @@ public class Main {
 		initialisation();
 		gui = new InterfaceGraphique();
 		updatePlateau();
-		
 	     
 		while(!finDuJeu()) {
 			updatePlateau();
@@ -34,7 +33,6 @@ public class Main {
 	public static void initialisation()
 	{
 		//initialisation de la pioche de base
-		// TODO créer l'objet carte au lieu de string
 		List<Carte> pioche = new ArrayList<Carte>();
 		for(int i=0; i<18;i++) {
 			pioche.add(new Carte("Bleue"));
@@ -136,16 +134,17 @@ public class Main {
 	
 	
 	public static void updatePlateau() {
+		joueurs.get(tourJoueur).piocherCarte(); // le joueur pioche des carte jusqua en avoir 5
 		for(int i=0; i < joueurs.size();i++) {
 			plateau[joueurs.get(i).getPositionY()][joueurs.get(i).getPositionX()]=joueurs.get(i).getName();
 		}
-		//TODO ajouter affichage joyaux
+		/*//plus besoin avec linterface graphuiqye
 		for(int i=0; i< (plateau.length); i++) {
 			for(int j =0; j <(plateau[0].length); j++) {
 				System.out.print(plateau[i][j]);
 			}
 			System.out.println();
-		}
+		}*/
 		gui.setMain(joueurs.get(tourJoueur).main);
 		gui.updateTableau(plateau);
 		
@@ -171,7 +170,6 @@ public class Main {
 	}
 	
 	public static void choixJoueur() {
-		int choix;
 		String message = (joueurs.get(tourJoueur).getName()+" que souhaitez-vous faire ?");
 		String[] choixProg = {"Compléter le programme", "Construire un mur", "Exécuter le programme"};
 	    JOptionPane jop = new JOptionPane(), jop2 = new JOptionPane();
@@ -200,7 +198,8 @@ public class Main {
 	
 	static void completerProgramme() {
 		boolean programmeFini=false;
-		//recuperation de la main du joueur
+		
+		
 		String role;
 		int indexCarte; // c'est lindex de la carte dans la liste de la main
 		String reponse;
@@ -276,11 +275,33 @@ public class Main {
 				if(option == 1) {
 					programmeFini=true;
 					System.out.println("Défausser votre main ?");//s'il arrete, il peut choisir de defausser sa main
+					/* ancienne methode avec saisie au clavier
 					do {
 						System.out.println("oui ou non ?");
 						reponse = scanner.nextLine();
-					}while(!(reponse.equals("oui") || reponse.equals("non")));
-					if(reponse.contentEquals("oui")) {
+					}while(!(reponse.equals("oui") || reponse.equals("non")));*/
+						
+				       option = jop.showConfirmDialog(null, 
+				        "Voulez-vous defausser votre main ?", 
+				        "Choix utilisateur", 
+				        JOptionPane.YES_NO_OPTION, 
+				        JOptionPane.QUESTION_MESSAGE);
+					
+					if(option == 0) {
+						while(!gui.getEvenementBoutonFini()) {
+							if(gui.getEvenementMain()) {
+								indexCarte=gui.getCarteSelectionne();
+								joueurs.get(tourJoueur).retirerCarte( joueurs.get(tourJoueur).getMain().get(indexCarte)); //on retire la carte de la main du joueur
+								gui.setMain(joueurs.get(tourJoueur).getMain());//actualisation de la main sur la gui
+							}
+							try {
+							    Thread.sleep(200);
+							} catch (InterruptedException e) {
+
+							    e.printStackTrace();
+							}
+						}
+						/*
 						System.out.println("Voulez-vous défausser une ou toutes vos cartes ?");
 						reponse = scanner.nextLine();
 						
@@ -299,13 +320,10 @@ public class Main {
 						else {
 							joueurs.get(tourJoueur).defausserMain(reponse);
 							joueurs.get(tourJoueur).piocherCarte();
-						}
-						
-						
-						
-
+						}*/
 					}
 				}
+				
 			}		
 		}
 	}

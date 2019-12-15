@@ -44,6 +44,7 @@ public class InterfaceGraphique extends JFrame{
 	private boolean evenementMur; // variable qui permettra au main de savoir s'il y a eu un evenement
 	private boolean evenementPlateau; // variable qui permettra au main de savoir s'il y a eu un evenement sur le plateau
 	private boolean evenementMain;
+	private boolean evenementBoutonFini;
 	private int[] coordonnee = new int[2];
 	private int indexMain;
 	 public  InterfaceGraphique() {
@@ -100,6 +101,7 @@ public class InterfaceGraphique extends JFrame{
 					JButton bbout = (JButton)e.getSource();
 					if (bbout.getIcon()== aucuneCarte) {
 						//si le bouton napas de carte, on ne prend pas en compte le clic
+						evenementMain=false;
 					}
 					else {
 						String[] temp=bbout.getName().split(";");
@@ -113,7 +115,13 @@ public class InterfaceGraphique extends JFrame{
 			this.panelMain.add(boutonCarte[i]);
 			 }
 		
-		JButton boutonValiderCarte = new JButton("Valider Carte");
+		//bouton jai fini qui sera utilisé par exemple losque l'utilisateur aura fini de defausser sa main
+		JButton boutonValiderCarte = new JButton("J'ai fini");
+		boutonValiderCarte.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				evenementBoutonFini=true;
+			}
+		});
 		boutonValiderCarte.setBounds(529, 586, 150, 29);
 		this.panelPrincipal.add(boutonValiderCarte);
 		
@@ -183,14 +191,12 @@ public class InterfaceGraphique extends JFrame{
 	 public void setMain(List<Carte> mainDuJoueur) {
 		 //si la main est plus petite que 5, on affiche sur la gui un carte point d'inteergation pour dire quil n'y a pas de carte
 		 if(mainDuJoueur.size()<5) {
-			 System.out.println("il manque une carte"+mainDuJoueur.size());
 			 for(int i=mainDuJoueur.size();i<5;i++ ) {
 				 boutonCarte[i].setIcon(aucuneCarte);
 			 }
 		 }
 		 
 		for(int i=0; i<mainDuJoueur.size();i++) {
-			System.out.println(mainDuJoueur.get(i).getRole());
 			 switch(mainDuJoueur.get(i).role) {
 			 case "Bleue":
 				 boutonCarte[i].setBackground(Color.blue);
@@ -284,4 +290,18 @@ public class InterfaceGraphique extends JFrame{
 	 public boolean getEvenementMain() {
 		 return evenementMain;
 	 }
+	 public boolean getEvenementBoutonFini() {
+		 if(evenementBoutonFini) {
+			 evenementMur=false;
+			 evenementPlateau=false;
+			 evenementMain=false;
+			 evenementBoutonFini=false;
+			 return true;
+		 }
+		 else {
+			 return evenementBoutonFini;
+		 }
+		 
+	 }
+	 
 }
