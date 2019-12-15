@@ -42,7 +42,9 @@ public class InterfaceGraphique extends JFrame{
 	private static String murSelectionne; //variable qui permettra au main de savoir quel mur a ete selectionne
 	private boolean evenementMur; // variable qui permettra au main de savoir s'il y a eu un evenement
 	private boolean evenementPlateau; // variable qui permettra au main de savoir s'il y a eu un evenement sur le plateau
+	private boolean evenementMain;
 	private int[] coordonnee = new int[2];
+	private int indexMainChoisi;
 	 public  InterfaceGraphique() {
 	 	
 		//création de la fenetre
@@ -91,6 +93,16 @@ public class InterfaceGraphique extends JFrame{
 		for(int i=0; i<boutonCarte.length;i++) {
 			JButton b = new JButton();
 			b.setVisible(true);
+			b.setName(i+";0");
+			b.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JButton bbout = (JButton)e.getSource();
+					String[] temp=bbout.getName().split(";");
+					indexMainChoisi=Integer.parseInt(temp[0]);
+					evenementMain=true;
+					
+				}
+			});
 			boutonCarte[i]=b;
 			this.panelMain.add(boutonCarte[i]);
 			 }
@@ -226,6 +238,9 @@ public class InterfaceGraphique extends JFrame{
 	 }
 	 public String getMurSelectionne() {
 		 evenementMur=false; // on met levenement false car le mur a été lu
+		 //on met tous les evenements à faux
+		 evenementPlateau=false;
+		 evenementMain=false;
 		 return murSelectionne;
 	 }
 	 
@@ -233,7 +248,10 @@ public class InterfaceGraphique extends JFrame{
 		 return evenementMur;
 	 }
 	 public int[] getCoordonnee() {
+		 evenementMur=false; // on met levenement false car le mur a été lu
+		 //on met tous les evenements à faux
 		 evenementPlateau=false;
+		 evenementMain=false;
 		 return coordonnee;
 	 }
 	 

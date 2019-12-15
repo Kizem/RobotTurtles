@@ -182,26 +182,30 @@ public class Main {
 	
 	public static void choixJoueur() {
 		int choix;
-		System.out.println("C'est le tour de : " + joueurs.get(tourJoueur).getName());
-		System.out.println("Choisissez entre ces trois option :");
-		System.out.println("1 - Compléter le programme");
-		System.out.println("2 - Construire un mur");
-		System.out.println("3 - Exécuter le programme");
-		do {
-			choix = scanner.nextInt();
-		}while(choix<1 || choix>3);
-		
-		switch(choix) {
-		case 1:
+		String message = (joueurs.get(tourJoueur).getName()+" que souhaitez-vous faire ?");
+		String[] choixProg = {"Compléter le programme", "Construire un mur", "Exécuter le programme"};
+	    JOptionPane jop = new JOptionPane(), jop2 = new JOptionPane();
+	    int rang = jop.showOptionDialog(null, 
+	      message,
+	      "Choix",
+	      JOptionPane.YES_NO_CANCEL_OPTION,
+	      JOptionPane.QUESTION_MESSAGE,
+	      null,
+	      choixProg,
+	      choixProg[2]);
+	    
+	    switch(rang) {
+		case 0:
 			completerProgramme();
 			break;
-		case 2:
+		case 1:
 			construireMur();
 			break;
-		case 3:
+		case 2:
 			executerProgramme();
 			break;
 		}
+	    
 	}
 	
 	static void completerProgramme() {
@@ -325,7 +329,7 @@ public class Main {
 			coordonneeEntree=gui.getCoordonnee();
 			y=coordonneeEntree[0];
 			x=coordonneeEntree[1];
-		}while((!(caseLibre(x,y))) && bloquePasJoyau(x,y));
+		}while((caseLibre(x,y)) || bloquePasJoyau(x,y));
 		plateau[y][x]=joueurs.get(tourJoueur).retirerMur(mur).getNom();
 		
 		//TODO ajouter defausser sa main
@@ -347,21 +351,29 @@ public class Main {
 	
 	static boolean caseLibre(int x, int y) {
 		if(x<0|| x>7|| y<0|| y>7) {
-			return false;
-		}
-		if(plateau[x][y]=="rien") {
 			return true;
 		}
-		else return false;
+		else {
+			if(plateau[y][x]=="rien") {
+				return false;
+			}
+			else return true;
+			
+		}
+		
 	}
 	static boolean bloquePasJoyau(int x, int y) {
+		int xJoyau;
+		int yJoyau;
 		for(int i=0; i<joyaux.size();i++) {
-			if((x == joyaux.get(i).getX()) || (x == joyaux.get(i).getX()+1) || (x == joyaux.get(i).getX()-1)){
-				return true;
+			xJoyau=joyaux.get(i).getX();
+			yJoyau=joyaux.get(i).getY();
+			if((x == xJoyau) || (x == xJoyau+1) || (x == xJoyau-1) ){
+				if((y == yJoyau) || (y == yJoyau+1) || (y == yJoyau-1)){
+					return true;
+				}
 			}
-			else if((y == joyaux.get(i).getY()) || (y == joyaux.get(i).getY()+1) || (y == joyaux.get(i).getY()-1)){
-				return true;
-			}
+			
 			
 		}
 		return false;
