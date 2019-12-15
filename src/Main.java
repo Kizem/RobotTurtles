@@ -379,6 +379,9 @@ public class Main {
 		 * il faut créer une file d'instrucion locale
 		 * il faut ensuite l'initiliser avec la file du joueur
 		 * une fois que la file du joueur est lu, il faut vider la file du joueur
+		 * il n'y a pas besoin de vider la file dans la pioche de defausse pcq
+		 * lorsquon retire une carte de la main du joueur pour lajouter au programme, on la rajoute aussi dans la pioche de defausse 
+		 * je crois si ce n'est pas fait, il faut le faire la
 		 * le while suivant se fera avec la file locale
 		 */
 		while(!joueurs.get(tourJoueur).getInstructions().isEmpty()) {
