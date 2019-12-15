@@ -369,11 +369,26 @@ public class Main {
 	}
 	
 	static void executerProgramme() {
+		String direction;
 		System.out.println(joueurs.get(tourJoueur).getInstructions());
 		while(!joueurs.get(tourJoueur).getInstructions().isEmpty()) {
+			direction = joueurs.get(tourJoueur).getDirection();
 			Carte instruction = joueurs.get(tourJoueur).getInstructions().pollFirst();
 			//TODO APPLIQUER INSTRUCTION
 			System.out.println(instruction);
+			switch(instruction.getRole()) {
+			case "Bleue":
+				
+				break;
+			case "Jaune":
+				joueurs.get(tourJoueur).setDirection(changementDeDirection(-90, direction));
+				break;
+			case "Violette":
+				joueurs.get(tourJoueur).setDirection(changementDeDirection(90, direction));
+				break;
+			case "Laser":
+				break;
+			}
 			
 			//on vient placer la carte exécuté dans la pioche de défausse
 			joueurs.get(tourJoueur).piocheDefausse.add(instruction);
@@ -410,6 +425,47 @@ public class Main {
 			
 		}
 		return false;
+	}
+	
+	//fonction permettant de trouver la nouvelle direction de la tortue
+	static String changementDeDirection(int rotation, String direction) {
+		String newDirection=direction;
+		switch(direction) {
+		case "s":
+			if(rotation==90) {
+				newDirection ="e";
+			}
+			else {
+				newDirection ="o";
+			}
+			break;
+		case "n":
+			if(rotation==90) {
+				newDirection ="o";
+			}
+			else {
+				newDirection ="e";
+			}
+			break;
+		case "e":
+			if(rotation==90) {
+				newDirection ="n";
+			}
+			else {
+				newDirection ="s";
+			}
+			break;
+		case "o":
+			if(rotation==90) {
+				newDirection ="s";
+			}
+			else {
+				newDirection ="n";
+			}
+			break;	
+		}
+		return newDirection;
+		
 	}
 
 

@@ -13,7 +13,7 @@ public class Joueur {
 	//  piocheDefausse est en public pour que l'on puisse ajouter les cartes hors de la classe
 	public List<Carte> piocheDefausse = new ArrayList<Carte>();
 	private String nom;
-	private String direction = "Sud";
+	private String direction;
 	private int[] position = new int[2];
 	private ArrayDeque<Carte> file = new ArrayDeque<>();
 	private int[] positionDepart = new int[2];
@@ -24,6 +24,7 @@ public class Joueur {
 	public Joueur(String couleurTortue, String nomTortue, List<Carte> piocheDeBase) {
 		this.couleur=couleurTortue;
 		this.nom=nomTortue;
+		this.direction="s";
 		//initialisation des murs : 3murs de pierre et 2murs de glace
 		this.murs.add(new Mur(false , false, "Pierre"));
 		this.murs.add(new Mur(false , false, "Pierre"));
