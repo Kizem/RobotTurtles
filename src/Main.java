@@ -134,6 +134,7 @@ public class Main {
 	
 	
 	public static void updatePlateau() {
+		//TODO afficher le nombre de mur restant a l'utilisateur sur linterface graphique
 		joueurs.get(tourJoueur).piocherCarte(); // le joueur pioche des carte jusqua en avoir 5
 		for(int i=0; i < joueurs.size();i++) {
 			plateau[joueurs.get(i).getPositionY()][joueurs.get(i).getPositionX()]=joueurs.get(i).getName();
@@ -332,7 +333,6 @@ public class Main {
 		String mur;
 		int x;
 		int y;
-		System.out.println(joueurs.get(tourJoueur).getMurJoueur());
 		System.out.println("Entrez le nom du mur que vous avez choisis");
 		//recuperation de la carte choisi par le joueur
 		while(!(gui.getEvenementMur() )) {// tant quil ny a pas devenement// on a plus besoin de ca while(!(joueurs.get(tourJoueur).murInList(mur)));
@@ -370,15 +370,17 @@ public class Main {
 	
 	static void executerProgramme() {
 		String direction;
+		int[] coordonneeSuivante= new int[2];
 		System.out.println(joueurs.get(tourJoueur).getInstructions());
 		while(!joueurs.get(tourJoueur).getInstructions().isEmpty()) {
 			direction = joueurs.get(tourJoueur).getDirection();
+			coordonneeSuivante=joueurs.get(tourJoueur).getPosition();
+			coordonneeSuivante=coordonneeSuivante(coordonneeSuivante[0],coordonneeSuivante[1],direction);
 			Carte instruction = joueurs.get(tourJoueur).getInstructions().pollFirst();
 			//TODO APPLIQUER INSTRUCTION
 			System.out.println(instruction);
 			switch(instruction.getRole()) {
 			case "Bleue":
-				
 				break;
 			case "Jaune":
 				joueurs.get(tourJoueur).setDirection(changementDeDirection(-90, direction));
@@ -387,6 +389,16 @@ public class Main {
 				joueurs.get(tourJoueur).setDirection(changementDeDirection(90, direction));
 				break;
 			case "Laser":
+				//la carte laser detruit le mur de glace quil y a a la case suivant
+				
+				//on verifie dabord quon depasse pas le plateau
+				if(coordonneeSuivante[1]<0|| coordonneeSuivante[1]>7|| coordonneeSuivante[0]<0|| coordonneeSuivante[0]>7) {
+					
+				}
+				//si la case suivante est un mur de glace, on le detruit
+				else if(plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]=="Glace") {
+					plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]="rien";
+				}
 				break;
 			}
 			
@@ -465,6 +477,28 @@ public class Main {
 			break;	
 		}
 		return newDirection;
+		
+	}
+	
+	static int[] coordonneeSuivante(int y, int x, String direction) {
+		 int[] coo = new int[2];
+		 coo[0]=y;
+		 coo[1]=x;
+		 switch(direction) {
+		 case "s":
+			 coo[0]++;
+			 break;
+		 case "n":
+			 coo[0]--;
+			 break;
+		 case "e":
+			 coo[1]++;
+			 break;
+		 case "o":
+			 coo[1]--;
+			 break;
+		 }
+		 return coo;
 		
 	}
 
