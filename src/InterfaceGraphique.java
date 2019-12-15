@@ -32,6 +32,7 @@ public class InterfaceGraphique extends JFrame{
 	ImageIcon BlueCard = new ImageIcon(new ImageIcon("image/BlueCard.png").getImage().getScaledInstance(80, 150, Image.SCALE_DEFAULT));
 	ImageIcon LaserCard = new ImageIcon(new ImageIcon("image/LaserCard.png").getImage().getScaledInstance(80, 150, Image.SCALE_DEFAULT));
 	ImageIcon PurpleCard = new ImageIcon(new ImageIcon("image/PurpleCard.png").getImage().getScaledInstance(80, 150, Image.SCALE_DEFAULT));
+	ImageIcon aucuneCarte = new ImageIcon(new ImageIcon("image/aucuneCarte.png").getImage().getScaledInstance(80, 150, Image.SCALE_DEFAULT));
 	ImageIcon murDeBois= new ImageIcon(new ImageIcon("image/WoodBox.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 	ImageIcon joyau= new ImageIcon(new ImageIcon("image/RUBY.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 	ImageIcon tortue= new ImageIcon(new ImageIcon("image/TortueBleue.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
@@ -44,7 +45,7 @@ public class InterfaceGraphique extends JFrame{
 	private boolean evenementPlateau; // variable qui permettra au main de savoir s'il y a eu un evenement sur le plateau
 	private boolean evenementMain;
 	private int[] coordonnee = new int[2];
-	private int indexMainChoisi;
+	private int indexMain;
 	 public  InterfaceGraphique() {
 	 	
 		//création de la fenetre
@@ -94,12 +95,17 @@ public class InterfaceGraphique extends JFrame{
 			JButton b = new JButton();
 			b.setVisible(true);
 			b.setName(i+";0");
-			b.addActionListener(new ActionListener() {
+			b.addActionListener(new ActionListener() {//evenement pour le clic d'une carte
 				public void actionPerformed(ActionEvent e) {
 					JButton bbout = (JButton)e.getSource();
-					String[] temp=bbout.getName().split(";");
-					indexMainChoisi=Integer.parseInt(temp[0]);
-					evenementMain=true;
+					if (bbout.getIcon()== aucuneCarte) {
+						//si le bouton napas de carte, on ne prend pas en compte le clic
+					}
+					else {
+						String[] temp=bbout.getName().split(";");
+						indexMain=Integer.parseInt(temp[0]);
+						evenementMain=true;
+					}
 					
 				}
 			});
@@ -175,7 +181,16 @@ public class InterfaceGraphique extends JFrame{
 	}
 	 // fonction permettant d'afficher les cartes du joueurs
 	 public void setMain(List<Carte> mainDuJoueur) {
+		 //si la main est plus petite que 5, on affiche sur la gui un carte point d'inteergation pour dire quil n'y a pas de carte
+		 if(mainDuJoueur.size()<5) {
+			 System.out.println("il manque une carte"+mainDuJoueur.size());
+			 for(int i=mainDuJoueur.size();i<5;i++ ) {
+				 boutonCarte[i].setIcon(aucuneCarte);
+			 }
+		 }
+		 
 		for(int i=0; i<mainDuJoueur.size();i++) {
+			System.out.println(mainDuJoueur.get(i).getRole());
 			 switch(mainDuJoueur.get(i).role) {
 			 case "Bleue":
 				 boutonCarte[i].setBackground(Color.blue);
@@ -244,6 +259,14 @@ public class InterfaceGraphique extends JFrame{
 		 return murSelectionne;
 	 }
 	 
+	 public int getCarteSelectionne() {
+		 evenementMur=false; // on met levenement false car le mur a été lu
+		 //on met tous les evenements à faux
+		 evenementPlateau=false;
+		 evenementMain=false;
+		 return indexMain;
+	 }
+	 
 	 public boolean getEvenementMur() {
 		 return evenementMur;
 	 }
@@ -257,5 +280,8 @@ public class InterfaceGraphique extends JFrame{
 	 
 	 public boolean getEvenementPlateau() {
 		 return evenementPlateau;
+	 }
+	 public boolean getEvenementMain() {
+		 return evenementMain;
 	 }
 }

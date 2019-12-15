@@ -36,7 +36,7 @@ public class Joueur {
 		//on cree la main du joueur
 		for(int i=0;i<5; i++) {
 			this.main.add(this.pioche.get(0));
-			this.piocheDefausse.add(this.pioche.get(0));
+			this.piocheDefausse.add(this.pioche.get(0)); //pq ?
 			System.out.println(this.pioche.get(0));
 			this.pioche.remove(0);
 		}
@@ -54,7 +54,7 @@ public class Joueur {
 	//cette methode permet de retirer une carte de la main du joueur et de la mettre dans la liste de defausse
 	public void retirerCarte(Carte carte) {
 		this.main.remove(carte);
-		//TODO : cette ligne n'est-elle pas inutile si l'on met la carte dans la pile de défausse à l'éxécution du programme ?
+		//TODO : cette ligne n'est-elle pas inutile si l'on met la carte dans la pile de défausse à l'éxécution du programme ? Non, le constructeur est effectué qu'une seule fois
 		//this.piocheDefausse.add(carte);
 	}
 	//on vide toutes les cartes de la main dans la liste de defausse

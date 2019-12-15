@@ -22,22 +22,12 @@ public class Main {
 		initialisation();
 		gui = new InterfaceGraphique();
 		updatePlateau();
-		/*while(true) {
-			
-			if(gui.getEvenementPlateau()) {
-				
-				System.out.println(coo);
-				
-				System.out.println("bonjour");
-			}
-			System.out.println(coo[0]+"x "+coo[1]+"y");
-			
-			
-		}*/
+		
+	     
 		while(!finDuJeu()) {
-		updatePlateau();
-		choixJoueur();
-		joueurSuivant();
+			updatePlateau();
+			choixJoueur();
+			joueurSuivant();
 		}
 	}
 	
@@ -212,11 +202,13 @@ public class Main {
 		boolean programmeFini=false;
 		//recuperation de la main du joueur
 		String role;
+		int indexCarte; // c'est lindex de la carte dans la liste de la main
 		String reponse;
 		List<String> main_roles = new ArrayList<String>();
 		Carte carte = new Carte("");
 		while(!(programmeFini)) {
 			
+			/* 
 			//cette boucle nous permet de récupérer les rôles associées aux cartes de la main pour pouvoir les afficher
 			main_roles.clear(); //nécessaires pour réafficher la main à chaque coup
 			for(int i=0; i<joueurs.get(tourJoueur).getMain().size();i++) {
@@ -242,6 +234,21 @@ public class Main {
 			
 			joueurs.get(tourJoueur).ajouterInstruction(carte);//on ajoute la carte a la file d'instruction
 			joueurs.get(tourJoueur).retirerCarte(carte);// on retire la carte des mains du joueur
+			*/
+			System.out.println("Entrez le nom de la carte pour réaliser votre programme");
+			while(!(gui.getEvenementMain() )) {// tant quil ny a pas devenement// on attend que lutilisateur clique sur une carte
+				try {
+				    Thread.sleep(200);
+				} catch (InterruptedException e) {
+
+				    e.printStackTrace();
+				}
+			}
+			indexCarte=gui.getCarteSelectionne();
+			joueurs.get(tourJoueur).ajouterInstruction( joueurs.get(tourJoueur).getMain().get(indexCarte) ); //on ajoute la carte dans la file dinstruction
+			joueurs.get(tourJoueur).retirerCarte( joueurs.get(tourJoueur).getMain().get(indexCarte)); //on retire la carte de la main du joueur
+			gui.setMain(joueurs.get(tourJoueur).getMain());//actualisation de la main sur la gui
+			
 			
 			//TODO le joueur peut dans tout les cas choisir de retirer une carte
 			if(joueurs.get(tourJoueur).getMain().isEmpty()) { //sil na plus de cartes en main, son tour est fini
@@ -251,21 +258,29 @@ public class Main {
 				}
 			// TODO refaire le mecanisme de defausse et de fin de tour	
 			else {
+				
+				/* ancienne methode avec la saisie sur linvite de commande
 				do {
 					System.out.println("Continuer le programme ?");//le joueur peut choisir de continuer le programme ou non
 					System.out.println("oui ou non ?");
 					reponse = scanner.nextLine();
-				}while(!(reponse.equals("oui") || reponse.equals("non")));
-				if(reponse.equals("non")) {
+				}while(!(reponse.equals("oui") || reponse.equals("non")));*/
+				
+				JOptionPane jop = new JOptionPane();    	
+			      int option = jop.showConfirmDialog(null, 
+			        "Voulez-vous continuer le programme ?", 
+			        "Choix utilisateur", 
+			        JOptionPane.YES_NO_OPTION, 
+			        JOptionPane.QUESTION_MESSAGE);
+				
+				if(option == 1) {
 					programmeFini=true;
 					System.out.println("Défausser votre main ?");//s'il arrete, il peut choisir de defausser sa main
 					do {
-						
 						System.out.println("oui ou non ?");
 						reponse = scanner.nextLine();
 					}while(!(reponse.equals("oui") || reponse.equals("non")));
 					if(reponse.contentEquals("oui")) {
-						
 						System.out.println("Voulez-vous défausser une ou toutes vos cartes ?");
 						reponse = scanner.nextLine();
 						
