@@ -372,6 +372,7 @@ public class Main {
 		String direction;
 		int[] coordonneeSuivante= new int[2];
 		int[] coordonneeTortue= new int[2];
+		int[] positionDepart= new int[2];
 		System.out.println(joueurs.get(tourJoueur).getInstructions());
 		while(!joueurs.get(tourJoueur).getInstructions().isEmpty()) {
 			direction = joueurs.get(tourJoueur).getDirection();
@@ -415,7 +416,9 @@ public class Main {
 					 */
 					case "JoyauViolet":
 						if(joueurs.size()>2) {
-							
+							//on recupere la position de depart de la tortue
+							positionDepart=joueurs.get(tourJoueur).getPositionDepart();
+							joueurs.get(tourJoueur).setPosition(positionDepart[0], positionDepart[1]);
 						}
 						else {
 							//demi tour de la tortue
@@ -425,7 +428,9 @@ public class Main {
 						break;
 					case "JoyauBleu":
 						if(joueurs.size()>2) {
-							
+							//on recupere la position de depart de la tortue
+							positionDepart=joueurs.get(tourJoueur).getPositionDepart();
+							joueurs.get(tourJoueur).setPosition(positionDepart[0], positionDepart[1]);
 						}
 						else {
 							//demi tour de la tortue
@@ -435,13 +440,24 @@ public class Main {
 						break;
 					case "JoyauVert":
 						if(joueurs.size()>2) {
+							//on recupere la position de depart de la tortue
+							positionDepart=joueurs.get(tourJoueur).getPositionDepart();
+							joueurs.get(tourJoueur).setPosition(positionDepart[0], positionDepart[1]);
 							
 						}
 						else {
 							//demi tour de la tortue
-							//on appelle la fonction demitour
+							//on appelle la fonction demitour qui prend en parametre une direction et qui renvoie la direction opposé
 							joueurs.get(tourJoueur).setDirection(demiTour(joueurs.get(tourJoueur).getDirection()));
 						}
+						break;
+					case "Beep":
+						break;
+					case "Pi":
+						break;
+					case "Pangie":
+						break;
+					case "Dot":
 						break;
 					}
 				}	
