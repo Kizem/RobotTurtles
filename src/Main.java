@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 
 //TODO : Ajouter la rotation de l'image tortue
 
-
+//TODO DEMANDER a PW si un joueur peut gagner un mur 
 
 
 //TODO : Rogner les images de tortues pour avoir les bonnes couleurs
@@ -190,7 +190,8 @@ public class Main {
 	      null,
 	      choixProg,
 	      choixProg[2]);
-	    
+	    //TODO mettre le mecanisme de defausser main ici car l'utilisateur peut defausser sa main quel que soit l'option choisie
+	    // a chaque fin de tour on fait le mecanisme de defausser main
 	    switch(rang) {
 		case 0:
 			completerProgramme();
@@ -337,6 +338,7 @@ public class Main {
 	}
 	
 	static void construireMur() {
+		//TODO , il est aussi interdit d’encercler un autre joueur.
 		String mur;
 		int x;
 		int y;
@@ -391,6 +393,12 @@ public class Main {
 		 * je crois si ce n'est pas fait, il faut le faire la
 		 * le while suivant se fera avec la file locale
 		 */
+		//TODO Lorsque l’exécution du programme est terminée, les cartes constituant 
+		/* le programme sont ajoutées à la pile de défausse.
+		 * donc faudrait ajouter a la pile de defausse
+		 * lorsquon recupere la file dinstruction
+		 */
+
 		while(!joueurs.get(tourJoueur).getInstructions().isEmpty()) {
 			direction = joueurs.get(tourJoueur).getDirection();
 			
@@ -403,7 +411,7 @@ public class Main {
 			System.out.println(instruction);
 			switch(instruction.getRole()) {
 			case "Bleue":
-				//TODO cest la partie la plus difficile, il y a beaucoup de regles : 
+				// cest la partie la plus difficile, il y a beaucoup de regles : pas si difficile en fait :D
 				/*
 				 * — Les cartes bleues font avancer la tortue d’une case ;
 				 * 
@@ -434,16 +442,24 @@ public class Main {
 						joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
 						break;
 						
-						//TODO si une tortue rencontre une autre tortue, les deux tortues retournent à leurs position de départ
-					case "Beep":
+						// si une tortue rencontre une autre tortue, les deux tortues retournent à leurs position de départ
 						
+					case "Beep":
+						go_depart_tortue(joueurs.get(tourJoueur).getName());
+						go_depart_tortue("Beep");
 						break;
 						
 					case "Pi":
+						go_depart_tortue(joueurs.get(tourJoueur).getName());
+						go_depart_tortue("Pi");
 						break;
 					case "Pangie":
+						go_depart_tortue(joueurs.get(tourJoueur).getName());
+						go_depart_tortue("Pangie");
 						break;
 					case "Dot":
+						go_depart_tortue(joueurs.get(tourJoueur).getName());
+						go_depart_tortue("Dot");
 						break;
 						
 					// si la tortue rencontre un mur, elle fait demi tour
@@ -689,6 +705,8 @@ public class Main {
 			Joueur j = joueurs.get(i);
 			
 			if(j.nom.equals(nom)) {
+				//mohammad 16/12 lorsque l'on met la tortue a sa position de depart, il faut mettre rien sur le plateau dans sa position actuelle:
+				plateau[j.getPositionY()][j.getPositionX()]="rien";
 				//maintenant que l'on sait qu'on est bien sur la bonne tortue, alors on récupère sa position de depart
 				positionDep=j.getPositionDepart();
 				
