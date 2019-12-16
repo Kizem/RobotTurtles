@@ -270,6 +270,8 @@ public class Main {
 					reponse = scanner.nextLine();
 				}while(!(reponse.equals("oui") || reponse.equals("non")));*/
 				
+				//TODO plutot attendre que lutilisateur clique sur j'ai fini au lieu de demander s'il veut continuer le programme
+				// faire comme defausser main
 				JOptionPane jop = new JOptionPane();    	
 			      int option = jop.showConfirmDialog(null, 
 			        "Voulez-vous continuer le programme ?", 

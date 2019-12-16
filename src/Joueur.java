@@ -61,7 +61,7 @@ public class Joueur {
 	}
 	//on vide toutes les cartes de la main dans la liste de defausse
 	
-	
+	//plus besoind de ca normalement
 	public void defausserMain(String action) {
 		
 		if(action.equals("toutes")) {
