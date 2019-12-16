@@ -413,7 +413,10 @@ public class Main {
 				 * 
 				 * aussi bah si la tortue rencontre un joyau, elle gagne directement et du coup faire un break
 				 */
-				
+				if(!caseLibre(coordonneeSuivante[1],coordonneeSuivante[0])){
+					plateau[coordonneeTortue[0]][coordonneeTortue[1]]="rien";
+					joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
+				}
 				break;
 			case "Jaune":
 				joueurs.get(tourJoueur).setDirection(changementDeDirection(-90, direction));

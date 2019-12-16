@@ -1,15 +1,21 @@
 import javax.swing.JFrame;
 import java.awt.Dimension;
+import java.awt.Graphics;
+
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Cursor;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
+
 import javax.swing.JLayeredPane;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
@@ -17,7 +23,37 @@ import java.awt.event.ActionEvent;
 public class InterfaceGraphique extends JFrame{
 	JPanel panelMain = new JPanel(new GridLayout(1, 5));
 	JFrame fenetre = new JFrame();
-	JPanel panelTableau = new JPanel(new GridLayout(8,8));
+	ImageIcon immg = new ImageIcon("image/fon2.jpg");
+	Image img = immg.getImage();
+	JPanel panelTableau = new JPanel(new GridLayout(8,8)) {
+		public void paintComponent(Graphics page)
+		{
+		    super.paintComponent(page);
+
+		    int h = img.getHeight(null);
+		    int w = img.getWidth(null);
+
+		    // Scale Horizontally:
+		    if ( w > this.getWidth() )
+		    {
+		        img = img.getScaledInstance( getWidth(), -1, Image.SCALE_DEFAULT );
+		        h = img.getHeight(null);
+		    }
+
+		    // Scale Vertically:
+		    if ( h > this.getHeight() )
+		    {
+		        img = img.getScaledInstance( -1, getHeight(), Image.SCALE_DEFAULT );
+		    }
+
+		    // Center Images
+		    int x = (getWidth() - img.getWidth(null)) / 2;
+		    int y = (getHeight() - img.getHeight(null)) / 2;
+
+		    // Draw it
+		    page.drawImage( img, x, y, null );
+		}
+	};
 	JPanel panelMur = new JPanel();
 	JLayeredPane panelPrincipal = new JLayeredPane();
 	//reception des icones pour la main du joueur avec une mise à l'échelle pour remplir le bouton
@@ -66,6 +102,8 @@ public class InterfaceGraphique extends JFrame{
 			for(int j =0; j<8;j++) {
 				JButton boutton = new JButton();
 				boutton.setVisible(true);
+				boutton.setOpaque(false);
+				boutton.setContentAreaFilled(false);
 				boutton.setName(i+";"+j);/*on donne pour chaque bouton en nom leur coordonnee pour pouvoir les récuperer a c
 				chaque evenement*/
 				//ici on gere les evenement des boutons du plateau
