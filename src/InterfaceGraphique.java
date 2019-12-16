@@ -92,7 +92,7 @@ public class InterfaceGraphique extends JFrame{
 			b.addActionListener(new ActionListener() {//evenement pour le clic d'une carte
 				public void actionPerformed(ActionEvent e) {
 					JButton bbout = (JButton)e.getSource();
-					if (bbout.getIcon()== aucuneCarte) {
+					if (bbout.getIcon()== null) {
 						//si le bouton napas de carte, on ne prend pas en compte le clic
 						evenementMain=false;
 					}
@@ -185,7 +185,8 @@ public class InterfaceGraphique extends JFrame{
 		 //si la main est plus petite que 5, on affiche sur la gui un carte point d'inteergation pour dire quil n'y a pas de carte
 		 if(mainDuJoueur.size()<5) {
 			 for(int i=mainDuJoueur.size();i<5;i++ ) {
-				 boutonCarte[i].setIcon(aucuneCarte);
+				 boutonCarte[i].setBackground(null);
+				 boutonCarte[i].setIcon(null);
 			 }
 		 }
 		 
@@ -245,6 +246,8 @@ public class InterfaceGraphique extends JFrame{
 				 case "Pierre":
 					 boutonPlateau[i][j].setIcon(this.pierre);
 					 break;
+				 case "rien":
+					 boutonPlateau[i][j].setIcon(null);
 				 }
 				 
 			 }

@@ -422,6 +422,7 @@ public class Main {
 				joueurs.get(tourJoueur).setDirection(changementDeDirection(90, direction));
 				break;
 			case "Laser":
+				
 				//TODO finir cette condition entierement
 				//la carte laser detruit le mur de glace quil y a a la case suivant
 				
@@ -432,7 +433,9 @@ public class Main {
 				else {
 					switch(plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]) {
 					case "Glace":
+						System.out.println("ceeeeee bon!!!!");
 						plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]="rien";
+						gui.updateTableau(plateau);
 						//si la case suivante est un mur de glace, on le detruit
 						break;
 					case "rien":
