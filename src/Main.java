@@ -1,3 +1,4 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -156,6 +157,8 @@ public class Main {
 		gui.setMain(joueurs.get(tourJoueur).main);
 		gui.updateTableau(plateau);
 		
+		
+		
 	}
 	
 	public static boolean finDuJeu() {
@@ -300,6 +303,7 @@ public class Main {
 						while(!gui.getEvenementBoutonFini()) {
 							if(gui.getEvenementMain()) {
 								indexCarte=gui.getCarteSelectionne();
+								//TODO : la ligne suivante n'est-elle pas inutile vu qu'on fait retirerCarte dans classe joueur ? Sinon enlever celle de la classe joueur
 								joueurs.get(tourJoueur).retirerCarte( joueurs.get(tourJoueur).getMain().get(indexCarte)); //on retire la carte de la main du joueur
 								gui.setMain(joueurs.get(tourJoueur).getMain());//actualisation de la main sur la gui
 							}
@@ -382,31 +386,35 @@ public class Main {
 		int[] coordonneeSuivante= new int[2];
 		int[] coordonneeTortue= new int[2];
 		int[] positionDepart= new int[2];
+		ArrayDeque<Carte> file_locale = new ArrayDeque<>();
+
+		
 		System.out.println(joueurs.get(tourJoueur).getInstructions());
-		//TODO le mecanisme de recuperation d'instruction est faux
+		
+		file_locale = joueurs.get(tourJoueur).getInstructions();
+		
 		/*
 		 * il faut créer une file d'instrucion locale
 		 * il faut ensuite l'initiliser avec la file du joueur
 		 * une fois que la file du joueur est lu, il faut vider la file du joueur
 		 * il n'y a pas besoin de vider la file dans la pioche de defausse pcq
 		 * lorsquon retire une carte de la main du joueur pour lajouter au programme, on la rajoute aussi dans la pioche de defausse 
-		 * je crois si ce n'est pas fait, il faut le faire la
 		 * le while suivant se fera avec la file locale
 		 */
-		//TODO Lorsque l’exécution du programme est terminée, les cartes constituant 
-		/* le programme sont ajoutées à la pile de défausse.
-		 * donc faudrait ajouter a la pile de defausse
-		 * lorsquon recupere la file dinstruction
-		 */
 
-		while(!joueurs.get(tourJoueur).getInstructions().isEmpty()) {
+
+		//while(!joueurs.get(tourJoueur).getInstructions().isEmpty()) {
+		while(!file_locale.isEmpty()) {
+
 			direction = joueurs.get(tourJoueur).getDirection();
 			
 			coordonneeTortue=joueurs.get(tourJoueur).getPosition();
 			coordonneeSuivante=coordonneeTortue;
 			//appel de la fonction coordonneeSuivante qui vas renvoyer les coordonnee suivante en fonction de la direction
 			coordonneeSuivante=coordonneeSuivante(coordonneeSuivante[0],coordonneeSuivante[1],direction);
-			Carte instruction = joueurs.get(tourJoueur).getInstructions().pollFirst();
+			//Carte instruction = joueurs.get(tourJoueur).getInstructions().pollFirst();
+			Carte instruction = file_locale.pollFirst();
+
 			//TODO APPLIQUER INSTRUCTION
 			System.out.println(instruction);
 			switch(instruction.getRole()) {
@@ -565,11 +573,19 @@ public class Main {
 					}
 				}	
 			}
-			
+
 			//on vient placer la carte exécuté dans la pioche de défausse
-			joueurs.get(tourJoueur).piocheDefausse.add(instruction);
+			// samy: je pense ligne suivante inutile vu qu'on le fait dans la classe joueur
+			//joueurs.get(tourJoueur).piocheDefausse.add(instruction);
 		}
 		
+		// maintenant que la file a été lue, on la vide
+		//Ici, à la fois on vide la liste et on met les cartes dans la pioche de défausse vu que c'est fait dans la fonction 
+		//retirerCarte() --> cf classe joueur
+		while(!joueurs.get(tourJoueur).getInstructions().isEmpty()) {	
+			Carte carte_Ajeter = joueurs.get(tourJoueur).getInstructions().poll();
+			joueurs.get(tourJoueur).retirerCarte(carte_Ajeter);
+		}
 		
 	}
 	
@@ -730,6 +746,9 @@ public class Main {
 				Joueur j = joueurs.get(i);
 				
 				if(j.nom.equals(nom)) {
+					
+					plateau[j.getPositionY()][j.getPositionX()]="rien";
+					
 					//maintenant que l'on sait qu'on est bien sur la bonne tortue, alors on récupère sa position de depart
 					positionDep=j.getPositionDepart();
 					

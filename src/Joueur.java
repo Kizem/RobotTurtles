@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 // un joueur possede une couleur, un nom, une pioche de carte, une main, une liste d'intruction
-//TODO: Ajouter les murs !!!!
 public class Joueur {
 	private String couleur;
 	//main est en public pour que l'on puisse récupérer la main du joueur dans le main
@@ -56,7 +55,9 @@ public class Joueur {
 	public void retirerCarte(Carte carte) {
 		this.piocheDefausse.add(carte);
 		this.main.remove(carte);
-		//TODO : cette ligne n'est-elle pas inutile si l'on met la carte dans la pile de défausse à l'éxécution du programme ? Non, le constructeur est effectué qu'une seule fois
+		//TODO : cette ligne n'est-elle pas inutile si l'on met la carte dans la pile de défausse à l'éxécution du programme ? 
+		//Non, le constructeur est effectué qu'une seule fois
+		//Samy 16/12 : Mais la fonction retirerCarte c'est pas le constructeur, donc ça sera effectué à chaque fois qu'on retire une carte
 		//this.piocheDefausse.add(carte);
 	}
 	//on vide toutes les cartes de la main dans la liste de defausse
