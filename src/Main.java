@@ -143,6 +143,7 @@ public class Main {
 		//TODO afficher le nombre de mur restant a l'utilisateur sur linterface graphique
 		joueurs.get(tourJoueur).piocherCarte(); // le joueur pioche des carte jusqua en avoir 5
 		for(int i=0; i < joueurs.size();i++) {
+			//TODO dabord vérifier si le joueur n'est pas sur une case joyau
 			plateau[joueurs.get(i).getPositionY()][joueurs.get(i).getPositionX()]=joueurs.get(i).getName();
 		}
 		/*//plus besoin avec linterface graphuiqye
@@ -158,6 +159,7 @@ public class Main {
 	}
 	
 	public static boolean finDuJeu() {
+		//TODO si un joueur est à la position du joyau, on retire le joueur de la liste
 		boolean test=false;
 		for(int i=0; i < joueurs.size();i++) {
 			for(int j=0; j< joyaux.size(); j++) {
@@ -415,6 +417,43 @@ public class Main {
 				if(!caseLibre(coordonneeSuivante[1],coordonneeSuivante[0])){
 					plateau[coordonneeTortue[0]][coordonneeTortue[1]]="rien";
 					joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
+				}
+				else {
+					switch(plateau[coordonneeTortue[0]][coordonneeTortue[1]]) {
+					case "JoyauViolet":
+						plateau[coordonneeTortue[0]][coordonneeTortue[1]]="rien";
+						joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
+						break;
+						
+					case "JoyauBleu":
+						plateau[coordonneeTortue[0]][coordonneeTortue[1]]="rien";
+						joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
+						break;
+					case "JoyauVert":
+						plateau[coordonneeTortue[0]][coordonneeTortue[1]]="rien";
+						joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
+						break;
+						
+						//TODO si une tortue rencontre une autre tortue, les deux tortues retournent à leurs position de départ
+					case "Beep":
+						
+						break;
+						
+					case "Pi":
+						break;
+					case "Pangie":
+						break;
+					case "Dot":
+						break;
+						
+					// si la tortue rencontre un mur, elle fait demi tour
+					case "Glace":
+						joueurs.get(tourJoueur).setDirection(demiTour(joueurs.get(tourJoueur).getDirection()));
+						break;
+					case "Pierre":
+						joueurs.get(tourJoueur).setDirection(demiTour(joueurs.get(tourJoueur).getDirection()));
+						break;
+					}
 				}
 				break;
 			case "Jaune":
