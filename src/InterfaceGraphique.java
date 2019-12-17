@@ -1,31 +1,28 @@
 import javax.swing.JFrame;
 import java.awt.Dimension;
 import java.awt.Graphics;
-
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Cursor;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
-
 import javax.swing.JLayeredPane;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
-
+//TODO faire une zone de texte ou une boite de dialogue qui permet d'afficher un message a l'utilisatuer
 public class InterfaceGraphique extends JFrame{
 	JPanel panelMain = new JPanel(new GridLayout(1, 5));
 	JFrame fenetre = new JFrame();
 	ImageIcon immg = new ImageIcon("image/fon2.jpg");
 	Image img = immg.getImage();
 	JPanel panelTableau = new JPanel(new GridLayout(8,8)) {
+		//TODO Refaire le code du fond du plateau
 		public void paintComponent(Graphics page)
 		{
 		    super.paintComponent(page);
@@ -69,6 +66,13 @@ public class InterfaceGraphique extends JFrame{
 	ImageIcon pierre= new ImageIcon(new ImageIcon("image/WALL.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 	private JButton[] boutonCarte = new JButton[5];
 	private JButton[][] boutonPlateau = new JButton[8][8];
+	private JLabel murGlaceLabel = new JLabel("1");
+	private JLabel murPierreLabel = new JLabel("1");
+	private JLabel murBoisLabel = new JLabel("1");
+	private boolean aucunMurGlace=false;
+	private boolean aucunMurPierre=false;
+	private boolean aucunMurBois=false;
+	private String informationsUtilisateur;// variable qui affichera des informations a l'utilisateur
 	private static String murSelectionne; //variable qui permettra au main de savoir quel mur a ete selectionne
 	private boolean evenementMur; // variable qui permettra au main de savoir s'il y a eu un evenement
 	private boolean evenementPlateau; // variable qui permettra au main de savoir s'il y a eu un evenement sur le plateau
@@ -178,35 +182,68 @@ public class InterfaceGraphique extends JFrame{
 			comme cela, le main peut savoir que l'utilisateur a chois son mur*/
 			public void actionPerformed(ActionEvent arg0) {
 				murSelectionne = "Pierre";
-				evenementMur = true;
+				if(!aucunMurPierre) {
+					evenementMur = true;
+				}
+				else {
+					informationsUtilisateur = "Vous ne possédez pas de mur de pierre";
+					System.out.println(informationsUtilisateur);
+				}
 				System.out.println(murSelectionne);
 			}
 		});
 		boutonPierre.setIcon(pierre);
 		boutonPierre.setVisible(true);
 		panelMur.add(boutonPierre);
+		
 		JButton boutonBois = new JButton();
 		boutonBois.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				murSelectionne = "Bois";
-				evenementMur = false;
+				if(!aucunMurBois) {
+					evenementMur = false;
+				}
+				else {
+					informationsUtilisateur = "Vous ne possédez pas de mur de bois";
+				}
 				System.out.println(murSelectionne);
 			}
 		});
 		boutonBois.setIcon(murDeBois);
 		boutonBois.setVisible(true);
 		panelMur.add(boutonBois);
+		
 		JButton boutonGlace = new JButton();
 		boutonGlace.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				murSelectionne = "Glace";
-				evenementMur = true;
+				if(!aucunMurGlace) {
+					evenementMur = true;
+				}
+				else {
+					informationsUtilisateur = "Vous ne possédez pas de mur de glace";
+				}
 				System.out.println(murSelectionne);
 			}
 		});
 		boutonGlace.setIcon(glace);
 		boutonGlace.setVisible(true);
 		panelMur.add(boutonGlace);
+		
+		
+		murPierreLabel.setFont(new Font("Wide Latin", Font.BOLD, 16));
+		murPierreLabel.setBounds(76, 287, 33, 56);
+		panelPrincipal.add(murPierreLabel);
+		
+		
+		murBoisLabel.setFont(new Font("Wide Latin", Font.BOLD, 16));
+		murBoisLabel.setBounds(76, 345, 33, 56);
+		panelPrincipal.add(murBoisLabel);
+		
+		
+		murGlaceLabel.setFont(new Font("Wide Latin", Font.BOLD, 16));
+		murGlaceLabel.setBounds(76, 402, 33, 56);
+		panelPrincipal.add(murGlaceLabel);
 		
 		
 		
@@ -218,6 +255,29 @@ public class InterfaceGraphique extends JFrame{
 		
 		
 	}
+	 
+	 public void setNombreMur(int[] tableauNombreMur) {
+		 murGlaceLabel.setText(":"+tableauNombreMur[2]);
+		 murPierreLabel.setText(":"+tableauNombreMur[0]);
+		 murBoisLabel.setText(":"+tableauNombreMur[1]);
+		 for(int i=0;i<3;i++) {
+			 if(tableauNombreMur[i]==0) {
+				 if(i==0) {
+					 aucunMurPierre=true;
+				 }
+				 else aucunMurPierre=false;
+				 if(i==1) {
+					 aucunMurBois=true;
+				 }
+				 else aucunMurBois=false;
+				 if(i==2) {
+					 aucunMurGlace=true;
+				 }
+				 else aucunMurGlace=false;
+			 }
+		 }
+		 
+	 }
 	 // fonction permettant d'afficher les cartes du joueurs
 	 public void setMain(List<Carte> mainDuJoueur) {
 		 //si la main est plus petite que 5, on affiche sur la gui un carte point d'inteergation pour dire quil n'y a pas de carte
@@ -337,5 +397,4 @@ public class InterfaceGraphique extends JFrame{
 		 }
 		 
 	 }
-	 //les fonction getEvenement renvoie vrai sil y a eu un evenement sur les boutons
 }

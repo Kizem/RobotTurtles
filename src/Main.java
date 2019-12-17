@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 
 //TODO : Ajouter la rotation de l'image tortue
 
-//TODO DEMANDER a PW si un joueur peut gagner un mur 
+//TODO DEMANDER a PW si un joueur peut gagner des murs 
 
 
 //TODO : Rogner les images de tortues pour avoir les bonnes couleurs
@@ -141,19 +141,13 @@ public class Main {
 	
 	
 	public static void updatePlateau() {
-		//TODO afficher le nombre de mur restant a l'utilisateur sur linterface graphique
 		joueurs.get(tourJoueur).piocherCarte(); // le joueur pioche des carte jusqua en avoir 5
 		for(int i=0; i < joueurs.size();i++) {
 			//TODO dabord vérifier si le joueur n'est pas sur une case joyau
+			//Update Moha 17/12 ca a eté fait dans la fonction findejeu()
 			plateau[joueurs.get(i).getPositionY()][joueurs.get(i).getPositionX()]=joueurs.get(i).getName();
 		}
-		/*//plus besoin avec linterface graphuiqye
-		for(int i=0; i< (plateau.length); i++) {
-			for(int j =0; j <(plateau[0].length); j++) {
-				System.out.print(plateau[i][j]);
-			}
-			System.out.println();
-		}*/
+		gui.setNombreMur(joueurs.get(tourJoueur).getNombreMur());
 		gui.setMain(joueurs.get(tourJoueur).main);
 		gui.updateTableau(plateau);
 		
@@ -162,12 +156,15 @@ public class Main {
 	}
 	
 	public static boolean finDuJeu() {
-		//TODO si un joueur est à la position du joyau, on retire le joueur de la liste
 		boolean test=false;
 		for(int i=0; i < joueurs.size();i++) {
 			for(int j=0; j< joyaux.size(); j++) {
-				if(joueurs.get(i).getPosition()==joyaux.get(j).getPosition()) {
-					test=true;
+				if(joueurs.get(i).getPosition()==joyaux.get(j).getPosition()) {// Si la tortue arrive a un joyau
+					joueurs.remove(i); //on retire le joueur de la liste
+					if(joueurs.size()==1) { //sil reste un seul joueur, le jeu est fini
+						test=true;
+					}
+					
 				}
 			}
 		}
@@ -193,17 +190,18 @@ public class Main {
 	      null,
 	      choixProg,
 	      choixProg[2]);
-	    //TODO mettre le mecanisme de defausser main ici car l'utilisateur peut defausser sa main quel que soit l'option choisie
-	    // a chaque fin de tour on fait le mecanisme de defausser main
 	    switch(rang) {
 		case 0:
 			completerProgramme();
+			defausserMain();
 			break;
 		case 1:
 			construireMur();
+			defausserMain();
 			break;
 		case 2:
 			executerProgramme();
+			defausserMain();
 			break;
 		}
 	    
@@ -219,33 +217,6 @@ public class Main {
 		List<String> main_roles = new ArrayList<String>();
 		Carte carte = new Carte("");
 		while(!(programmeFini)) {
-			
-			/* jai mis en commentaire, plus besoin de ca pcq on choisi lindex de la main avec l'interface graphique
-			//cette boucle nous permet de récupérer les rôles associées aux cartes de la main pour pouvoir les afficher
-			main_roles.clear(); //nécessaires pour réafficher la main à chaque coup
-			for(int i=0; i<joueurs.get(tourJoueur).getMain().size();i++) {
-				main_roles.add(joueurs.get(tourJoueur).main.get(i).role);
-			}
-			
-			
-			System.out.println(main_roles);
-			
-			System.out.println("Entrez le nom de la carte pour réaliser votre programme");
-			//recuperation de la carte choisi par le joueur
-			do {
-				System.out.println("attention, vous devez posseder ces cartes");
-				role=scanner.nextLine();
-				carte.role = role;
-			}
-			while(!(main_roles.contains(role)));//on verifie que le joueur possede bien cette carte, étant donné que main_roles
-												// recence les cartes dans la main sous forme de string
-			
-			//while(!(joueurs.get(tourJoueur).getMain().contains(carte)));//on verifie que le joueur possede bien cette carte
-			
-			
-			joueurs.get(tourJoueur).ajouterInstruction(carte);//on ajoute la carte a la file d'instruction
-			joueurs.get(tourJoueur).retirerCarte(carte);// on retire la carte des mains du joueur
-			*/
 			System.out.println("Entrez le nom de la carte pour réaliser votre programme");
 			while(!(gui.getEvenementMain() )) {// tant quil ny a pas devenement// on attend que lutilisateur clique sur une carte
 				try {
@@ -267,14 +238,6 @@ public class Main {
 				programmeFini=true;
 				}
 			else {
-				
-				/* ancienne methode avec la saisie sur linvite de commande
-				do {
-					System.out.println("Continuer le programme ?");//le joueur peut choisir de continuer le programme ou non
-					System.out.println("oui ou non ?");
-					reponse = scanner.nextLine();
-				}while(!(reponse.equals("oui") || reponse.equals("non")));*/
-				
 				//TODO plutot attendre que lutilisateur clique sur j'ai fini au lieu de demander s'il veut continuer le programme
 				// faire comme defausser main
 				JOptionPane jop = new JOptionPane();    	
@@ -292,19 +255,23 @@ public class Main {
 						System.out.println("oui ou non ?");
 						reponse = scanner.nextLine();
 					}while(!(reponse.equals("oui") || reponse.equals("non")));*/
-						
+						/*
 				       option = jop.showConfirmDialog(null, 
 				        "Voulez-vous defausser votre main ?", 
 				        "Choix utilisateur", 
 				        JOptionPane.YES_NO_OPTION, 
 				        JOptionPane.QUESTION_MESSAGE);
-					
+					// ancienne methode, maintenatn on demande si lutilisateur veut defausser sa main 
+					 * apres la fonction
 					if(option == 0) {
 						while(!gui.getEvenementBoutonFini()) {
 							if(gui.getEvenementMain()) {
-								indexCarte=gui.getCarteSelectionne();
-								//TODO : la ligne suivante n'est-elle pas inutile vu qu'on fait retirerCarte dans classe joueur ? Sinon enlever celle de la classe joueur
-								joueurs.get(tourJoueur).retirerCarte( joueurs.get(tourJoueur).getMain().get(indexCarte)); //on retire la carte de la main du joueur
+								indexCarte=gui.getCarteSelectionne();*/
+								/*TODO : la ligne suivante n'est-elle pas inutile vu qu'on fait 
+								 * retirerCarte dans classe joueur ? Sinon enlever celle de la classe joueur
+								 */
+								/*enfait le retirerCarte cest celui de la classe joueur wsh*/
+								/*joueurs.get(tourJoueur).retirerCarte( joueurs.get(tourJoueur).getMain().get(indexCarte)); //on retire la carte de la main du joueur
 								gui.setMain(joueurs.get(tourJoueur).getMain());//actualisation de la main sur la gui
 							}
 							try {
@@ -314,27 +281,8 @@ public class Main {
 							    e.printStackTrace();
 							}
 						}
-						/*
-						System.out.println("Voulez-vous défausser une ou toutes vos cartes ?");
-						reponse = scanner.nextLine();
 						
-						do {
-							
-							System.out.println("une ou toutes ?");
-							reponse = scanner.nextLine();
-							
-						}while(!(reponse.equals("une") || reponse.equals("toutes")));
-						
-						if(reponse.contentEquals("une")) {
-							
-							System.out.println("Quelle carte ?");
-							
-						}
-						else {
-							joueurs.get(tourJoueur).defausserMain(reponse);
-							joueurs.get(tourJoueur).piocherCarte();
-						}*/
-					}
+					}*/
 				}
 				
 			}		
@@ -377,9 +325,7 @@ public class Main {
 			x=coordonneeEntree[1];
 		}while((caseLibre(x,y)) || bloquePasJoyau(x,y));
 		plateau[y][x]=joueurs.get(tourJoueur).retirerMur(mur).getNom();
-		
-		//TODO ajouter defausser sa main
-	}
+		}
 	
 	static void executerProgramme() {
 		String direction;
@@ -487,8 +433,6 @@ public class Main {
 				joueurs.get(tourJoueur).setDirection(changementDeDirection(90, direction));
 				break;
 			case "Laser":
-				
-				//TODO finir cette condition entierement
 				//la carte laser detruit le mur de glace quil y a a la case suivant
 				
 				//on verifie dabord quon depasse pas le plateau
@@ -589,6 +533,36 @@ public class Main {
 		
 	}
 	
+	
+	static void defausserMain() {
+		JOptionPane jop = new JOptionPane(); 
+		int option;
+		int indexCarte;
+		option = jop.showConfirmDialog(null, 
+		        "Voulez-vous defausser votre main ?", 
+		        "Choix utilisateur", 
+		        JOptionPane.YES_NO_OPTION, 
+		        JOptionPane.QUESTION_MESSAGE);
+		if(option == 0) {
+			while(!gui.getEvenementBoutonFini()) {
+				if(gui.getEvenementMain()) {
+					indexCarte=gui.getCarteSelectionne();
+					/*TODO : la ligne suivante n'est-elle pas inutile vu qu'on fait 
+					 * retirerCarte dans classe joueur ? Sinon enlever celle de la classe joueur
+					 */
+					/*enfait le retirerCarte cest celui de la classe joueur wsh*/
+					joueurs.get(tourJoueur).retirerCarte( joueurs.get(tourJoueur).getMain().get(indexCarte)); //on retire la carte de la main du joueur
+					gui.setMain(joueurs.get(tourJoueur).getMain());//actualisation de la main sur la gui
+				}
+				try {
+				    Thread.sleep(200);
+				} catch (InterruptedException e) {
+
+				    e.printStackTrace();
+				}
+			}
+		}
+	}
 	//fonction qui vérifie si la case du plateau possede rien
 	static boolean caseLibre(int x, int y) {
 		if(x<0|| x>7|| y<0|| y>7) {
@@ -714,7 +688,8 @@ public class Main {
 
 	static void go_depart_tortue(String nom) {
 		int[] positionDep = new int[2];
-		
+		/*TODO sil y a une tortue ou un obstacle a la position de depart
+		* il y a des regles */
 		//On parcours les tortues jusqu'à trouver celle sur laquelle on vient de tirer
 		
 		for(int i=0; i<joueurs.size();i++) {

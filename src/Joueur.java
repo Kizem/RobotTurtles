@@ -59,6 +59,7 @@ public class Joueur {
 		//Non, le constructeur est effectué qu'une seule fois
 		//Samy 16/12 : Mais la fonction retirerCarte c'est pas le constructeur, donc ça sera effectué à chaque fois qu'on retire une carte
 		//this.piocheDefausse.add(carte);
+		// Moha 17/12 kesturaconte
 	}
 	//on vide toutes les cartes de la main dans la liste de defausse
 	
@@ -123,6 +124,23 @@ public class Joueur {
 	
 	public List<Mur> getMurJoueur(){
 		return this.murs;
+	}
+	public int[] getNombreMur() {
+		int[] tableauNombreMur = {0,0,0};
+		for(int i =0; i<this.murs.size(); i++) {
+			switch(this.murs.get(i).getNom()) {
+			case "Pierre":
+				tableauNombreMur[0]++;
+				break;
+			case "murDeBois":
+				tableauNombreMur[1]++;
+				break;
+			case "Glace":
+				tableauNombreMur[2]++;
+				break;
+			}
+		}
+		return tableauNombreMur;
 	}
 	
 	public Mur retirerMur(String nomMur) {
