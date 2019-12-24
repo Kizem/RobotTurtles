@@ -18,9 +18,6 @@ public class Joueur {
 	private ArrayDeque<Carte> file = new ArrayDeque<>();
 	private int[] positionDepart = new int[2];
 	
-
-
-
 	public Joueur(String couleurTortue, String nomTortue, List<Carte> piocheDeBase) {
 		this.couleur=couleurTortue;
 		this.nom=nomTortue;
@@ -42,7 +39,6 @@ public class Joueur {
 		}
 		
 	}
-	
 	
 	public String couleurJoueur() {
 		return this.couleur;
