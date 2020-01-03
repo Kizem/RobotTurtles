@@ -55,8 +55,8 @@ public class Main {
 		}
 		//fin d'initialisation de la pioche
 		Integer[] nombre = {2, 3, 4};
-	    JOptionPane jop = new JOptionPane(), jop2 = new JOptionPane();
-	    nbJoueurs = (int)jop.showInputDialog(null, 
+	  
+	    nbJoueurs = (int)JOptionPane.showInputDialog(null, 
 	      "Veuillez indiquer le nombre de joueur",
 	      "Nombre de joueurs",
 	      JOptionPane.QUESTION_MESSAGE,
@@ -181,8 +181,7 @@ public class Main {
 	public static void choixJoueur() {
 		String message = (joueurs.get(tourJoueur).getName()+" que souhaitez-vous faire ?");
 		String[] choixProg = {"Compléter le programme", "Construire un mur", "Exécuter le programme"};
-	    JOptionPane jop = new JOptionPane(), jop2 = new JOptionPane();
-	    int rang = jop.showOptionDialog(null, 
+	    int rang = JOptionPane.showOptionDialog(null, 
 	      message,
 	      "Choix",
 	      JOptionPane.YES_NO_CANCEL_OPTION,
@@ -208,16 +207,35 @@ public class Main {
 	}
 	
 	static void completerProgramme() {
-		boolean programmeFini=false;
-		
-		
-		String role;
+		boolean continuer = true;
 		int indexCarte; // c'est lindex de la carte dans la liste de la main
-		String reponse;
-		List<String> main_roles = new ArrayList<String>();
-		Carte carte = new Carte("");
-		while(!(programmeFini)) {
-			System.out.println("Entrez le nom de la carte pour réaliser votre programme");
+			gui.message("Selectionnez une carte pour completer votre programme");
+			while(!gui.getEvenementBoutonFini() && !joueurs.get(tourJoueur).getMain().isEmpty()) {
+				while(!(gui.getEvenementMain() )) {// on attend que lutilisateur clique sur une carte
+					try {
+					    Thread.sleep(200);
+					} catch (InterruptedException e) {
+
+					    e.printStackTrace();
+					}
+					if(gui.getEvenementBoutonFini()) {//si l'utilisateur a cliqué sur j'ai fini on casse la boucle
+						continuer = false; //on met l'indicateur a false afin de ne pas procéder à la routine
+						break;
+					}
+				}
+				if(continuer) {
+					indexCarte=gui.getCarteSelectionne();//on recupere l'index de la carte choisi par lutilisateur
+					joueurs.get(tourJoueur).ajouterInstruction( joueurs.get(tourJoueur).getMain().get(indexCarte) ); //on ajoute la carte dans la file dinstruction
+					joueurs.get(tourJoueur).retirerCarte( joueurs.get(tourJoueur).getMain().get(indexCarte)); //on retire la carte de la main du joueur
+					gui.setMain(joueurs.get(tourJoueur).getMain());//actualisation de la main sur la gui
+				}
+				else {
+					break;//on casse la boucle
+				}
+				
+				
+			}
+			/*
 			while(!(gui.getEvenementMain() )) {// tant quil ny a pas devenement// on attend que lutilisateur clique sur une carte
 				try {
 				    Thread.sleep(200);
@@ -249,7 +267,7 @@ public class Main {
 				
 				if(option == 1) {
 					programmeFini=true;
-					System.out.println("Défausser votre main ?");//s'il arrete, il peut choisir de defausser sa main
+					System.out.println("Défausser votre main ?");//s'il arrete, il peut choisir de defausser sa main*/
 					/* ancienne methode avec saisie au clavier
 					do {
 						System.out.println("oui ou non ?");
@@ -284,17 +302,14 @@ public class Main {
 						
 					}*/
 				}
-				
-			}		
-		}
-	}
+	
 	
 	static void construireMur() {
 		//TODO , il est aussi interdit d’encercler un autre joueur.
 		String mur;
 		int x;
 		int y;
-		System.out.println("Entrez le nom du mur que vous avez choisis");
+		gui.message("Selectionnez le mur à placer");
 		//recuperation de la carte choisi par le joueur
 		while(!(gui.getEvenementMur() )) {// tant quil ny a pas devenement// on a plus besoin de ca while(!(joueurs.get(tourJoueur).murInList(mur)));
 			//System.out.println(gui.getEvenementMur());
@@ -307,8 +322,7 @@ public class Main {
 		}
 		mur=gui.getMurSelectionne();
 		System.out.println(mur);
-		System.out.println("Entrez les coordonnées ou vous souhaiter placer ce mur");
-		
+		gui.message("Cliquer sur un endroit ou placer le mur");
 		do {
 			while(!(gui.getEvenementPlateau())) {//on attend un evenement de l'utilisateur
 				//System.out.println(gui.getEvenementPlateau());
@@ -434,6 +448,7 @@ public class Main {
 				break;
 			case "Laser":
 				//la carte laser detruit le mur de glace quil y a a la case suivant
+				//TODO s'il n'y a rien a la case suivante on regarde a la case n+1
 				
 				//on verifie dabord quon depasse pas le plateau
 				if(coordonneeSuivante[1]<0|| coordonneeSuivante[1]>7|| coordonneeSuivante[0]<0|| coordonneeSuivante[0]>7) {
@@ -442,12 +457,12 @@ public class Main {
 				else {
 					switch(plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]) {
 					case "Glace":
-						System.out.println("ceeeeee bon!!!!");
 						plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]="rien";
 						gui.updateTableau(plateau);
 						//si la case suivante est un mur de glace, on le detruit
 						break;
 					case "rien":
+						
 						break;
 					/* si la case suivante est un joyau alors : 
 					 * le laser est réfléchi et se retourne contre la tortue. 
@@ -535,10 +550,9 @@ public class Main {
 	
 	
 	static void defausserMain() {
-		JOptionPane jop = new JOptionPane(); 
 		int option;
 		int indexCarte;
-		option = jop.showConfirmDialog(null, 
+		option = JOptionPane.showConfirmDialog(null, 
 		        "Voulez-vous defausser votre main ?", 
 		        "Choix utilisateur", 
 		        JOptionPane.YES_NO_OPTION, 

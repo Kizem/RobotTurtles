@@ -14,8 +14,8 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import javax.swing.JTextPane;
 
-//TODO faire une zone de texte ou une boite de dialogue qui permet d'afficher un message a l'utilisatuer
 public class InterfaceGraphique extends JFrame{
 	JPanel panelMain = new JPanel(new GridLayout(1, 5));
 	JFrame fenetre = new JFrame();
@@ -64,6 +64,7 @@ public class InterfaceGraphique extends JFrame{
 	ImageIcon tortue= new ImageIcon(new ImageIcon("image/TortueBleue.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 	ImageIcon glace= new ImageIcon(new ImageIcon("image/ICE.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 	ImageIcon pierre= new ImageIcon(new ImageIcon("image/WALL.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+	JTextPane textPane = new JTextPane();
 	private JButton[] boutonCarte = new JButton[5];
 	private JButton[][] boutonPlateau = new JButton[8][8];
 	private JLabel murGlaceLabel = new JLabel("1");
@@ -160,16 +161,23 @@ public class InterfaceGraphique extends JFrame{
 		boutonValiderCarte.setBounds(529, 586, 150, 29);
 		this.panelPrincipal.add(boutonValiderCarte);
 		
-		JButton boutonFini = new JButton("J'ai fini");
+		JButton boutonFini = new JButton("Annuler");
+		boutonFini.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		boutonFini.setBounds(826, 587, 115, 29);
 		this.panelPrincipal.add(boutonFini);
 		boutonFini.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		textPane.setBackground(Color.LIGHT_GRAY);
+		textPane.setForeground(new Color(0, 128, 128));
+		textPane.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		
 		
 		
-		JLabel titreConteneur = new JLabel("Bonjour, bienvenue dans Robot Turtles");
-		titreConteneur.setBounds(366, 16, 299, 20);
-		this.panelPrincipal.add(titreConteneur);
+		this.textPane.setBounds(808, 64, 207, 403);
+		this.textPane.setBackground(null);
+		panelPrincipal.add(this.textPane);
 		
 		this.panelMur.setBounds(15, 287, 58, 171);
 		
@@ -186,7 +194,7 @@ public class InterfaceGraphique extends JFrame{
 					evenementMur = true;
 				}
 				else {
-					informationsUtilisateur = "Vous ne possédez pas de mur de pierre";
+					message("Vous ne possédez pas de mur de pierre");
 					System.out.println(informationsUtilisateur);
 				}
 				System.out.println(murSelectionne);
@@ -204,7 +212,7 @@ public class InterfaceGraphique extends JFrame{
 					evenementMur = false;
 				}
 				else {
-					informationsUtilisateur = "Vous ne possédez pas de mur de bois";
+					message("Vous ne possédez pas de mur de bois");
 				}
 				System.out.println(murSelectionne);
 			}
@@ -221,7 +229,7 @@ public class InterfaceGraphique extends JFrame{
 					evenementMur = true;
 				}
 				else {
-					informationsUtilisateur = "Vous ne possédez pas de mur de glace";
+					message("Vous ne possédez pas de mur de glace");
 				}
 				System.out.println(murSelectionne);
 			}
@@ -248,6 +256,8 @@ public class InterfaceGraphique extends JFrame{
 		
 		
 		
+		
+		message("Bienvenue dans le Robot Turtles");
 		
 		
 		// on affiche la fenete seulement apres l'initialisation
@@ -351,6 +361,9 @@ public class InterfaceGraphique extends JFrame{
 			 }
 		 }
 	 }
+	 public void message(String message) {
+		 this.textPane.setText(message);
+	 }
 	 public String getMurSelectionne() {
 		 evenementMur=false; // on met levenement false car le mur a été lu
 		 //on met tous les evenements à faux
@@ -393,7 +406,7 @@ public class InterfaceGraphique extends JFrame{
 			 return true;
 		 }
 		 else {
-			 return evenementBoutonFini;
+			 return false;
 		 }
 		 
 	 }
