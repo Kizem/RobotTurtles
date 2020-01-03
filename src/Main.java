@@ -20,7 +20,6 @@ public class Main {
 	public static String[] nomsTortue = {"Beep", "Pi", "Pangie", "Dot"};//tableau des noms de tortue
 	public static int[] coordonneeEntree = new int[2];
 	static List<Joueur> joueurs = new ArrayList<>();
-	//static Joueur[] joueurs; // tableau des objets joueurs// check index list si ca commence par zero ou un
 	
 	static List<Joyau> joyaux = new ArrayList<>();
 	public static InterfaceGraphique gui;
@@ -64,15 +63,6 @@ public class Main {
 	      nombre,
 	      nombre[0]);
 	    
-	    System.out.println(nbJoueurs);
-		//choix du nombre de joueurs
-		/*System.out.println("Combien de joueurs (2 à 4 joueurs autorisés)");
-		do {
-			nbJoueurs=scanner.nextInt();
-		}while(nbJoueurs<2 || nbJoueurs>4);
-		*/
-		//joueurs = new Joueur[nbJoueurs];
-		
 		//on cree le nombre de joueurs avec une couleur et un nom
 		for(int i = 0; i<nbJoueurs; i++) {
 			
@@ -235,72 +225,6 @@ public class Main {
 				
 				
 			}
-			/*
-			while(!(gui.getEvenementMain() )) {// tant quil ny a pas devenement// on attend que lutilisateur clique sur une carte
-				try {
-				    Thread.sleep(200);
-				} catch (InterruptedException e) {
-
-				    e.printStackTrace();
-				}
-			}
-			indexCarte=gui.getCarteSelectionne();//on recupere l'index de la carte choisi par lutilisateur
-			joueurs.get(tourJoueur).ajouterInstruction( joueurs.get(tourJoueur).getMain().get(indexCarte) ); //on ajoute la carte dans la file dinstruction
-			joueurs.get(tourJoueur).retirerCarte( joueurs.get(tourJoueur).getMain().get(indexCarte)); //on retire la carte de la main du joueur
-			gui.setMain(joueurs.get(tourJoueur).getMain());//actualisation de la main sur la gui
-			
-			
-			if(joueurs.get(tourJoueur).getMain().isEmpty()) { //sil na plus de cartes en main, son tour est fini
-				System.out.println("Votre tour est fini");
-				joueurs.get(tourJoueur).piocherCarte();
-				programmeFini=true;
-				}
-			else {
-				//TODO plutot attendre que lutilisateur clique sur j'ai fini au lieu de demander s'il veut continuer le programme
-				// faire comme defausser main
-				JOptionPane jop = new JOptionPane();    	
-			      int option = jop.showConfirmDialog(null, 
-			        "Voulez-vous continuer le programme ?", 
-			        "Choix utilisateur", 
-			        JOptionPane.YES_NO_OPTION, 
-			        JOptionPane.QUESTION_MESSAGE);
-				
-				if(option == 1) {
-					programmeFini=true;
-					System.out.println("Défausser votre main ?");//s'il arrete, il peut choisir de defausser sa main*/
-					/* ancienne methode avec saisie au clavier
-					do {
-						System.out.println("oui ou non ?");
-						reponse = scanner.nextLine();
-					}while(!(reponse.equals("oui") || reponse.equals("non")));*/
-						/*
-				       option = jop.showConfirmDialog(null, 
-				        "Voulez-vous defausser votre main ?", 
-				        "Choix utilisateur", 
-				        JOptionPane.YES_NO_OPTION, 
-				        JOptionPane.QUESTION_MESSAGE);
-					// ancienne methode, maintenatn on demande si lutilisateur veut defausser sa main 
-					 * apres la fonction
-					if(option == 0) {
-						while(!gui.getEvenementBoutonFini()) {
-							if(gui.getEvenementMain()) {
-								indexCarte=gui.getCarteSelectionne();*/
-								/*TODO : la ligne suivante n'est-elle pas inutile vu qu'on fait 
-								 * retirerCarte dans classe joueur ? Sinon enlever celle de la classe joueur
-								 */
-								/*enfait le retirerCarte cest celui de la classe joueur wsh*/
-								/*joueurs.get(tourJoueur).retirerCarte( joueurs.get(tourJoueur).getMain().get(indexCarte)); //on retire la carte de la main du joueur
-								gui.setMain(joueurs.get(tourJoueur).getMain());//actualisation de la main sur la gui
-							}
-							try {
-							    Thread.sleep(200);
-							} catch (InterruptedException e) {
-
-							    e.printStackTrace();
-							}
-						}
-						
-					}*/
 				}
 	
 	
@@ -311,8 +235,7 @@ public class Main {
 		int y;
 		gui.message("Selectionnez le mur à placer");
 		//recuperation de la carte choisi par le joueur
-		while(!(gui.getEvenementMur() )) {// tant quil ny a pas devenement// on a plus besoin de ca while(!(joueurs.get(tourJoueur).murInList(mur)));
-			//System.out.println(gui.getEvenementMur());
+		while(!(gui.getEvenementMur() )) {// tant quil ny a pas devenement// 
 			try {
 			    Thread.sleep(200);
 			} catch (InterruptedException e) {
@@ -325,7 +248,6 @@ public class Main {
 		gui.message("Cliquer sur un endroit ou placer le mur");
 		do {
 			while(!(gui.getEvenementPlateau())) {//on attend un evenement de l'utilisateur
-				//System.out.println(gui.getEvenementPlateau());
 				//permet de ne pas bloquer linterface graphique
 				try {
 				    Thread.sleep(200);
@@ -362,8 +284,6 @@ public class Main {
 		 * le while suivant se fera avec la file locale
 		 */
 
-
-		//while(!joueurs.get(tourJoueur).getInstructions().isEmpty()) {
 		while(!file_locale.isEmpty()) {
 
 			direction = joueurs.get(tourJoueur).getDirection();

@@ -21,36 +21,7 @@ public class InterfaceGraphique extends JFrame{
 	JFrame fenetre = new JFrame();
 	ImageIcon immg = new ImageIcon("image/fon2.jpg");
 	Image img = immg.getImage();
-	JPanel panelTableau = new JPanel(new GridLayout(8,8)) {
-		//TODO Refaire le code du fond du plateau
-		public void paintComponent(Graphics page)
-		{
-		    super.paintComponent(page);
-
-		    int h = img.getHeight(null);
-		    int w = img.getWidth(null);
-
-		    // Scale Horizontally:
-		    if ( w > this.getWidth() )
-		    {
-		        img = img.getScaledInstance( getWidth(), -1, Image.SCALE_DEFAULT );
-		        h = img.getHeight(null);
-		    }
-
-		    // Scale Vertically:
-		    if ( h > this.getHeight() )
-		    {
-		        img = img.getScaledInstance( -1, getHeight(), Image.SCALE_DEFAULT );
-		    }
-
-		    // Center Images
-		    int x = (getWidth() - img.getWidth(null)) / 2;
-		    int y = (getHeight() - img.getHeight(null)) / 2;
-
-		    // Draw it
-		    page.drawImage( img, x, y, null );
-		}
-	};
+	JPanel panelTableau = new JPanel(new GridLayout(8,8));
 	JPanel panelMur = new JPanel();
 	JLayeredPane panelPrincipal = new JLayeredPane();
 	//reception des icones pour la main du joueur avec une mise à l'échelle pour remplir le bouton

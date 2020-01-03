@@ -168,8 +168,4 @@ public class Joueur {
 		return false;
 	}
 	
-	/*TODO ajouter une fonction pour savoir combien de mur il reste au joueur
-	 * comme ca on pourra l'afficher sur l'interface fraphique*/
-	 
-	
 }
