@@ -28,13 +28,13 @@ public class Main {
 	public static void main(String[] args) {
 		initialisation();
 		gui = new InterfaceGraphique();
-		updatePlateau();
-	     
 		while(!finDuJeu()) {
 			updatePlateau();
 			choixJoueur();
 			joueurSuivant();
 		}
+		System.out.println("fin du jeu");
+		//TODO afficher le classement 
 		
 	}
 	
@@ -135,20 +135,12 @@ public class Main {
 	public static void updatePlateau() {
 		joueurs.get(tourJoueur).piocherCarte(); // le joueur pioche des carte jusqua en avoir 5
 		for(int i=0; i < joueurs.size();i++) {
-			for(int j=0; j< joyaux.size(); j++) {
-				if(joueurs.get(i).getPosition()==joyaux.get(j).getPosition()) {// Si la tortue arrive a un joyau
-					joueursClassementFinal.add(joueurs.get(i));
-					joueurs.remove(i); //on retire le joueur de la liste
-					System.out.println("egale");
-				}
-			}
-		}
-		for(int i=0; i < joueurs.size();i++) {
 			//TODO dabord vérifier si le joueur n'est pas sur une case joyau
 			//Update Moha 17/12 ca a eté fait dans la fonction findejeu()
 			plateau[joueurs.get(i).getPositionY()][joueurs.get(i).getPositionX()]=joueurs.get(i).getName();
 		}
 		gui.setNombreMur(joueurs.get(tourJoueur).getNombreMur());
+		//TODO Mettre la direction
 		gui.setMain(joueurs.get(tourJoueur).main);
 		gui.updateTableau(plateau);
 		
@@ -252,8 +244,6 @@ public class Main {
 			destructible=true;
 		}
 		else destructible=false;
-		
-		System.out.println(mur);
 		gui.message("Cliquer sur un endroit ou placer le mur");
 		do {
 			while(!(gui.getEvenementPlateau())) {//on attend un evenement de l'utilisateur
@@ -284,10 +274,6 @@ public class Main {
 		int[] coordonneeTortue= new int[2];
 		int[] positionDepart= new int[2];
 		ArrayDeque<Carte> file_locale = new ArrayDeque<>();
-
-		
-		System.out.println(joueurs.get(tourJoueur).getInstructions());
-		
 		file_locale = joueurs.get(tourJoueur).getInstructions();
 		
 		/*
@@ -311,7 +297,6 @@ public class Main {
 			Carte instruction = file_locale.pollFirst();
 
 			//TODO APPLIQUER INSTRUCTION
-			System.out.println(instruction);
 			switch(instruction.getRole()) {
 			case "Bleue":
 				// cest la partie la plus difficile, il y a beaucoup de regles : pas si difficile en fait :D
@@ -335,23 +320,29 @@ public class Main {
 					joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
 				}
 				else {
-					System.out.println("dans switch");
 					switch(plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]) {
 					case "JoyauViolet":
 						plateau[coordonneeTortue[0]][coordonneeTortue[1]]="rien";
 						joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
-						System.out.println("dans jvi");
+						joueursClassementFinal.add(joueurs.get(tourJoueur));
+						joueurs.remove(tourJoueur); //on retire le joueur de la liste
+						file_locale.clear();
+						
 						break;
 						
 					case "JoyauBleu":
 						plateau[coordonneeTortue[0]][coordonneeTortue[1]]="rien";
 						joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
-						System.out.println("dans jb");
+						joueursClassementFinal.add(joueurs.get(tourJoueur));
+						joueurs.remove(tourJoueur); //on retire le joueur de la liste
+						file_locale.clear();
 						break;
 					case "JoyauVert":
-						System.out.println("dans joyau vert");
 						plateau[coordonneeTortue[0]][coordonneeTortue[1]]="rien";
 						joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
+						joueursClassementFinal.add(joueurs.get(tourJoueur));
+						joueurs.remove(tourJoueur); //on retire le joueur de la liste
+						file_locale.clear();
 						break;
 						
 						// si une tortue rencontre une autre tortue, les deux tortues retournent à leurs position de départ
@@ -359,23 +350,19 @@ public class Main {
 					case "Beep":
 						go_depart_tortue(joueurs.get(tourJoueur).getName());
 						go_depart_tortue("Beep");
-						System.out.println("dans bee");
 						break;
 						
 					case "Pi":
 						go_depart_tortue(joueurs.get(tourJoueur).getName());
 						go_depart_tortue("Pi");
-						System.out.println("dans pi");
 						break;
 					case "Pangie":
 						go_depart_tortue(joueurs.get(tourJoueur).getName());
 						go_depart_tortue("Pangie");
-						System.out.println("dans pangi");
 						break;
 					case "Dot":
 						go_depart_tortue(joueurs.get(tourJoueur).getName());
 						go_depart_tortue("Dot");
-						System.out.println("dans dot");
 						break;
 						
 					// si la tortue rencontre un mur, elle fait demi tour
@@ -488,6 +475,13 @@ public class Main {
 			//on vient placer la carte exécuté dans la pioche de défausse
 			// samy: je pense ligne suivante inutile vu qu'on le fait dans la classe joueur
 			//joueurs.get(tourJoueur).piocheDefausse.add(instruction);
+			updatePlateau();
+			try {
+			    Thread.sleep(500);
+			} catch (InterruptedException e) {
+
+			    e.printStackTrace();
+			}
 		}
 		
 		// maintenant que la file a été lue, on la vide
