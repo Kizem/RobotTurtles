@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Cursor;
@@ -10,9 +11,14 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import javax.swing.JLayeredPane;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.TreeMap;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.Graphics;
+
 import javax.swing.JTextPane;
 
 public class InterfaceGraphique extends JFrame{
@@ -20,7 +26,20 @@ public class InterfaceGraphique extends JFrame{
 	JFrame fenetre = new JFrame();
 	ImageIcon immg = new ImageIcon("image/fon2.jpg");
 	Image img = immg.getImage();
-	JPanel panelTableau = new JPanel(new GridLayout(8,8));
+	JPanel panelTableau = new JPanel(new GridLayout(8,8)) {
+		@Override
+		public void paintComponent(Graphics g)
+	    {
+	        //Chargement de l"image de fond
+	        try {
+	            Image img = ImageIO.read(new File("image/fond.png"));
+	            g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            System.out.println("Erreur image de fond: " +e.getMessage());
+	        }
+	    }
+	};
 	JPanel panelMur = new JPanel();
 	JLayeredPane panelPrincipal = new JLayeredPane();
 	//reception des icones pour la main du joueur avec une mise à l'échelle pour remplir le bouton
@@ -29,12 +48,34 @@ public class InterfaceGraphique extends JFrame{
 	ImageIcon LaserCard = new ImageIcon(new ImageIcon("image/LaserCard.png").getImage().getScaledInstance(80, 150, Image.SCALE_DEFAULT));
 	ImageIcon PurpleCard = new ImageIcon(new ImageIcon("image/PurpleCard.png").getImage().getScaledInstance(80, 150, Image.SCALE_DEFAULT));
 	ImageIcon aucuneCarte = new ImageIcon(new ImageIcon("image/aucuneCarte.png").getImage().getScaledInstance(80, 150, Image.SCALE_DEFAULT));
-	ImageIcon murDeBois= new ImageIcon(new ImageIcon("image/WoodBox.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
-	ImageIcon joyau= new ImageIcon(new ImageIcon("image/RUBY.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
-	ImageIcon tortue= new ImageIcon(new ImageIcon("image/TortueBleue.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
-	ImageIcon glace= new ImageIcon(new ImageIcon("image/ICE.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
-	ImageIcon pierre= new ImageIcon(new ImageIcon("image/WALL.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+	ImageIcon murDeBois= new ImageIcon(new ImageIcon("image/WoodBox.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon joyau= new ImageIcon(new ImageIcon("image/RUBY.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon joyauVert= new ImageIcon(new ImageIcon("image/joyauVert.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon joyauBleu= new ImageIcon(new ImageIcon("image/joyauBleu.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon joyauViolet= new ImageIcon(new ImageIcon("image/joyauViolet.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon joyauRouge= new ImageIcon(new ImageIcon("image/joyauRouge.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon tortue= new ImageIcon(new ImageIcon("image/TortueBleue.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon Beepn= new ImageIcon(new ImageIcon("image/blueN.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon Beepe= new ImageIcon(new ImageIcon("image/blueE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon Beeps= new ImageIcon(new ImageIcon("image/blueS.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon Beepo= new ImageIcon(new ImageIcon("image/blueO.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon Pin= new ImageIcon(new ImageIcon("image/rougeN.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon Pie= new ImageIcon(new ImageIcon("image/rougeE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon Pis= new ImageIcon(new ImageIcon("image/rougeS.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon Pio= new ImageIcon(new ImageIcon("image/rougeO.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon Pangien= new ImageIcon(new ImageIcon("image/vertN.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon Pangiee= new ImageIcon(new ImageIcon("image/vertE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon Pangies= new ImageIcon(new ImageIcon("image/vertS.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon Pangieo= new ImageIcon(new ImageIcon("image/vertO.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon Dotn= new ImageIcon(new ImageIcon("image/violetN.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon Dote= new ImageIcon(new ImageIcon("image/violetE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon Dots= new ImageIcon(new ImageIcon("image/violetS.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon Doto= new ImageIcon(new ImageIcon("image/violetO.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon glace= new ImageIcon(new ImageIcon("image/ICE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon pierre= new ImageIcon(new ImageIcon("image/WALL.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
+	ImageIcon FOND= new ImageIcon(new ImageIcon("image/fond.jpg").getImage().getScaledInstance(200,200, Image.SCALE_DEFAULT));
 	JTextPane textPane = new JTextPane();
+	private TreeMap<String, String> directionJoueur = new TreeMap<>();
 	private JButton[] boutonCarte = new JButton[5];
 	private JButton[][] boutonPlateau = new JButton[8][8];
 	private JLabel murGlaceLabel = new JLabel("1");
@@ -67,11 +108,12 @@ public class InterfaceGraphique extends JFrame{
 		this.fenetre.getContentPane().add(this.panelPrincipal);
 		this.panelPrincipal.setLayout(null);
 
-		this.panelTableau.setBounds(263, 64, 494, 403);
+		this.panelTableau.setBounds(269, 44, 425, 425);
 		this.panelPrincipal.add(this.panelTableau);
 
-		this.panelMain.setBounds(15, 474, 407, 158);
+		this.panelMain.setBounds(15, 486, 407, 146);
 		this.panelPrincipal.add(this.panelMain);
+		
 		
 		//creation des boutons du plateau
 		for(int i=0;i<8;i++) {
@@ -115,12 +157,11 @@ public class InterfaceGraphique extends JFrame{
 						indexMain=Integer.parseInt(temp[0]);
 						evenementMain=true;
 					}
-					
 				}
 			});
 			boutonCarte[i]=b;
 			this.panelMain.add(boutonCarte[i]);
-			 }
+		}
 		
 		//bouton jai fini qui sera utilisé par exemple losque l'utilisateur aura fini de defausser sa main
 		JButton boutonValiderCarte = new JButton("J'ai fini");
@@ -299,25 +340,82 @@ public class InterfaceGraphique extends JFrame{
 					 boutonPlateau[i][j].setIcon(this.murDeBois);
 					 break;
 				 case "JoyauBleu":
-					 boutonPlateau[i][j].setIcon(this.joyau);
+					 boutonPlateau[i][j].setIcon(this.joyauBleu);
 					 break;
 				 case "JoyauViolet":
-					 boutonPlateau[i][j].setIcon(this.joyau);
+					 boutonPlateau[i][j].setIcon(this.joyauViolet);
 					 break;
 				 case "JoyauVert":
-					 boutonPlateau[i][j].setIcon(this.joyau);
+					 boutonPlateau[i][j].setIcon(this.joyauVert);
 					 break;
 				 case "Beep":
-					 boutonPlateau[i][j].setIcon(this.tortue);
+					 switch(directionJoueur.get("Beep")) {//la position de la tortue se situe dans la treemap directionJoueur
+					 //on verifie la position de la tortue pour afficher la bonne iconne
+					 case "s":
+						 boutonPlateau[i][j].setIcon(this.Beeps);
+						 break;
+					case "n":
+						boutonPlateau[i][j].setIcon(this.Beepn);
+						 break;
+					case "e":
+						boutonPlateau[i][j].setIcon(this.Beepe);
+						 break;
+					case "o":
+						boutonPlateau[i][j].setIcon(this.Beepo);
+						 break;
+					
+					 }
 					 break;
 				 case "Pi":
-					 boutonPlateau[i][j].setIcon(this.tortue);
+					 switch(directionJoueur.get("Pi")) {
+					 case "s":
+						 boutonPlateau[i][j].setIcon(this.Pis);
+						 break;
+					case "n":
+						boutonPlateau[i][j].setIcon(this.Pin);
+						 break;
+					case "e":
+						boutonPlateau[i][j].setIcon(this.Pie);
+						 break;
+					case "o":
+						boutonPlateau[i][j].setIcon(this.Pio);
+						 break;
+					
+					 }
 					 break;
 				 case "Pangie":
-					 boutonPlateau[i][j].setIcon(this.tortue);
+					 switch(directionJoueur.get("Pangie")) {
+					 case "s":
+						 boutonPlateau[i][j].setIcon(this.Pangies);
+						 break;
+					case "n":
+						boutonPlateau[i][j].setIcon(this.Pangien);
+						 break;
+					case "e":
+						boutonPlateau[i][j].setIcon(this.Pangiee);
+						 break;
+					case "o":
+						boutonPlateau[i][j].setIcon(this.Pangieo);
+						 break;
+					
+					 }
 					 break;
 				 case "Dot":
-					 boutonPlateau[i][j].setIcon(this.tortue);
+					 switch(directionJoueur.get("Dot")) {
+					 case "s":
+						 boutonPlateau[i][j].setIcon(this.Dots);
+						 break;
+					case "n":
+						boutonPlateau[i][j].setIcon(this.Dotn);
+						 break;
+					case "e":
+						boutonPlateau[i][j].setIcon(this.Dote);
+						 break;
+					case "o":
+						boutonPlateau[i][j].setIcon(this.Doto);
+						 break;
+					
+					 }
 					 break;
 				 case "Glace":
 					 boutonPlateau[i][j].setIcon(this.glace);
@@ -381,4 +479,11 @@ public class InterfaceGraphique extends JFrame{
 		 }
 		 
 	 }
+	 
+	 //fonction permettant de récuperer la treemap avec comme clé le nom de la tortue et comme valeur sa position
+	 public void setDirectionJoueurs(TreeMap<String, String> tree) {
+		 this.directionJoueur=tree;
+	 }
+	 
+	 
 }

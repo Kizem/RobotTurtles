@@ -2,6 +2,8 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.TreeMap;
+
 import javax.swing.JOptionPane;
 //test
 
@@ -21,7 +23,7 @@ public class Main {
 	public static int[] coordonneeEntree = new int[2];
 	static List<Joueur> joueurs = new ArrayList<>();
 	static List<Joueur> joueursClassementFinal = new ArrayList<>();
-	
+	public static TreeMap<String, String> directionJoueur = new TreeMap<>();
 	static List<Joyau> joyaux = new ArrayList<>();
 	public static InterfaceGraphique gui;
 	public static Scanner scanner = new Scanner(System.in);	
@@ -70,6 +72,7 @@ public class Main {
 			
 			//joueurs[i] = new Joueur(couleurs[i], nomsTortue[i], pioche);
 			joueurs.add( new Joueur(couleurs[i], nomsTortue[i], pioche));
+			directionJoueur.put(nomsTortue[i], "s");//initialisation de la treemap Nomjoueur/direction
 		}
 		
 		//placement des joueurs sur le plateau et des joyaux
@@ -80,7 +83,7 @@ public class Main {
 		}
 		switch(nbJoueurs) {
 		case 2:
-			joueurs.get(0).setPosition(6,3);//01
+			joueurs.get(0).setPosition(0,1);//01
 			joueurs.get(0).setPositionDepart(6,3);
 			joueurs.get(1).setPosition(0,5);
 			joueurs.get(1).setPositionDepart(0,5);
@@ -137,8 +140,11 @@ public class Main {
 		for(int i=0; i < joueurs.size();i++) {
 			//TODO dabord vérifier si le joueur n'est pas sur une case joyau
 			//Update Moha 17/12 ca a eté fait dans la fonction findejeu()
-			plateau[joueurs.get(i).getPositionY()][joueurs.get(i).getPositionX()]=joueurs.get(i).getName();
+			plateau[joueurs.get(i).getPositionY()][joueurs.get(i).getPositionX()]=joueurs.get(i).getName()/*+joueurs.get(i).getDirection()*/;//on prend la directionaussi
+			directionJoueur.replace(joueurs.get(i).getName(), joueurs.get(i).getDirection());
+			
 		}
+		gui.setDirectionJoueurs(directionJoueur);
 		gui.setNombreMur(joueurs.get(tourJoueur).getNombreMur());
 		//TODO Mettre la direction
 		gui.setMain(joueurs.get(tourJoueur).main);
@@ -310,11 +316,12 @@ public class Main {
 				 * 
 				 * aussi bah si la tortue rencontre un joyau, elle gagne directement et du coup faire un break
 				 */
-				
-				//TODO Si la case suivante est en dehorss du plateau la tortue reviens a la positionde depart
+				//Si la case suivante est en dehorss du plateau la tortue reviens a la positionde depart
 				if(depassementPlateau(coordonneeSuivante[1],coordonneeSuivante[0])) {
 					go_depart_tortue(joueurs.get(tourJoueur).getName());
-				}//A tester
+				}
+				
+				//si ya rien alors on peut bouger la tortue
 				else if(!caseLibre(coordonneeSuivante[1],coordonneeSuivante[0])){
 					plateau[coordonneeTortue[0]][coordonneeTortue[1]]="rien";
 					joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
@@ -475,6 +482,8 @@ public class Main {
 			//on vient placer la carte exécuté dans la pioche de défausse
 			// samy: je pense ligne suivante inutile vu qu'on le fait dans la classe joueur
 			//joueurs.get(tourJoueur).piocheDefausse.add(instruction);
+			
+			//ici on fait une petite tempo pour voir la tortue bouger
 			updatePlateau();
 			try {
 			    Thread.sleep(500);
