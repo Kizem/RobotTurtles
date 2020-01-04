@@ -20,6 +20,7 @@ public class Main {
 	public static String[] nomsTortue = {"Beep", "Pi", "Pangie", "Dot"};//tableau des noms de tortue
 	public static int[] coordonneeEntree = new int[2];
 	static List<Joueur> joueurs = new ArrayList<>();
+	static List<Joueur> joueursClassementFinal = new ArrayList<>();
 	
 	static List<Joyau> joyaux = new ArrayList<>();
 	public static InterfaceGraphique gui;
@@ -34,6 +35,7 @@ public class Main {
 			choixJoueur();
 			joueurSuivant();
 		}
+		
 	}
 	
 	public static void initialisation()
@@ -150,6 +152,7 @@ public class Main {
 		for(int i=0; i < joueurs.size();i++) {
 			for(int j=0; j< joyaux.size(); j++) {
 				if(joueurs.get(i).getPosition()==joyaux.get(j).getPosition()) {// Si la tortue arrive a un joyau
+					joueursClassementFinal.add(joueurs.get(i));
 					joueurs.remove(i); //on retire le joueur de la liste
 					if(joueurs.size()==1) { //sil reste un seul joueur, le jeu est fini
 						test=true;
@@ -229,10 +232,11 @@ public class Main {
 	
 	
 	static void construireMur() {
-		//TODO , il est aussi interdit d’encercler un autre joueur.
+		//TODO , il est aussi interdit d’encercler un autre joueur. difficile ca
 		String mur;
 		int x;
 		int y;
+		boolean destructible;
 		gui.message("Selectionnez le mur à placer");
 		//recuperation de la carte choisi par le joueur
 		while(!(gui.getEvenementMur() )) {// tant quil ny a pas devenement// 
@@ -244,6 +248,11 @@ public class Main {
 			}
 		}
 		mur=gui.getMurSelectionne();
+		if(mur=="Glace") {
+			destructible=true;
+		}
+		else destructible=false;
+		
 		System.out.println(mur);
 		gui.message("Cliquer sur un endroit ou placer le mur");
 		do {
@@ -259,7 +268,13 @@ public class Main {
 			coordonneeEntree=gui.getCoordonnee();
 			y=coordonneeEntree[0];
 			x=coordonneeEntree[1];
-		}while((caseLibre(x,y)) || bloquePasJoyau(x,y));
+			if(caseLibre(x,y)) {
+				gui.message("Vous ne pouvez pas placer un mur sur une case occupé");
+			}
+			if(bloquePasJoyau(x,y, destructible)) {
+				gui.message("Vous ne pouvez pas bloquer un joyau avec un mur indestructible");
+			}
+		}while((caseLibre(x,y)) || bloquePasJoyau(x,y, destructible));
 		plateau[y][x]=joueurs.get(tourJoueur).retirerMur(mur).getNom();
 		}
 	
@@ -310,7 +325,12 @@ public class Main {
 				 * 
 				 * aussi bah si la tortue rencontre un joyau, elle gagne directement et du coup faire un break
 				 */
-				if(!caseLibre(coordonneeSuivante[1],coordonneeSuivante[0])){
+				
+				//TODO Si la case suivante est en dehorss du plateau la tortue reviens a la positionde depart
+				if(depassementPlateau(coordonneeSuivante[1],coordonneeSuivante[0])) {
+					go_depart_tortue(joueurs.get(tourJoueur).getName());
+				}//A tester
+				else if(!caseLibre(coordonneeSuivante[1],coordonneeSuivante[0])){
 					plateau[coordonneeTortue[0]][coordonneeTortue[1]]="rien";
 					joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
 				}
@@ -368,8 +388,12 @@ public class Main {
 				break;
 			case "Laser":
 				//la carte laser detruit le mur de glace quil y a a la case suivant
-				//TODO s'il n'y a rien a la case suivante on regarde a la case n+1
-				
+				//TODO s'il n'y a rien a la case suivante on regarde a la case n+1 //moha04/01 cest fait
+				while((coordonneeSuivante[1]<0|| coordonneeSuivante[1]>7|| coordonneeSuivante[0]<0|| coordonneeSuivante[0]>7)  ||  (plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]=="rien")) {
+					//tant qu'on ne depasse pas le plateau ou que la case suivante est vide
+					//on passe a la coordonnée suivante
+					coordonneeSuivante=coordonneeSuivante(coordonneeSuivante[0],coordonneeSuivante[1],direction);
+				}
 				//on verifie dabord quon depasse pas le plateau
 				if(coordonneeSuivante[1]<0|| coordonneeSuivante[1]>7|| coordonneeSuivante[0]<0|| coordonneeSuivante[0]>7) {
 					
@@ -512,22 +536,34 @@ public class Main {
 		
 	}
 	
+	static boolean depassementPlateau(int x, int y) {
+		if(x<0|| x>7|| y<0|| y>7) {
+			return true;
+		}
+		else return false;
+	}
+	
 	//fonction qui verifie si le mur ne sera pas placé autour dun joyau
-	static boolean bloquePasJoyau(int x, int y) {
+	static boolean bloquePasJoyau(int x, int y, boolean destructible) {
 		int xJoyau;
 		int yJoyau;
-		for(int i=0; i<joyaux.size();i++) {
-			xJoyau=joyaux.get(i).getX();
-			yJoyau=joyaux.get(i).getY();
-			if((x == xJoyau) || (x == xJoyau+1) || (x == xJoyau-1) ){
-				if((y == yJoyau) || (y == yJoyau+1) || (y == yJoyau-1)){
-					return true;
+		if(!destructible) {
+			for(int i=0; i<joyaux.size();i++) {
+				xJoyau=joyaux.get(i).getX();
+				yJoyau=joyaux.get(i).getY();
+				if((x == xJoyau) || (x == xJoyau+1) || (x == xJoyau-1) ){
+					if((y == yJoyau) || (y == yJoyau+1) || (y == yJoyau-1)){
+						if(x == xJoyau && y == yJoyau) {
+							//on ne prend pas en compte le cas ou on clique sur le joyau
+						}
+						else return true;
+					}
 				}
 			}
-			
-			
+			return false;
 		}
-		return false;
+		else return false;
+		
 	}
 	
 	
@@ -637,6 +673,7 @@ public class Main {
 				
 				//on vient maintenant replacer la tortue à sa position de départ
 				j.setPosition(positionDep[0], positionDep[1]);
+				j.setDirection("s");//la direction de la sortie est celle de base
 			}
 			else {}
 		}

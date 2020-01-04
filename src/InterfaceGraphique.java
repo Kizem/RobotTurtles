@@ -1,6 +1,5 @@
 import javax.swing.JFrame;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -53,6 +52,7 @@ public class InterfaceGraphique extends JFrame{
 	private int[] coordonnee = new int[2];
 	private int indexMain;
 	 public  InterfaceGraphique() {
+		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//fermeture du programme
 	 	
 		//création de la fenetre
 		this.fenetre.setResizable(false);
