@@ -5,14 +5,6 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
-//test
-
-//TODO : Ajouter la rotation de l'image tortue
-
-//TODO DEMANDER a PW si un joueur peut gagner des murs 
-
-
-//TODO : Rogner les images de tortues pour avoir les bonnes couleurs
 
 public class Main {
 	public static String plateau[][] = new String[8][8];
@@ -138,15 +130,12 @@ public class Main {
 	public static void updatePlateau() {
 		joueurs.get(tourJoueur).piocherCarte(); // le joueur pioche des carte jusqua en avoir 5
 		for(int i=0; i < joueurs.size();i++) {
-			//TODO dabord vérifier si le joueur n'est pas sur une case joyau
-			//Update Moha 17/12 ca a eté fait dans la fonction findejeu()
 			plateau[joueurs.get(i).getPositionY()][joueurs.get(i).getPositionX()]=joueurs.get(i).getName()/*+joueurs.get(i).getDirection()*/;//on prend la directionaussi
 			directionJoueur.replace(joueurs.get(i).getName(), joueurs.get(i).getDirection());
 			
 		}
-		gui.setDirectionJoueurs(directionJoueur);
+		gui.setDirectionJoueurs(directionJoueur);//on envoie a linterface la direction des joueurs
 		gui.setNombreMur(joueurs.get(tourJoueur).getNombreMur());
-		//TODO Mettre la direction
 		gui.setMain(joueurs.get(tourJoueur).main);
 		gui.updateTableau(plateau);
 		
@@ -333,7 +322,7 @@ public class Main {
 						joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
 						joueursClassementFinal.add(joueurs.get(tourJoueur));
 						joueurs.remove(tourJoueur); //on retire le joueur de la liste
-						file_locale.clear();
+						file_locale.clear();//on vide sa file d'instruction
 						
 						break;
 						
@@ -390,7 +379,7 @@ public class Main {
 				break;
 			case "Laser":
 				//la carte laser detruit le mur de glace quil y a a la case suivant
-				//TODO s'il n'y a rien a la case suivante on regarde a la case n+1 //moha04/01 cest fait
+				// s'il n'y a rien a la case suivante on regarde a la case n+1 //moha04/01 cest fait
 				while((coordonneeSuivante[1]<0|| coordonneeSuivante[1]>7|| coordonneeSuivante[0]<0|| coordonneeSuivante[0]>7)  ||  (plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]=="rien")) {
 					//tant qu'on ne depasse pas le plateau ou que la case suivante est vide
 					//on passe a la coordonnée suivante
@@ -669,8 +658,6 @@ public class Main {
 
 	static void go_depart_tortue(String nom) {
 		int[] positionDep = new int[2];
-		/*TODO sil y a une tortue ou un obstacle a la position de depart
-		* il y a des regles */
 		//On parcours les tortues jusqu'à trouver celle sur laquelle on vient de tirer
 		
 		for(int i=0; i<joueurs.size();i++) {
