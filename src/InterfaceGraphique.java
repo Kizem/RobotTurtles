@@ -43,18 +43,16 @@ public class InterfaceGraphique extends JFrame{
 	JPanel panelMur = new JPanel();
 	JLayeredPane panelPrincipal = new JLayeredPane();
 	//reception des icones pour la main du joueur avec une mise à l'échelle pour remplir le bouton
-	ImageIcon YellowCard = new ImageIcon(new ImageIcon("image/YellowCard.png").getImage().getScaledInstance(80, 150, Image.SCALE_DEFAULT));
-	ImageIcon BlueCard = new ImageIcon(new ImageIcon("image/BlueCard.png").getImage().getScaledInstance(80, 150, Image.SCALE_DEFAULT));
-	ImageIcon LaserCard = new ImageIcon(new ImageIcon("image/LaserCard.png").getImage().getScaledInstance(80, 150, Image.SCALE_DEFAULT));
-	ImageIcon PurpleCard = new ImageIcon(new ImageIcon("image/PurpleCard.png").getImage().getScaledInstance(80, 150, Image.SCALE_DEFAULT));
-	ImageIcon aucuneCarte = new ImageIcon(new ImageIcon("image/aucuneCarte.png").getImage().getScaledInstance(80, 150, Image.SCALE_DEFAULT));
+	ImageIcon YellowCard = new ImageIcon(new ImageIcon("image/YellowCard.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
+	ImageIcon BlueCard = new ImageIcon(new ImageIcon("image/BlueCard.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
+	ImageIcon LaserCard = new ImageIcon(new ImageIcon("image/LaserCard.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
+	ImageIcon PurpleCard = new ImageIcon(new ImageIcon("image/PurpleCard.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
 	ImageIcon murDeBois= new ImageIcon(new ImageIcon("image/WoodBox.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
 	ImageIcon joyau= new ImageIcon(new ImageIcon("image/RUBY.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
 	ImageIcon joyauVert= new ImageIcon(new ImageIcon("image/joyauVert.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
 	ImageIcon joyauBleu= new ImageIcon(new ImageIcon("image/joyauBleu.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
 	ImageIcon joyauViolet= new ImageIcon(new ImageIcon("image/joyauViolet.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
 	ImageIcon joyauRouge= new ImageIcon(new ImageIcon("image/joyauRouge.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
-	ImageIcon tortue= new ImageIcon(new ImageIcon("image/TortueBleue.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
 	ImageIcon Beepn= new ImageIcon(new ImageIcon("image/blueN.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
 	ImageIcon Beepe= new ImageIcon(new ImageIcon("image/blueE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
 	ImageIcon Beeps= new ImageIcon(new ImageIcon("image/blueS.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
