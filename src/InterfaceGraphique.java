@@ -298,13 +298,13 @@ public class InterfaceGraphique extends JFrame{
 				 case "murDeBois":
 					 boutonPlateau[i][j].setIcon(this.murDeBois);
 					 break;
-				 case "JoyauxBleu":
+				 case "JoyauBleu":
 					 boutonPlateau[i][j].setIcon(this.joyau);
 					 break;
-				 case "JoyauxViolet":
+				 case "JoyauViolet":
 					 boutonPlateau[i][j].setIcon(this.joyau);
 					 break;
-				 case "JoyauxVert":
+				 case "JoyauVert":
 					 boutonPlateau[i][j].setIcon(this.joyau);
 					 break;
 				 case "Beep":

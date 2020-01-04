@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="Joyau" project="RobotTurtles" file="/RobotTurtles/src/Joyau.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="650" y="856"/>    
+    <position height="-1" width="-1" x="646" y="894"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="Joueur" project="RobotTurtles" file="/RobotTurtles/src/Joueur.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1033" y="407"/>    
+    <position height="-1" width="-1" x="1034" y="408"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -57,7 +57,7 @@
   </class>  
   <association id="7">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="8" name="pioche">        
+      <attribute id="8" name="piocheDefausse">        
         <position height="0" width="0" x="-57" y="9"/>      
       </attribute>      
       <multiplicity id="9" minimum="0" maximum="2147483647">        
@@ -70,10 +70,10 @@
   <association id="10">    
     <end type="SOURCE" refId="5" navigable="false">      
       <attribute id="11" name="joyaux">        
-        <position height="0" width="0" x="-22" y="46"/>      
+        <position height="0" width="0" x="-26" y="84"/>      
       </attribute>      
       <multiplicity id="12" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="-22" y="46"/>      
+        <position height="0" width="0" x="-26" y="84"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
@@ -81,31 +81,31 @@
   </association>  
   <association id="13">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="14" name="murs">        
-        <position height="0" width="0" x="-101" y="-20"/>      
-      </attribute>      
-      <multiplicity id="15" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="-101" y="-20"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="16">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="17" name="main">        
+      <attribute id="14" name="file">        
         <position height="0" width="0" x="-57" y="9"/>      
       </attribute>      
-      <multiplicity id="18" minimum="0" maximum="2147483647">        
+      <multiplicity id="15" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="-57" y="9"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <association id="16">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="17" name="joueurs">        
+        <position height="0" width="0" x="-94" y="-11"/>      
+      </attribute>      
+      <multiplicity id="18" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-94" y="-11"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <association id="19">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="20" name="file">        
+      <attribute id="20" name="pioche">        
         <position height="0" width="0" x="-57" y="9"/>      
       </attribute>      
       <multiplicity id="21" minimum="0" maximum="2147483647">        
@@ -117,38 +117,38 @@
   </association>  
   <association id="22">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="23" name="piocheDefausse">        
-        <position height="0" width="0" x="-57" y="9"/>      
+      <attribute id="23" name="murs">        
+        <position height="0" width="0" x="-101" y="-20"/>      
       </attribute>      
       <multiplicity id="24" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="-57" y="9"/>      
+        <position height="0" width="0" x="-101" y="-20"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="25">    
     <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="26" name="joueurs">        
-        <position height="0" width="0" x="-95" y="-12"/>      
-      </attribute>      
-      <multiplicity id="27" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="-95" y="-12"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="28">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="29" name="gui">        
+      <attribute id="26" name="gui">        
         <position height="0" width="0" x="-24" y="-13"/>      
       </attribute>      
-      <multiplicity id="30" minimum="0" maximum="1">        
+      <multiplicity id="27" minimum="0" maximum="1">        
         <position height="0" width="0" x="-24" y="-13"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="28">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="29" name="main">        
+        <position height="0" width="0" x="-57" y="9"/>      
+      </attribute>      
+      <multiplicity id="30" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-57" y="9"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

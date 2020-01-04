@@ -80,12 +80,12 @@ public class Main {
 		}
 		switch(nbJoueurs) {
 		case 2:
-			joueurs.get(0).setPosition(0,1);
-			joueurs.get(0).setPositionDepart(0,1);
+			joueurs.get(0).setPosition(6,3);//01
+			joueurs.get(0).setPositionDepart(6,3);
 			joueurs.get(1).setPosition(0,5);
 			joueurs.get(1).setPositionDepart(0,5);
 			joyaux.add(new Joyau("Vert", 7, 3));
-			plateau[7][3]="JoyauxVert";
+			plateau[7][3]="JoyauVert";
 			for(int i=0; i<8;i++) {
 				plateau[i][7]= (new Mur(true, true,"murDeBois")).getNom();
 			}
@@ -102,9 +102,9 @@ public class Main {
 			joyaux.add(new Joyau("Vert", 7, 3));
 			joyaux.add(new Joyau("Violet", 7, 0));
 			joyaux.add(new Joyau("Bleu", 7, 6));
-			plateau[7][3]="JoyauxVert";
-			plateau[7][0]="JoyauxViolet";
-			plateau[7][6]="JoyauxBleu";
+			plateau[7][3]="JoyauVert";
+			plateau[7][0]="JoyauViolet";
+			plateau[7][6]="JoyauBleu";
 			for(int i=0; i<8;i++) {
 				plateau[i][7]=(new Mur(true, true,"murDeBois")).getNom();
 			}
@@ -135,6 +135,15 @@ public class Main {
 	public static void updatePlateau() {
 		joueurs.get(tourJoueur).piocherCarte(); // le joueur pioche des carte jusqua en avoir 5
 		for(int i=0; i < joueurs.size();i++) {
+			for(int j=0; j< joyaux.size(); j++) {
+				if(joueurs.get(i).getPosition()==joyaux.get(j).getPosition()) {// Si la tortue arrive a un joyau
+					joueursClassementFinal.add(joueurs.get(i));
+					joueurs.remove(i); //on retire le joueur de la liste
+					System.out.println("egale");
+				}
+			}
+		}
+		for(int i=0; i < joueurs.size();i++) {
 			//TODO dabord vérifier si le joueur n'est pas sur une case joyau
 			//Update Moha 17/12 ca a eté fait dans la fonction findejeu()
 			plateau[joueurs.get(i).getPositionY()][joueurs.get(i).getPositionX()]=joueurs.get(i).getName();
@@ -149,18 +158,9 @@ public class Main {
 	
 	public static boolean finDuJeu() {
 		boolean test=false;
-		for(int i=0; i < joueurs.size();i++) {
-			for(int j=0; j< joyaux.size(); j++) {
-				if(joueurs.get(i).getPosition()==joyaux.get(j).getPosition()) {// Si la tortue arrive a un joyau
-					joueursClassementFinal.add(joueurs.get(i));
-					joueurs.remove(i); //on retire le joueur de la liste
-					if(joueurs.size()==1) { //sil reste un seul joueur, le jeu est fini
-						test=true;
-					}
-					
-				}
+		if(joueurs.size()==1) { //sil reste un seul joueur, le jeu est fini
+			test=true;
 			}
-		}
 		return test;
 	}
 	
@@ -335,17 +335,21 @@ public class Main {
 					joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
 				}
 				else {
-					switch(plateau[coordonneeTortue[0]][coordonneeTortue[1]]) {
+					System.out.println("dans switch");
+					switch(plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]) {
 					case "JoyauViolet":
 						plateau[coordonneeTortue[0]][coordonneeTortue[1]]="rien";
 						joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
+						System.out.println("dans jvi");
 						break;
 						
 					case "JoyauBleu":
 						plateau[coordonneeTortue[0]][coordonneeTortue[1]]="rien";
 						joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
+						System.out.println("dans jb");
 						break;
 					case "JoyauVert":
+						System.out.println("dans joyau vert");
 						plateau[coordonneeTortue[0]][coordonneeTortue[1]]="rien";
 						joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
 						break;
@@ -355,19 +359,23 @@ public class Main {
 					case "Beep":
 						go_depart_tortue(joueurs.get(tourJoueur).getName());
 						go_depart_tortue("Beep");
+						System.out.println("dans bee");
 						break;
 						
 					case "Pi":
 						go_depart_tortue(joueurs.get(tourJoueur).getName());
 						go_depart_tortue("Pi");
+						System.out.println("dans pi");
 						break;
 					case "Pangie":
 						go_depart_tortue(joueurs.get(tourJoueur).getName());
 						go_depart_tortue("Pangie");
+						System.out.println("dans pangi");
 						break;
 					case "Dot":
 						go_depart_tortue(joueurs.get(tourJoueur).getName());
 						go_depart_tortue("Dot");
+						System.out.println("dans dot");
 						break;
 						
 					// si la tortue rencontre un mur, elle fait demi tour
