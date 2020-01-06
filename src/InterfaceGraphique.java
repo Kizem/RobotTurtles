@@ -311,19 +311,15 @@ public class InterfaceGraphique extends JFrame{
 		for(int i=0; i<mainDuJoueur.size();i++) {
 			 switch(mainDuJoueur.get(i).role) {
 			 case "Bleue":
-				 boutonCarte[i].setBackground(Color.blue);
 				 boutonCarte[i].setIcon(BlueCard);
 				 break;
 			 case "Jaune":
-				 boutonCarte[i].setBackground(Color.yellow);
 				 boutonCarte[i].setIcon(YellowCard);
 				 break;
 			 case "Violette":
-				 boutonCarte[i].setBackground(Color.red);
 				 boutonCarte[i].setIcon(PurpleCard);
 				 break;
 			 case "Laser":
-				 boutonCarte[i].setBackground(Color.black);
 				 boutonCarte[i].setIcon(LaserCard);
 				 break;
 			 }
