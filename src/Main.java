@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
+//TODO : Vérfier l'erreur est bien causée par le bail en commentaire (pioche et shuffle pioche)
 
 public class Main {
 	public static String plateau[][] = new String[8][8];
@@ -85,7 +86,7 @@ public class Main {
 		switch(nbJoueurs) {
 		case 2:
 			joueurs.get(0).setPosition(0,1);//01
-			joueurs.get(0).setPositionDepart(6,3);
+			joueurs.get(0).setPositionDepart(0,1);
 			joueurs.get(1).setPosition(0,5);
 			joueurs.get(1).setPositionDepart(0,5);
 			joyaux.add(new Joyau("Vert", 7, 3));

@@ -76,6 +76,15 @@ public class Joueur {
 	}
 	//on pioche des cartes jusqu'a ce que le joueur en ait 5
 	public void piocherCarte() {
+		/*
+		if(this.pioche.size()==0) {
+			
+			this.pioche = this.piocheDefausse;
+			this.piocheDefausse.clear();
+			Collections.shuffle(this.pioche);
+			
+		}
+		*/
 		while(this.main.size()<5) {
 			this.main.add(this.pioche.get(0));
 			this.piocheDefausse.add(this.pioche.get(0));
