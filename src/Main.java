@@ -76,7 +76,7 @@ public class Main {
 		switch(nbJoueurs) {
 		case 2:
 			joueurs.get(0).setPosition(0,1);//01
-			joueurs.get(0).setPositionDepart(6,3);
+			joueurs.get(0).setPositionDepart(0,3);
 			joueurs.get(1).setPosition(0,5);
 			joueurs.get(1).setPositionDepart(0,5);
 			joyaux.add(new Joyau("Vert", 7, 3));
