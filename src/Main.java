@@ -6,7 +6,7 @@ import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
 //TODO : Vérfier l'erreur est bien causée par le bail en commentaire (pioche et shuffle pioche)
-
+//TODO il y a un bug sur les parties avec plus de 2 joueurs, uand un joueur finis, il ya une sorte de décalage
 public class Main {
 	public static String plateau[][] = new String[8][8];
 	public static int nbJoueurs;
@@ -128,8 +128,8 @@ public class Main {
 			joyaux.add(new Joyau("Violet", 7, 1));
 			joyaux.add(new Joyau("Bleu", 7, 6));
 			//mettre plutot les coordonnee en appelant l'objet joyau au lieu de mettre les coordonnées brutes
-			plateau[7][1]="JoyauxViolet";
-			plateau[7][6]="JoyauxBleu";
+			plateau[7][1]="JoyauViolet";
+			plateau[7][6]="JoyauBleu";
 			break;
 		}	
 		tourJoueur= (int) (Math.random() * (nbJoueurs-1));
