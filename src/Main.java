@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
+//TODO : Vérfier l'erreur est bien causée par le bail en commentaire (pioche et shuffle pioche)
 
 public class Main {
 	public static String plateau[][] = new String[8][8];
@@ -19,6 +20,7 @@ public class Main {
 	static List<Joyau> joyaux = new ArrayList<>();
 	public static InterfaceGraphique gui;
 	public static Scanner scanner = new Scanner(System.in);	
+	
 	public static void main(String[] args) {
 		initialisation();
 		gui = new InterfaceGraphique();
@@ -27,8 +29,16 @@ public class Main {
 			choixJoueur();
 			joueurSuivant();
 		}
-		System.out.println("fin du jeu");
-		//TODO afficher le classement 
+		joueursClassementFinal.add(joueurs.get(0));
+		String message="";
+		for(int i=0; i<joueursClassementFinal.size();i++) {
+			
+			//message.concat(i+1+"-"+joueursClassementFinal.get(i).nom+"\n");	
+			message = message+(i+1)+"-"+joueursClassementFinal.get(i).nom+"\n";
+		}
+		
+		//Boîte du message d'information
+		JOptionPane.showMessageDialog(null, message, "Classement final", JOptionPane.INFORMATION_MESSAGE);
 		
 	}
 	
@@ -76,7 +86,7 @@ public class Main {
 		switch(nbJoueurs) {
 		case 2:
 			joueurs.get(0).setPosition(0,1);//01
-			joueurs.get(0).setPositionDepart(6,3);
+			joueurs.get(0).setPositionDepart(0,1);
 			joueurs.get(1).setPosition(0,5);
 			joueurs.get(1).setPositionDepart(0,5);
 			joyaux.add(new Joyau("Vert", 7, 3));
@@ -128,6 +138,7 @@ public class Main {
 	
 	
 	public static void updatePlateau() {
+		
 		joueurs.get(tourJoueur).piocherCarte(); // le joueur pioche des carte jusqua en avoir 5
 		for(int i=0; i < joueurs.size();i++) {
 			plateau[joueurs.get(i).getPositionY()][joueurs.get(i).getPositionX()]=joueurs.get(i).getName()/*+joueurs.get(i).getDirection()*/;//on prend la directionaussi
@@ -152,10 +163,17 @@ public class Main {
 	}
 	
 	public static void joueurSuivant() {
-		if(tourJoueur==(nbJoueurs-1)) {
+		
+		if(nbJoueurs==1) {
 			tourJoueur=0;
 		}
-		else tourJoueur++;
+		else {		
+			
+			if(tourJoueur==(nbJoueurs-1)) {
+				tourJoueur=0;
+			}
+			else tourJoueur++;}
+
 	}
 	
 	public static void choixJoueur() {
@@ -291,7 +309,7 @@ public class Main {
 			//Carte instruction = joueurs.get(tourJoueur).getInstructions().pollFirst();
 			Carte instruction = file_locale.pollFirst();
 
-			//TODO APPLIQUER INSTRUCTION
+			
 			switch(instruction.getRole()) {
 			case "Bleue":
 				// cest la partie la plus difficile, il y a beaucoup de regles : pas si difficile en fait :D
@@ -322,6 +340,7 @@ public class Main {
 						joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
 						joueursClassementFinal.add(joueurs.get(tourJoueur));
 						joueurs.remove(tourJoueur); //on retire le joueur de la liste
+						nbJoueurs--;
 						file_locale.clear();//on vide sa file d'instruction
 						
 						break;
@@ -331,6 +350,7 @@ public class Main {
 						joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
 						joueursClassementFinal.add(joueurs.get(tourJoueur));
 						joueurs.remove(tourJoueur); //on retire le joueur de la liste
+						nbJoueurs--;
 						file_locale.clear();
 						break;
 					case "JoyauVert":
@@ -338,6 +358,7 @@ public class Main {
 						joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
 						joueursClassementFinal.add(joueurs.get(tourJoueur));
 						joueurs.remove(tourJoueur); //on retire le joueur de la liste
+						nbJoueurs--;
 						file_locale.clear();
 						break;
 						
@@ -368,7 +389,12 @@ public class Main {
 					case "Pierre":
 						joueurs.get(tourJoueur).setDirection(demiTour(joueurs.get(tourJoueur).getDirection()));
 						break;
+					case "murDeBois":
+						joueurs.get(tourJoueur).setDirection(demiTour(joueurs.get(tourJoueur).getDirection()));
+						break;
 					}
+					
+					
 				}
 				break;
 			case "Jaune":
@@ -505,10 +531,6 @@ public class Main {
 			while(!gui.getEvenementBoutonFini()) {
 				if(gui.getEvenementMain()) {
 					indexCarte=gui.getCarteSelectionne();
-					/*TODO : la ligne suivante n'est-elle pas inutile vu qu'on fait 
-					 * retirerCarte dans classe joueur ? Sinon enlever celle de la classe joueur
-					 */
-					/*enfait le retirerCarte cest celui de la classe joueur wsh*/
 					joueurs.get(tourJoueur).retirerCarte( joueurs.get(tourJoueur).getMain().get(indexCarte)); //on retire la carte de la main du joueur
 					gui.setMain(joueurs.get(tourJoueur).getMain());//actualisation de la main sur la gui
 				}
@@ -574,34 +596,34 @@ public class Main {
 		switch(direction) {
 		case "s":
 			if(rotation==90) {
-				newDirection ="e";
+				newDirection ="o";
 			}
 			else {
-				newDirection ="o";
+				newDirection ="e";
 			}
 			break;
 		case "n":
 			if(rotation==90) {
-				newDirection ="o";
+				newDirection ="e";
 			}
 			else {
-				newDirection ="e";
+				newDirection ="o";
 			}
 			break;
 		case "e":
 			if(rotation==90) {
-				newDirection ="n";
+				newDirection ="s";
 			}
 			else {
-				newDirection ="s";
+				newDirection ="n";
 			}
 			break;
 		case "o":
 			if(rotation==90) {
-				newDirection ="s";
+				newDirection ="n";
 			}
 			else {
-				newDirection ="n";
+				newDirection ="s";
 			}
 			break;	
 		}
