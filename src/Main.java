@@ -272,12 +272,15 @@ public class Main {
 			y=coordonneeEntree[0];
 			x=coordonneeEntree[1];
 			if(caseLibre(x,y)) {
-				gui.message("Vous ne pouvez pas placer un mur sur une case occupé");
+				gui.message("Vous ne pouvez pas placer un mur sur une case occupée");
 			}
 			if(bloquePasJoyau(x,y, destructible)) {
 				gui.message("Vous ne pouvez pas bloquer un joyau avec un mur indestructible");
 			}
-		}while((caseLibre(x,y)) || bloquePasJoyau(x,y, destructible));
+			if(bloqueJoueur(x,y,destructible)) {
+				gui.message("Vous ne pouvez pas enfermer un joueur");
+			}
+		}while((caseLibre(x,y)) || bloquePasJoyau(x,y, destructible) || bloqueJoueur(x,y,destructible));
 		plateau[y][x]=joueurs.get(tourJoueur).retirerMur(mur).getNom();
 		}
 	
@@ -593,22 +596,74 @@ public class Main {
 	static boolean bloqueJoueur(int x, int y, boolean destructible) {
 		int xPlayer;
 		int yPlayer;
+
 		if(!destructible) {
 			for(int i=0; i<nbJoueurs;i++) {
 				xPlayer=joueurs.get(i).getPositionX();
 				yPlayer=joueurs.get(i).getPositionY();
-				// déroulé de la vérif : dans tous les axes, on vérifie si il y a un mur, puis s'il y en a un, 
-				// on vérifie s'il est destructible ou pas
-				
-				
-				
-				if((x == xPlayer) || (x == xPlayer+1) || (x == xPlayer-1) ){
-					if((y == yPlayer) || (y == yPlayer+1) || (y == yPlayer-1)){
-						if(x == xPlayer && y == yPlayer) {
-							//on ne prend pas en compte le cas ou on clique sur le joyau
+				// SAMY : 
+				// déroulé de la vérif : dans tous les axes, on vérifie si il y a des cases vides
+				// le but étant d'avoir au moins un axe de sortie. Donc on met en place un compteur
+				// qui vient compter le nombre de cases vides, nous permettant de savoir (si on en a le bon nombre)
+				// s'il est toujours possible de sortir de là 
+				int cptup=0;
+				int cptdown=0;
+				int cptleft=0;
+				int cptright=0;
+				for(int j=0; j<7; j++) {
+
+					// au dessus du joueur
+					//!caseLibre car la fonction renvoie false si la case est libre
+					if(!caseLibre(xPlayer,yPlayer+j)) {
+						if(xPlayer == x || yPlayer+j == y) {
+							
 						}
-						else return true;
+						else {
+							cptup++;
+						}
 					}
+					// sous le joueur
+					if(!caseLibre(xPlayer,yPlayer-j)){
+						if(xPlayer == x || yPlayer-j == y) {
+							
+						}
+						else {
+							cptdown++;
+						}
+						
+					}
+					// à gauche du joueur
+					if(!caseLibre(xPlayer-j,yPlayer)) {
+						if(xPlayer-j == x || yPlayer == y) {
+							
+						}
+						else {
+							cptleft++;
+						}
+					}
+					// à droite du joueur
+					if(!caseLibre(xPlayer+j,yPlayer)){
+						if(xPlayer+j == x || yPlayer == y) {
+							
+						}
+						else {
+							cptright++;
+						}
+					}
+					
+				}
+				
+				if(cptup==0+yPlayer || cptdown==7-yPlayer || cptleft==0+xPlayer || cptright==7-xPlayer){
+					System.out.println("je suis là wesh");
+					System.out.println(cptup);
+					System.out.println(cptdown);
+					System.out.println(cptleft);
+					System.out.println(cptright);
+					
+					return false;
+				}
+				else {
+					return true;
 				}
 			}
 			return false;

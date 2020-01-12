@@ -267,7 +267,7 @@ public class InterfaceGraphique extends JFrame{
 		
 		
 		
-		message("Bienvenue dans le Robot Turtles");
+		message("Bienvenue dans Robot Turtles");
 		
 		
 		// on affiche la fenete seulement apres l'initialisation
