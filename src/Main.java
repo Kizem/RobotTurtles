@@ -6,7 +6,7 @@ import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
 //TODO : Vérfier l'erreur est bien causée par le bail en commentaire (pioche et shuffle pioche)
-//TODO il y a un bug sur les parties avec plus de 2 joueurs, uand un joueur finis, il ya une sorte de décalage
+//TODO il y a un bug sur les parties avec plus de 2 joueurs, quand un joueur finis, il ya une sorte de décalage
 public class Main {
 	public static String plateau[][] = new String[8][8];
 	public static int nbJoueurs;
@@ -576,6 +576,35 @@ public class Main {
 				if((x == xJoyau) || (x == xJoyau+1) || (x == xJoyau-1) ){
 					if((y == yJoyau) || (y == yJoyau+1) || (y == yJoyau-1)){
 						if(x == xJoyau && y == yJoyau) {
+							//on ne prend pas en compte le cas ou on clique sur le joyau
+						}
+						else return true;
+					}
+				}
+			}
+			return false;
+		}
+		else return false;
+		
+	}
+	
+	// fonction qui vérfie si le mur que l'on va placer n'entourera pas un joueur
+	
+	static boolean bloqueJoueur(int x, int y, boolean destructible) {
+		int xPlayer;
+		int yPlayer;
+		if(!destructible) {
+			for(int i=0; i<nbJoueurs;i++) {
+				xPlayer=joueurs.get(i).getPositionX();
+				yPlayer=joueurs.get(i).getPositionY();
+				// déroulé de la vérif : dans tous les axes, on vérifie si il y a un mur, puis s'il y en a un, 
+				// on vérifie s'il est destructible ou pas
+				
+				
+				
+				if((x == xPlayer) || (x == xPlayer+1) || (x == xPlayer-1) ){
+					if((y == yPlayer) || (y == yPlayer+1) || (y == yPlayer-1)){
+						if(x == xPlayer && y == yPlayer) {
 							//on ne prend pas en compte le cas ou on clique sur le joyau
 						}
 						else return true;
