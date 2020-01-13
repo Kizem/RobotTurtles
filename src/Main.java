@@ -596,8 +596,9 @@ public class Main {
 	static boolean bloqueJoueur(int x, int y, boolean destructible) {
 		int xPlayer;
 		int yPlayer;
-
+		
 		if(!destructible) {
+			int cpt_bloque=0;
 			for(int i=0; i<nbJoueurs;i++) {
 				xPlayer=joueurs.get(i).getPositionX();
 				yPlayer=joueurs.get(i).getPositionY();
@@ -610,21 +611,23 @@ public class Main {
 				int cptdown=0;
 				int cptleft=0;
 				int cptright=0;
-				for(int j=0; j<7; j++) {
-
-					// au dessus du joueur
+				for(int j=1; j<7; j++) {
+					
+					
 					//!caseLibre car la fonction renvoie false si la case est libre
-					if(!caseLibre(xPlayer,yPlayer+j)) {
-						if(xPlayer == x || yPlayer+j == y) {
+					
+					// au dessus du joueur
+					if(caseLibre(xPlayer,yPlayer-j)==false) {
+						if(xPlayer == x && yPlayer-j == y) {//on compte pas l'endroit où on a appuyé comme ça on sait si ça bloque ou non
 							
 						}
-						else {
+						else{
 							cptup++;
 						}
 					}
 					// sous le joueur
-					if(!caseLibre(xPlayer,yPlayer-j)){
-						if(xPlayer == x || yPlayer-j == y) {
+					if(caseLibre(xPlayer,yPlayer+j)==false){
+						if(xPlayer == x && yPlayer+j == y) {
 							
 						}
 						else {
@@ -633,8 +636,8 @@ public class Main {
 						
 					}
 					// à gauche du joueur
-					if(!caseLibre(xPlayer-j,yPlayer)) {
-						if(xPlayer-j == x || yPlayer == y) {
+					if(caseLibre(xPlayer-j,yPlayer)==false) {
+						if(xPlayer-j == x && yPlayer == y) {
 							
 						}
 						else {
@@ -642,8 +645,8 @@ public class Main {
 						}
 					}
 					// à droite du joueur
-					if(!caseLibre(xPlayer+j,yPlayer)){
-						if(xPlayer+j == x || yPlayer == y) {
+					if(caseLibre(xPlayer+j,yPlayer)==false){
+						if(xPlayer+j == x && yPlayer == y) {
 							
 						}
 						else {
@@ -653,18 +656,25 @@ public class Main {
 					
 				}
 				
-				if(cptup==0+yPlayer || cptdown==7-yPlayer || cptleft==0+xPlayer || cptright==7-xPlayer){
-					System.out.println("je suis là wesh");
+				if(cptup==(0+yPlayer) || cptdown==(7-yPlayer) || cptleft==(0+xPlayer) || cptright==(7-xPlayer)){
+					System.out.println(joueurs.get(i).getName());
+					System.out.println("je suis là");
 					System.out.println(cptup);
 					System.out.println(cptdown);
 					System.out.println(cptleft);
 					System.out.println(cptright);
 					
-					return false;
+					cpt_bloque=0;
 				}
 				else {
-					return true;
+					System.out.println("WOWOW");
+					cpt_bloque++;
+					//return true;
 				}
+			}
+			
+			if(cpt_bloque>=1) {
+				return true;
 			}
 			return false;
 		}
