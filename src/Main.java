@@ -6,7 +6,6 @@ import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
 //TODO : Vérfier l'erreur est bien causée par le bail en commentaire (pioche et shuffle pioche)
-//TODO il y a un bug sur les parties avec plus de 2 joueurs, quand un joueur finis, il ya une sorte de décalage
 public class Main {
 	public static String plateau[][] = new String[8][8];
 	public static int nbJoueurs;
@@ -116,15 +115,15 @@ public class Main {
 			}
 			break;
 		case 4:
-			joueurs.get(0).setPosition(6,1);
+			joueurs.get(0).setPosition(0,0);
 			joueurs.get(1).setPosition(0,2);
 			joueurs.get(2).setPosition(0,5);
-			joueurs.get(3).setPosition(6,6);//07
+			joueurs.get(3).setPosition(0,7);//07
 			
-			joueurs.get(0).setPositionDepart(6,1);//00
+			joueurs.get(0).setPositionDepart(0,0);//00
 			joueurs.get(1).setPositionDepart(0,2);
 			joueurs.get(2).setPositionDepart(0,5);
-			joueurs.get(3).setPositionDepart(6,6);
+			joueurs.get(3).setPositionDepart(0,7);
 			
 			joyaux.add(new Joyau("Violet", 7, 1));
 			joyaux.add(new Joyau("Bleu", 7, 6));
@@ -170,7 +169,7 @@ public class Main {
 		}
 		else {		
 			
-			if(tourJoueur>=(nbJoueurs-1)) {
+			if(tourJoueur==(nbJoueurs-1)) {
 				tourJoueur=0;
 			}
 			else tourJoueur++;}
@@ -349,6 +348,7 @@ public class Main {
 						joueursClassementFinal.add(joueurs.get(tourJoueur));
 						joueurs.remove(tourJoueur); //on retire le joueur de la liste
 						nbJoueurs--;
+						tourJoueur--;
 						gagnant=true;
 						file_locale.clear();//on vide sa file d'instruction
 						
@@ -360,6 +360,7 @@ public class Main {
 						joueursClassementFinal.add(joueurs.get(tourJoueur));
 						joueurs.remove(tourJoueur); //on retire le joueur de la liste
 						nbJoueurs--;
+						tourJoueur--;
 						gagnant=true;
 						file_locale.clear();
 						break;
@@ -369,6 +370,7 @@ public class Main {
 						joueursClassementFinal.add(joueurs.get(tourJoueur));
 						joueurs.remove(tourJoueur); //on retire le joueur de la liste
 						nbJoueurs--;
+						tourJoueur--;
 						gagnant=true;
 						file_locale.clear();
 						break;
