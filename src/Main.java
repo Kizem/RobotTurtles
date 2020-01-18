@@ -446,8 +446,9 @@ public class Main {
 					case "JoyauViolet":
 						if(joueurs.size()>2) {
 							//on recupere la position de depart de la tortue
-							positionDepart=joueurs.get(tourJoueur).getPositionDepart();
-							joueurs.get(tourJoueur).setPosition(positionDepart[0], positionDepart[1]);
+							//positionDepart=joueurs.get(tourJoueur).getPositionDepart();
+							go_depart_tortue(joueurs.get(tourJoueur).getName());
+							//joueurs.get(tourJoueur).setPosition(positionDepart[0], positionDepart[1]);
 						}
 						else {
 							//demi tour de la tortue
@@ -458,8 +459,7 @@ public class Main {
 					case "JoyauBleu":
 						if(joueurs.size()>2) {
 							//on recupere la position de depart de la tortue
-							positionDepart=joueurs.get(tourJoueur).getPositionDepart();
-							joueurs.get(tourJoueur).setPosition(positionDepart[0], positionDepart[1]);
+							go_depart_tortue(joueurs.get(tourJoueur).getName());
 						}
 						else {
 							//demi tour de la tortue
@@ -470,8 +470,7 @@ public class Main {
 					case "JoyauVert":
 						if(joueurs.size()>2) {
 							//on recupere la position de depart de la tortue
-							positionDepart=joueurs.get(tourJoueur).getPositionDepart();
-							joueurs.get(tourJoueur).setPosition(positionDepart[0], positionDepart[1]);
+							go_depart_tortue(joueurs.get(tourJoueur).getName());
 							
 						}
 						else {
