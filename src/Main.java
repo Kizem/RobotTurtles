@@ -612,7 +612,11 @@ public class Main {
 	static boolean bloqueJoueur(int x, int y, boolean destructible) {
 		int xPlayer;
 		int yPlayer;
-		
+		//TODO
+		/*ce qu'il faut faire, c'est plutotverifier si les x et y recu en parametre sont les coordonnées 
+		 * d'une case a +1 au sud ou au nord ou a lest ou a louest d'un joueur
+		 * et si c'est le cas alors il faut vérifier si la tortue ne possede pas déja 3mur destructible autour d'elle
+		 */
 		if(!destructible) {
 			int cpt_bloque=0;
 			for(int i=0; i<nbJoueurs;i++) {
