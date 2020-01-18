@@ -19,6 +19,7 @@ public class Main {
 	public static TreeMap<String, String> directionJoueur = new TreeMap<>();
 	static List<Joyau> joyaux = new ArrayList<>();
 	public static InterfaceGraphique gui;
+	public static boolean gagnant=false;
 	public static Scanner scanner = new Scanner(System.in);	
 	
 	public static void main(String[] args) {
@@ -115,15 +116,15 @@ public class Main {
 			}
 			break;
 		case 4:
-			joueurs.get(0).setPosition(0,0);
+			joueurs.get(0).setPosition(6,1);
 			joueurs.get(1).setPosition(0,2);
 			joueurs.get(2).setPosition(0,5);
-			joueurs.get(3).setPosition(0,7);
+			joueurs.get(3).setPosition(6,6);//07
 			
-			joueurs.get(0).setPositionDepart(0,0);
+			joueurs.get(0).setPositionDepart(6,1);//00
 			joueurs.get(1).setPositionDepart(0,2);
 			joueurs.get(2).setPositionDepart(0,5);
-			joueurs.get(3).setPositionDepart(0,7);
+			joueurs.get(3).setPositionDepart(6,6);
 			
 			joyaux.add(new Joyau("Violet", 7, 1));
 			joyaux.add(new Joyau("Bleu", 7, 6));
@@ -138,7 +139,7 @@ public class Main {
 	
 	
 	public static void updatePlateau() {
-		
+		System.out.println(tourJoueur);
 		joueurs.get(tourJoueur).piocherCarte(); // le joueur pioche des carte jusqua en avoir 5
 		for(int i=0; i < joueurs.size();i++) {
 			plateau[joueurs.get(i).getPositionY()][joueurs.get(i).getPositionX()]=joueurs.get(i).getName()/*+joueurs.get(i).getDirection()*/;//on prend la directionaussi
@@ -169,7 +170,7 @@ public class Main {
 		}
 		else {		
 			
-			if(tourJoueur==(nbJoueurs-1)) {
+			if(tourJoueur>=(nbJoueurs-1)) {
 				tourJoueur=0;
 			}
 			else tourJoueur++;}
@@ -198,7 +199,10 @@ public class Main {
 			break;
 		case 2:
 			executerProgramme();
-			defausserMain();
+			if(!gagnant) {
+				defausserMain();
+			}
+			
 			break;
 		}
 	    
@@ -224,7 +228,7 @@ public class Main {
 				if(continuer) {
 					indexCarte=gui.getCarteSelectionne();//on recupere l'index de la carte choisi par lutilisateur
 					joueurs.get(tourJoueur).ajouterInstruction( joueurs.get(tourJoueur).getMain().get(indexCarte) ); //on ajoute la carte dans la file dinstruction
-					joueurs.get(tourJoueur).retirerCarte( joueurs.get(tourJoueur).getMain().get(indexCarte)); //on retire la carte de la main du joueur
+					joueurs.get(tourJoueur).retirerCarte( joueurs.get(tourJoueur).getMain().get(indexCarte)); //on retire la carte de la main du joueur en meme temps on la rajoute dans la defausse mohammad 18/01
 					gui.setMain(joueurs.get(tourJoueur).getMain());//actualisation de la main sur la gui
 				}
 				else {
@@ -286,6 +290,7 @@ public class Main {
 	
 	static void executerProgramme() {
 		String direction;
+		gagnant=false;
 		int[] coordonneeSuivante= new int[2];
 		int[] coordonneeTortue= new int[2];
 		int[] positionDepart= new int[2];
@@ -344,6 +349,7 @@ public class Main {
 						joueursClassementFinal.add(joueurs.get(tourJoueur));
 						joueurs.remove(tourJoueur); //on retire le joueur de la liste
 						nbJoueurs--;
+						gagnant=true;
 						file_locale.clear();//on vide sa file d'instruction
 						
 						break;
@@ -354,6 +360,7 @@ public class Main {
 						joueursClassementFinal.add(joueurs.get(tourJoueur));
 						joueurs.remove(tourJoueur); //on retire le joueur de la liste
 						nbJoueurs--;
+						gagnant=true;
 						file_locale.clear();
 						break;
 					case "JoyauVert":
@@ -362,6 +369,7 @@ public class Main {
 						joueursClassementFinal.add(joueurs.get(tourJoueur));
 						joueurs.remove(tourJoueur); //on retire le joueur de la liste
 						nbJoueurs--;
+						gagnant=true;
 						file_locale.clear();
 						break;
 						
@@ -502,22 +510,28 @@ public class Main {
 			//joueurs.get(tourJoueur).piocheDefausse.add(instruction);
 			
 			//ici on fait une petite tempo pour voir la tortue bouger
-			updatePlateau();
-			try {
-			    Thread.sleep(500);
-			} catch (InterruptedException e) {
+			if(!gagnant) {
+				updatePlateau();
+				try {
+				    Thread.sleep(500);
+				} catch (InterruptedException e) {
 
-			    e.printStackTrace();
+				    e.printStackTrace();
+				}
 			}
+			
 		}
 		
 		// maintenant que la file a été lue, on la vide
 		//Ici, à la fois on vide la liste et on met les cartes dans la pioche de défausse vu que c'est fait dans la fonction 
 		//retirerCarte() --> cf classe joueur
-		while(!joueurs.get(tourJoueur).getInstructions().isEmpty()) {	
-			Carte carte_Ajeter = joueurs.get(tourJoueur).getInstructions().poll();
-			joueurs.get(tourJoueur).retirerCarte(carte_Ajeter);
+		if(!gagnant) {//seulement si le joueur n'a pas gagné
+			while(!joueurs.get(tourJoueur).getInstructions().isEmpty()) {	
+				Carte carte_Ajeter = joueurs.get(tourJoueur).getInstructions().poll();
+				// mohammad 18/01 ca sert a rien cajoueurs.get(tourJoueur).retirerCarte(carte_Ajeter);//ici on retire la carte de la main et on la met tout de suite dans la defausse
+			}
 		}
+		
 		
 	}
 	

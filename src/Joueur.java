@@ -52,10 +52,6 @@ public class Joueur {
 		this.piocheDefausse.add(carte);
 		this.main.remove(carte);
 		//TODO : cette ligne n'est-elle pas inutile si l'on met la carte dans la pile de défausse à l'éxécution du programme ? 
-		//Non, le constructeur est effectué qu'une seule fois
-		//Samy 16/12 : Mais la fonction retirerCarte c'est pas le constructeur, donc ça sera effectué à chaque fois qu'on retire une carte
-		//this.piocheDefausse.add(carte);
-		// Moha 17/12 kesturaconte
 	}
 	//on vide toutes les cartes de la main dans la liste de defausse
 	
@@ -86,6 +82,12 @@ public class Joueur {
 		}
 		*/
 		while(this.main.size()<5) {
+			if(this.pioche.isEmpty()) {
+				//au cas ou la pioche est vide
+				this.pioche.addAll(this.piocheDefausse);
+				this.piocheDefausse.clear();
+				Collections.shuffle(this.pioche);
+			}
 			this.main.add(this.pioche.get(0));
 			this.piocheDefausse.add(this.pioche.get(0));
 			this.pioche.remove(0);
