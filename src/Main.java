@@ -60,14 +60,19 @@ public class Main {
 		}
 		//fin d'initialisation de la pioche
 		Integer[] nombre = {2, 3, 4};
-	  
-	    nbJoueurs = (int)JOptionPane.showInputDialog(null, 
-	      "Veuillez indiquer le nombre de joueur",
-	      "Nombre de joueurs",
-	      JOptionPane.QUESTION_MESSAGE,
-	      null,
-	      nombre,
-	      nombre[0]);
+		try {
+			nbJoueurs = (int)JOptionPane.showInputDialog(null, 
+				      "Veuillez indiquer le nombre de joueur",
+				      "Nombre de joueurs",
+				      JOptionPane.QUESTION_MESSAGE,
+				      null,
+				      nombre,
+				      nombre[0]);
+		}catch (Exception e) {
+			//nbJoueurs=2;
+			System.exit(0);
+		}
+	    
 	    
 		//on cree le nombre de joueurs avec une couleur et un nom
 		for(int i = 0; i<nbJoueurs; i++) {

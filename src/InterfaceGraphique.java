@@ -163,22 +163,25 @@ public class InterfaceGraphique extends JFrame{
 		
 		//bouton jai fini qui sera utilisé par exemple losque l'utilisateur aura fini de defausser sa main
 		JButton boutonValiderCarte = new JButton("J'ai fini");
+		boutonValiderCarte.setBackground(new Color(60, 179, 113));
+		boutonValiderCarte.setForeground(new Color(0, 0, 0));
 		boutonValiderCarte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				evenementBoutonFini=true;
 			}
 		});
-		boutonValiderCarte.setBounds(529, 586, 150, 29);
+		boutonValiderCarte.setBounds(771, 554, 156, 56);
 		this.panelPrincipal.add(boutonValiderCarte);
 		
-		JButton boutonFini = new JButton("Annuler");
+		/* pas besoin de ce bouton
+		 * JButton boutonFini = new JButton("Annuler");
 		boutonFini.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 		boutonFini.setBounds(826, 587, 115, 29);
 		this.panelPrincipal.add(boutonFini);
-		boutonFini.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		boutonFini.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));*/
 		textPane.setBackground(Color.LIGHT_GRAY);
 		textPane.setForeground(new Color(0, 128, 128));
 		textPane.setFont(new Font("Tahoma", Font.PLAIN, 26));
