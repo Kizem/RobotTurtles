@@ -138,6 +138,8 @@ public class Main {
 	
 	
 	public static void updatePlateau() {
+		//Fonction de mise à jour du plateau qui est appellee a chaque debut de tour
+		
 		System.out.println(tourJoueur);
 		joueurs.get(tourJoueur).piocherCarte(); // le joueur pioche des carte jusqua en avoir 5
 		for(int i=0; i < joueurs.size();i++) {
@@ -145,7 +147,7 @@ public class Main {
 			directionJoueur.replace(joueurs.get(i).getName(), joueurs.get(i).getDirection());
 			
 		}
-		gui.setDirectionJoueurs(directionJoueur);//on envoie a linterface la direction des joueurs
+		gui.setDirectionJoueurs(directionJoueur);//on envoie a l'interface la direction des joueurs
 		gui.setNombreMur(joueurs.get(tourJoueur).getNombreMur());
 		gui.setMain(joueurs.get(tourJoueur).main);
 		gui.updateTableau(plateau);
@@ -156,7 +158,8 @@ public class Main {
 	
 	public static boolean finDuJeu() {
 		boolean test=false;
-		if(joueurs.size()==1) { //sil reste un seul joueur, le jeu est fini
+		
+		if(joueurs.size()==1) { //s'il reste un seul joueur, le jeu est fini
 			test=true;
 			}
 		return test;
@@ -177,6 +180,7 @@ public class Main {
 	}
 	
 	public static void choixJoueur() {
+		//Cette fonction nous permet de récupérer le choix de jeu du joueur
 		String message = (joueurs.get(tourJoueur).getName()+" que souhaitez-vous faire ?");
 		String[] choixProg = {"Compléter le programme", "Construire un mur", "Exécuter le programme"};
 	    int rang = JOptionPane.showOptionDialog(null, 
@@ -274,6 +278,9 @@ public class Main {
 			coordonneeEntree=gui.getCoordonnee();
 			y=coordonneeEntree[0];
 			x=coordonneeEntree[1];
+			
+			//Ici, on vient effectuer une serie de verfications afin de s'assurer que le mur peut etre place
+			
 			if(caseLibre(x,y)) {
 				gui.message("Vous ne pouvez pas placer un mur sur une case occupée");
 			}
@@ -330,7 +337,7 @@ public class Main {
 				 * 
 				 * aussi bah si la tortue rencontre un joyau, elle gagne directement et du coup faire un break
 				 */
-				//Si la case suivante est en dehorss du plateau la tortue reviens a la positionde depart
+				//Si la case suivante est en dehors du plateau la tortue reviens a la position de depart
 				if(depassementPlateau(coordonneeSuivante[1],coordonneeSuivante[0])) {
 					go_depart_tortue(joueurs.get(tourJoueur).getName());
 				}
