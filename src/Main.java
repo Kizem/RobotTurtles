@@ -240,13 +240,13 @@ public class Main {
 	
 	
 	static void construireMur() {
-		//TODO , il est aussi interdit d’encercler un autre joueur. difficile ca
+
 		String mur;
 		int x;
 		int y;
 		boolean destructible;
-		gui.message("Selectionnez le mur à placer");
-		//recuperation de la carte choisi par le joueur
+		gui.message("Sélectionnez le mur à placer");
+		//recuperation de la carte choisie par le joueur
 		while(!(gui.getEvenementMur() )) {// tant quil ny a pas devenement// 
 			try {
 			    Thread.sleep(200);
@@ -260,7 +260,7 @@ public class Main {
 			destructible=true;
 		}
 		else destructible=false;
-		gui.message("Cliquer sur un endroit ou placer le mur");
+		gui.message("Cliquer sur un endroit où placer le mur");
 		do {
 			while(!(gui.getEvenementPlateau())) {//on attend un evenement de l'utilisateur
 				//permet de ne pas bloquer linterface graphique
@@ -611,13 +611,21 @@ public class Main {
 	static boolean bloqueJoueur(int x, int y, boolean destructible) {
 		int xPlayer;
 		int yPlayer;
-		//TODO
+		
 		/*ce qu'il faut faire, c'est plutotverifier si les x et y recu en parametre sont les coordonnées 
 		 * d'une case a +1 au sud ou au nord ou a lest ou a louest d'un joueur
 		 * et si c'est le cas alors il faut vérifier si la tortue ne possede pas déja 3mur destructible autour d'elle
 		 */
+		
+		//TODO : Samy 19/01 : Oui je suis d'accord mais le soucis c'est que tu prends pas en compte le cas où la tortue est collée à un rebord
+		// du plateau, pcq en vrai tu peux bloquer un joueur avec 2 murs si il est dans le coin par exemple
+		// Mais ça tqt je l'ai géré, j'ai pris en compte les mur de bois et les rebords de plateau (tu peux tester).
+		// Après le soucis qu'il reste c'est que genre vu qu'on vient vérifier à proximité des tortues, bah il est toujours possible d'encercler un joueur
+		// avec des murs de loin genre... Mais en soit ça a très peu de chance d'arriver, donc je pense qu'on peut laisser la fonction telle qu'elle
+		
 		if(!destructible) {
-			int cpt_bloque=0;
+			//int cpt_bloque=0;
+			
 			for(int i=0; i<nbJoueurs;i++) {
 				xPlayer=joueurs.get(i).getPositionX();
 				yPlayer=joueurs.get(i).getPositionY();
@@ -626,11 +634,61 @@ public class Main {
 				// le but étant d'avoir au moins un axe de sortie. Donc on met en place un compteur
 				// qui vient compter le nombre de cases vides, nous permettant de savoir (si on en a le bon nombre)
 				// s'il est toujours possible de sortir de là 
+				
 				int cptup=0;
 				int cptdown=0;
 				int cptleft=0;
 				int cptright=0;
+				int cpt_mur=0;
+				
+				if((x==xPlayer+1 && y==yPlayer) || (x==xPlayer-1 && y==yPlayer) || (x==xPlayer && y==yPlayer+1) || (x==xPlayer && y==yPlayer-1)) {
+					
+					// on considère qu'une case hors plateau est équivalente à un mur dans la mesure où elle bloque le joueur
+					
+					if(depassementPlateau(yPlayer, xPlayer+1)==true) {
+						cpt_mur++;
+					}
+					else if(plateau[yPlayer][xPlayer+1]=="Pierre" || plateau[yPlayer][xPlayer+1]=="murDeBois") {
+						cpt_mur++;
+					}
+
+					if(depassementPlateau(yPlayer, xPlayer-1)==true) {
+						cpt_mur++;
+					}					
+					else if(plateau[yPlayer][xPlayer-1]=="Pierre" || plateau[yPlayer][xPlayer-1]=="murDeBois") {
+						cpt_mur++;
+					}					
+					
+					if(depassementPlateau(yPlayer+1, xPlayer)==true) {
+						cpt_mur++;
+					}
+					
+					else if(plateau[yPlayer+1][xPlayer]=="Pierre" || plateau[yPlayer+1][xPlayer]=="murDeBois") {
+						cpt_mur++;
+					}
+					
+					if(depassementPlateau(yPlayer-1, xPlayer)==true) {
+						cpt_mur++;
+					}
+					else if(plateau[yPlayer-1][xPlayer]=="Pierre" || plateau[yPlayer-1][xPlayer]=="Pierre") {
+						cpt_mur++;
+					}
+					
+					if(cpt_mur>=3) {
+						return true;
+					}
+					else {return false;}
+					
+				}
+				
+				
+				/*
 				for(int j=1; j<7; j++) {
+					
+					//On vérifie si les coordonnées mises en paramètre ne correspondent pas à une case adjacente à un joueur
+					
+
+					
 					
 					
 					//!caseLibre car la fonction renvoie false si la case est libre
@@ -683,21 +741,25 @@ public class Main {
 					System.out.println(cptleft);
 					System.out.println(cptright);
 					
-					cpt_bloque=0;
+					//cpt_bloque=0;
 				}
 				else {
 					System.out.println("WOWOW");
-					cpt_bloque++;
-					//return true;
+					//cpt_bloque++;
+					return true;
 				}
+				*/
 			}
-			
+			/*
 			if(cpt_bloque>=1) {
 				return true;
 			}
+			*/
 			return false;
+			
 		}
 		else return false;
+		
 		
 	}
 	
@@ -771,7 +833,7 @@ public class Main {
 	
 	
 	
-	//fonction qui renvoie loppose de la direction recu
+	//fonction qui renvoie loppose de la direction recue
 	static String demiTour(String direction) {
 		switch(direction) {
 		case "s":
