@@ -568,8 +568,9 @@ public class Main {
 			}
 		}
 	}
-	//fonction qui vérifie si la case du plateau possede rien
+	//fonction qui vérifie si la case du plateau est vide, soit contient l'element "rien"
 	static boolean caseLibre(int x, int y) {
+		//automatiquement si la case saisie est hors plateau, on considère qu'elle n'est pas vide
 		if(x<0|| x>7|| y<0|| y>7) {
 			return true;
 		}
@@ -594,7 +595,9 @@ public class Main {
 	static boolean bloquePasJoyau(int x, int y, boolean destructible) {
 		int xJoyau;
 		int yJoyau;
+		//Si le mur choisi est destructible, nul besoin d'effectuer la vérification car il pourra toujours être détruit par un laser
 		if(!destructible) {
+			//on vient parcourir tous les joyaux pour etre sur que l'endroit où l'on veut placer notre mur ne bloquera pas un des joyaux
 			for(int i=0; i<joyaux.size();i++) {
 				xJoyau=joyaux.get(i).getX();
 				yJoyau=joyaux.get(i).getY();
@@ -629,7 +632,10 @@ public class Main {
 		// Mais ça tqt je l'ai géré, j'ai pris en compte les mur de bois et les rebords de plateau (tu peux tester).
 		// Après le soucis qu'il reste c'est que genre vu qu'on vient vérifier à proximité des tortues, bah il est toujours possible d'encercler un joueur
 		// avec des murs de loin genre... Mais en soit ça a très peu de chance d'arriver, donc je pense qu'on peut laisser la fonction telle qu'elle
-		// T'en penses quoi ? Pcq en soit là ça marche
+		// T'en penses quoi ? Pcq en soit là ça marche très bien
+		
+		//Si le mur choisi est destructible, nul besoin d'effectuer la vérification
+
 		
 		if(!destructible) {
 			//int cpt_bloque=0;
