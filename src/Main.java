@@ -70,7 +70,7 @@ public class Main {
 				      nombre[0]);
 		}catch (Exception e) {
 			//nbJoueurs=2;
-			System.exit(0);
+			System.exit(0);//Si le joueur fais la croix , on quitte le programme
 		}
 	    
 	    
@@ -145,7 +145,7 @@ public class Main {
 	public static void updatePlateau() {
 		//Fonction de mise à jour du plateau qui est appellee a chaque debut de tour
 		
-		System.out.println(tourJoueur);
+		
 		joueurs.get(tourJoueur).piocherCarte(); // le joueur pioche des carte jusqua en avoir 5
 		for(int i=0; i < joueurs.size();i++) {
 			plateau[joueurs.get(i).getPositionY()][joueurs.get(i).getPositionX()]=joueurs.get(i).getName()/*+joueurs.get(i).getDirection()*/;//on prend la directionaussi
