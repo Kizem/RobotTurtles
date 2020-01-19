@@ -622,6 +622,7 @@ public class Main {
 		// Mais ça tqt je l'ai géré, j'ai pris en compte les mur de bois et les rebords de plateau (tu peux tester).
 		// Après le soucis qu'il reste c'est que genre vu qu'on vient vérifier à proximité des tortues, bah il est toujours possible d'encercler un joueur
 		// avec des murs de loin genre... Mais en soit ça a très peu de chance d'arriver, donc je pense qu'on peut laisser la fonction telle qu'elle
+		// T'en penses quoi ? Pcq en soit là ça marche
 		
 		if(!destructible) {
 			//int cpt_bloque=0;
@@ -634,20 +635,32 @@ public class Main {
 				// le but étant d'avoir au moins un axe de sortie. Donc on met en place un compteur
 				// qui vient compter le nombre de cases vides, nous permettant de savoir (si on en a le bon nombre)
 				// s'il est toujours possible de sortir de là 
-				
+				/*
 				int cptup=0;
 				int cptdown=0;
 				int cptleft=0;
 				int cptright=0;
+				*/
+				//Compteur de mur/obstacles indestrucibles autour d'un joueur
 				int cpt_mur=0;
 				
+				//On vérifie si les coordonnées mises en paramètre ne correspondent pas à une case adjacente à un joueur
+				//En effet, s'il s'agit d'une case qui n'est pas collée au joueur, il n'est pas nécessaire d'effectuer la vérification
+				
 				if((x==xPlayer+1 && y==yPlayer) || (x==xPlayer-1 && y==yPlayer) || (x==xPlayer && y==yPlayer+1) || (x==xPlayer && y==yPlayer-1)) {
+					
+					//Ici avec cet enchainement de if's, nous allons venir verifier chaque cellule adjacente au joueur (Nord, Sud, Est, Ouest)
+					//dans le but de verifier le contenu de ces cases. Si l'on y trouve un mur indestructible (Pierre ou mur de bois), alors 
+					//on vient incrémenter notre compteur
 					
 					// on considère qu'une case hors plateau est équivalente à un mur dans la mesure où elle bloque le joueur
 					
 					if(depassementPlateau(yPlayer, xPlayer+1)==true) {
 						cpt_mur++;
 					}
+					
+					//S'il ne s'agit pas d'une case hors plateau, on vient vérifier que la case contient bien un obstacle indestructible
+					
 					else if(plateau[yPlayer][xPlayer+1]=="Pierre" || plateau[yPlayer][xPlayer+1]=="murDeBois") {
 						cpt_mur++;
 					}
@@ -674,8 +687,12 @@ public class Main {
 						cpt_mur++;
 					}
 					
+					//On vient ici verifier le contenu de notre variable cpt_mur qui nous donne le nombre d'obstacles indestructibles situes autour
+					//du joueur concerne. Si on compte 3 murs, alors on indique au joueur qui souhaite poser le mur qu'il lui est interdit d'encercler
+					//un autre joueur
+					
 					if(cpt_mur>=3) {
-						return true;
+						return true; //En effet, notre fonction renvoie true si le joueur risque d'etre encercle.
 					}
 					else {return false;}
 					
@@ -685,7 +702,6 @@ public class Main {
 				/*
 				for(int j=1; j<7; j++) {
 					
-					//On vérifie si les coordonnées mises en paramètre ne correspondent pas à une case adjacente à un joueur
 					
 
 					
