@@ -246,10 +246,15 @@ public class Main {
 	
 	static void completerProgramme() {
 		boolean continuer = true;
-		int indexCarte; // c'est lindex de la carte dans la liste de la main
+		int indexCarte; // c'est l'index de la carte dans la liste de la main
+			//On vient remplir la fenêtre de message placée dans l'interface graphique
 			gui.message("Selectionnez une carte pour completer votre programme");
+			
+			//Tant le joueur n'a pas appuyé sur le bouton fini et que sa main n'est pas vide
+			
 			while(!gui.getEvenementBoutonFini() && !joueurs.get(tourJoueur).getMain().isEmpty()) {
-				while(!(gui.getEvenementMain() )) {// on attend que lutilisateur clique sur une carte
+				while(!(gui.getEvenementMain() )) {// on attend que l'utilisateur clique sur une carte
+					// Il faut instaurer un temps d'attente entre deux requêtes destinées à l'interface graphique
 					try {
 					    Thread.sleep(200);
 					} catch (InterruptedException e) {
@@ -264,7 +269,7 @@ public class Main {
 				if(continuer) {
 					indexCarte=gui.getCarteSelectionne();//on recupere l'index de la carte choisi par lutilisateur
 					joueurs.get(tourJoueur).ajouterInstruction( joueurs.get(tourJoueur).getMain().get(indexCarte) ); //on ajoute la carte dans la file dinstruction
-					joueurs.get(tourJoueur).retirerCarte( joueurs.get(tourJoueur).getMain().get(indexCarte)); //on retire la carte de la main du joueur en meme temps on la rajoute dans la defausse mohammad 18/01
+					joueurs.get(tourJoueur).retirerCarte( joueurs.get(tourJoueur).getMain().get(indexCarte)); //on retire la carte de la main du joueur en meme temps on la rajoute dans la defausse
 					gui.setMain(joueurs.get(tourJoueur).getMain());//actualisation de la main sur la gui
 				}
 				else {
@@ -273,7 +278,7 @@ public class Main {
 				
 				
 			}
-				}
+	}
 	
 	
 	static void construireMur() {
@@ -284,7 +289,9 @@ public class Main {
 		boolean destructible;
 		gui.message("Sélectionnez le mur à placer");
 		//recuperation de la carte choisie par le joueur
-		while(!(gui.getEvenementMur() )) {// tant quil ny a pas devenement// 
+		
+		//While de temporisation qui attend qu'un évènement se réalise
+		while(!(gui.getEvenementMur() )) {// tant quil n'y a pas devenement// 
 			try {
 			    Thread.sleep(200);
 			} catch (InterruptedException e) {
@@ -292,15 +299,20 @@ public class Main {
 			    e.printStackTrace();
 			}
 		}
+		//On récupère le type de mur sur lequel a cliqué l'utilisateur
 		mur=gui.getMurSelectionne();
+		
+		//On modifie la variable destructible en fonction du type de mur
+		
 		if(mur=="Glace") {
 			destructible=true;
 		}
 		else destructible=false;
-		gui.message("Cliquer sur un endroit où placer le mur");
+		
+		gui.message("Cliquez sur un endroit où placer le mur");
+		
 		do {
 			while(!(gui.getEvenementPlateau())) {//on attend un evenement de l'utilisateur
-				//permet de ne pas bloquer linterface graphique
 				try {
 				    Thread.sleep(200);
 				} catch (InterruptedException e) {
@@ -308,11 +320,14 @@ public class Main {
 				    e.printStackTrace();
 				}
 			}
+			
+			//On récupère les coordonnées de la case sur laquelle le joueur a cliqué
+			
 			coordonneeEntree=gui.getCoordonnee();
 			y=coordonneeEntree[0];
 			x=coordonneeEntree[1];
 			
-			//Ici, on vient effectuer une serie de verfications afin de s'assurer que le mur peut etre place
+			//Ici, on vient effectuer une serie de vérifications afin de s'assurer que le mur peut être placé
 			
 			if(caseLibre(x,y)) {
 				gui.message("Vous ne pouvez pas placer un mur sur une case occupée");
@@ -323,7 +338,10 @@ public class Main {
 			if(bloqueJoueur(x,y,destructible)) {
 				gui.message("Vous ne pouvez pas enfermer un joueur");
 			}
-		}while((caseLibre(x,y)) || bloquePasJoyau(x,y, destructible) || bloqueJoueur(x,y,destructible));
+		}while((caseLibre(x,y)) || bloquePasJoyau(x,y, destructible) || bloqueJoueur(x,y,destructible)); // condition du do while
+			//permet de redemander une position de case tant que celle-ci ne satisfait pas de conditions
+		//On vient placer le nom du mur sélectionné à la case correspondante dans notre tableau plateau
+		//On retire également le mur de la liste de murs du joueurs
 		plateau[y][x]=joueurs.get(tourJoueur).retirerMur(mur).getNom();
 		}
 	
@@ -332,16 +350,16 @@ public class Main {
 		gagnant=false;
 		int[] coordonneeSuivante= new int[2];
 		int[] coordonneeTortue= new int[2];
-		int[] positionDepart= new int[2];
+		
 		ArrayDeque<Carte> file_locale = new ArrayDeque<>();
 		file_locale = joueurs.get(tourJoueur).getInstructions();
 		
 		/*
-		 * il faut créer une file d'instrucion locale
+		 * il faut créer une file d'instruction locale
 		 * il faut ensuite l'initiliser avec la file du joueur
 		 * une fois que la file du joueur est lu, il faut vider la file du joueur
-		 * il n'y a pas besoin de vider la file dans la pioche de defausse pcq
-		 * lorsquon retire une carte de la main du joueur pour lajouter au programme, on la rajoute aussi dans la pioche de defausse 
+		 * il n'y a pas besoin de vider la file dans la pioche de defausse car
+		 * lorsqu'on retire une carte de la main du joueur pour l'ajouter au programme, on la rajoute aussi dans la pioche de defausse 
 		 * le while suivant se fera avec la file locale
 		 */
 
@@ -353,13 +371,12 @@ public class Main {
 			coordonneeSuivante=coordonneeTortue;
 			//appel de la fonction coordonneeSuivante qui vas renvoyer les coordonnee suivante en fonction de la direction
 			coordonneeSuivante=coordonneeSuivante(coordonneeSuivante[0],coordonneeSuivante[1],direction);
-			//Carte instruction = joueurs.get(tourJoueur).getInstructions().pollFirst();
 			Carte instruction = file_locale.pollFirst();
 
 			
 			switch(instruction.getRole()) {
 			case "Bleue":
-				// cest la partie la plus difficile, il y a beaucoup de regles : pas si difficile en fait :D
+				
 				/*
 				 * — Les cartes bleues font avancer la tortue d’une case ;
 				 * 
@@ -367,21 +384,29 @@ public class Main {
 				 * continue ensuite son exécution.
 				 * — Si une tortue se heurte à une autre tortue, les deux tortues retournent
 				 * à leurs positions de départ, et le programme continue son exécution.
-				 * 
-				 * aussi bah si la tortue rencontre un joyau, elle gagne directement et du coup faire un break
+				 * - Si une tortue rencontre un joyau, elle gagne directement la partie
 				 */
+				
 				//Si la case suivante est en dehors du plateau la tortue reviens a la position de depart
 				if(depassementPlateau(coordonneeSuivante[1],coordonneeSuivante[0])) {
 					go_depart_tortue(joueurs.get(tourJoueur).getName());
 				}
 				
-				//si ya rien alors on peut bouger la tortue
+				//Si la prochaine case est vide, donc contient l'élément "rien", alors elle peut s'y déplacer
 				else if(!caseLibre(coordonneeSuivante[1],coordonneeSuivante[0])){
 					plateau[coordonneeTortue[0]][coordonneeTortue[1]]="rien";
 					joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
 				}
 				else {
+					//Nous sommes dans le cas où la prochaine case n'est pas vide
+
+					//En fonction de la détermination de la case suivante, on prévoit le contenu de celle-ci et on effectue une certaine action
+					
 					switch(plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]) {
+					
+					//Pour les case Joyaux, on vide la case où était la tortue, on l'ajoute à la liste du classement, et on le retire de la liste de joueurs
+					//On met aussi à jours nos variables de tours telles que nbJoueurs et tourJoueur, et on passe le booléen gagnant à true
+					
 					case "JoyauViolet":
 						plateau[coordonneeTortue[0]][coordonneeTortue[1]]="rien";
 						joueurs.get(tourJoueur).setPosition(coordonneeSuivante[0], coordonneeSuivante[1]);
@@ -415,7 +440,7 @@ public class Main {
 						file_locale.clear();
 						break;
 						
-						// si une tortue rencontre une autre tortue, les deux tortues retournent à leurs position de départ
+					// si une tortue rencontre une autre tortue, les deux tortues retournent à leurs position de départ
 						
 					case "Beep":
 						go_depart_tortue(joueurs.get(tourJoueur).getName());
@@ -450,6 +475,8 @@ public class Main {
 					
 				}
 				break;
+			
+			// Jaune et Violette : On vient modifier la variable direction de la tortue associée
 			case "Jaune":
 				joueurs.get(tourJoueur).setDirection(changementDeDirection(-90, direction));
 				break;
@@ -457,69 +484,70 @@ public class Main {
 				joueurs.get(tourJoueur).setDirection(changementDeDirection(90, direction));
 				break;
 			case "Laser":
-				//la carte laser detruit le mur de glace quil y a a la case suivant
-				// s'il n'y a rien a la case suivante on regarde a la case n+1 //moha04/01 cest fait
+				
+				//la carte laser detruit le mur de glace quil y a a la case suivante
+				// s'il n'y a rien a la case suivante on regarde a la case n+1 
+				
+				
+				//while : tant qu'on ne depasse pas le plateau ou que la case suivante est vide
+				//on passe a la coordonnée suivante
 				while((coordonneeSuivante[1]<0|| coordonneeSuivante[1]>7|| coordonneeSuivante[0]<0|| coordonneeSuivante[0]>7)  ||  (plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]=="rien")) {
-					//tant qu'on ne depasse pas le plateau ou que la case suivante est vide
-					//on passe a la coordonnée suivante
+					
 					coordonneeSuivante=coordonneeSuivante(coordonneeSuivante[0],coordonneeSuivante[1],direction);
 				}
-				//on verifie dabord quon depasse pas le plateau
+				//on verifie dabord que l'on ne depasse pas le plateau
 				if(coordonneeSuivante[1]<0|| coordonneeSuivante[1]>7|| coordonneeSuivante[0]<0|| coordonneeSuivante[0]>7) {
 					
 				}
 				else {
+					
+					//En fonction du contenu de la case aux coordonnées suivantes, on vient effectuer une action
+					
 					switch(plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]) {
 					case "Glace":
+						//si la case suivante est un mur de glace, on le detruit
+						//On vide la case où était le mur de glace
 						plateau[coordonneeSuivante[0]][coordonneeSuivante[1]]="rien";
 						gui.updateTableau(plateau);
-						//si la case suivante est un mur de glace, on le detruit
-						break;
-					case "rien":
 						
 						break;
+					case "rien":
+						//On n'effectue aucune action si la case était vide
+						break;
 					/* si la case suivante est un joyau alors : 
-					 * le laser est réfléchi et se retourne contre la tortue. 
+					 * le laser est réfléchit et se retourne contre la tortue. 
 					 * -Celle-ci fait donc un demi-tour (s’il n’y a que deux joueurs) 
 					 * -retourne à sa position de départ (s’il y a plus de deux joueurs).
 					 */
 					case "JoyauViolet":
 						if(joueurs.size()>2) {
-							//on recupere la position de depart de la tortue
-							//positionDepart=joueurs.get(tourJoueur).getPositionDepart();
+							//on appelle une fonction qui renvoie le joueur à sa position de départ grâce à son nom
 							go_depart_tortue(joueurs.get(tourJoueur).getName());
-							//joueurs.get(tourJoueur).setPosition(positionDepart[0], positionDepart[1]);
 						}
 						else {
 							//demi tour de la tortue
-							//on appelle la fonction demitour
+							//on appelle la fonction demitour et on place le résultat dans la variable direction du joueur concerné
 							joueurs.get(tourJoueur).setDirection(demiTour(joueurs.get(tourJoueur).getDirection()));
 						}
 						break;
 					case "JoyauBleu":
 						if(joueurs.size()>2) {
-							//on recupere la position de depart de la tortue
 							go_depart_tortue(joueurs.get(tourJoueur).getName());
 						}
 						else {
-							//demi tour de la tortue
-							//on appelle la fonction demitour
 							joueurs.get(tourJoueur).setDirection(demiTour(joueurs.get(tourJoueur).getDirection()));
 						}
 						break;
 					case "JoyauVert":
 						if(joueurs.size()>2) {
-							//on recupere la position de depart de la tortue
 							go_depart_tortue(joueurs.get(tourJoueur).getName());
-							
 						}
 						else {
-							//demi tour de la tortue
-							//on appelle la fonction demitour qui prend en parametre une direction et qui renvoie la direction opposé
 							joueurs.get(tourJoueur).setDirection(demiTour(joueurs.get(tourJoueur).getDirection()));
 						}
 						break;
-
+						
+					//Cas où le laser touche un autre joueur 
 					case "Beep":
 
 						// Appel d'une fonction qui, en fonction du nombre de joueurs, va venir modifier les caractéristiques
@@ -546,11 +574,8 @@ public class Main {
 				}	
 			}
 
-			//on vient placer la carte exécuté dans la pioche de défausse
-			// samy: je pense ligne suivante inutile vu qu'on le fait dans la classe joueur
-			//joueurs.get(tourJoueur).piocheDefausse.add(instruction);
 			
-			//ici on fait une petite tempo pour voir la tortue bouger
+			//ici on effectue une petite temporisation pour voir la tortue bouger
 			if(!gagnant) {
 				updatePlateau();
 				try {
@@ -562,22 +587,15 @@ public class Main {
 			}
 			
 		}
-		
-		// maintenant que la file a été lue, on la vide
-		//Ici, à la fois on vide la liste et on met les cartes dans la pioche de défausse vu que c'est fait dans la fonction 
-		//retirerCarte() --> cf classe joueur
-		if(!gagnant) {//seulement si le joueur n'a pas gagné
-			while(!joueurs.get(tourJoueur).getInstructions().isEmpty()) {	
-				Carte carte_Ajeter = joueurs.get(tourJoueur).getInstructions().poll();
-				// mohammad 18/01 ca sert a rien cajoueurs.get(tourJoueur).retirerCarte(carte_Ajeter);//ici on retire la carte de la main et on la met tout de suite dans la defausse
-			}
-		}
-		
+
 		
 	}
 	
 	
 	static void defausserMain() {
+		
+		//En fin de tour, on vient demander au joueur s'il souhaite défausser sa main
+		
 		int option;
 		int indexCarte;
 		option = JOptionPane.showConfirmDialog(null, 
