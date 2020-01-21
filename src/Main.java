@@ -5,8 +5,8 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
-//TODO : Vérfier l'erreur est bien causée par le bail en commentaire (pioche et shuffle pioche)
 public class Main {
+	//Variable plateau va contenir les différents éléments, ou les cases vides
 	public static String plateau[][] = new String[8][8];
 	public static int nbJoueurs;
 	public static int tourJoueur;//variable indiquant à quel joueur est-ce le tour de jouer
@@ -42,6 +42,8 @@ public class Main {
 		
 	}
 	
+	//
+	
 	public static void initialisation()
 	{
 		//initialisation de la pioche de base
@@ -59,6 +61,7 @@ public class Main {
 			pioche.add(new Carte("Laser"));
 		}
 		//fin d'initialisation de la pioche
+		//la variable nombre contient les choix qui seront proposés dans la boîte de dialogue
 		Integer[] nombre = {2, 3, 4};
 		try {
 			nbJoueurs = (int)JOptionPane.showInputDialog(null, 
@@ -69,7 +72,6 @@ public class Main {
 				      nombre,
 				      nombre[0]);
 		}catch (Exception e) {
-			//nbJoueurs=2;
 			System.exit(0);//Si le joueur fais la croix , on quitte le programme
 		}
 	    
@@ -77,25 +79,32 @@ public class Main {
 		//on cree le nombre de joueurs avec une couleur et un nom
 		for(int i = 0; i<nbJoueurs; i++) {
 			
-			//joueurs[i] = new Joueur(couleurs[i], nomsTortue[i], pioche);
 			joueurs.add( new Joueur(couleurs[i], nomsTortue[i], pioche));
+			//dès le début, la tortue regarde vers le bas
+			//la clé de la treemap est représentée par le nom du joueur
 			directionJoueur.put(nomsTortue[i], "s");//initialisation de la treemap Nomjoueur/direction
 		}
 		
-		//placement des joueurs sur le plateau et des joyaux
+		//Remplissage du plateau par des cases rien
+	
 		for(int i=0;i<plateau.length;i++) {
 			for(int j=0;j<plateau[0].length;j++) {
 				plateau[i][j]="rien";
 			}
 		}
+		
+		//En fonction du nombre de joueurs choisis, on vient placer ces derniers dans une certaine configuration
+		
 		switch(nbJoueurs) {
 		case 2:
-			joueurs.get(0).setPosition(0,1);//01
+			joueurs.get(0).setPosition(0,1);
 			joueurs.get(0).setPositionDepart(0,1);
 			joueurs.get(1).setPosition(0,5);
 			joueurs.get(1).setPositionDepart(0,5);
 			joyaux.add(new Joyau("Vert", 7, 3));
 			plateau[7][3]="JoyauVert";
+			
+			//Comme indiqué dans les règles, si il y a moins de 4 joueurs, on retrouve une colonne de caisse en bois sur le côté 
 			for(int i=0; i<8;i++) {
 				plateau[i][7]= (new Mur(true, true,"murDeBois")).getNom();
 			}
@@ -115,6 +124,8 @@ public class Main {
 			plateau[7][3]="JoyauVert";
 			plateau[7][0]="JoyauViolet";
 			plateau[7][6]="JoyauBleu";
+			//Comme indiqué dans les règles, si il y a moins de 4 joueurs, on retrouve une colonne de caisse en bois sur le côté 
+
 			for(int i=0; i<8;i++) {
 				plateau[i][7]=(new Mur(true, true,"murDeBois")).getNom();
 			}
@@ -137,6 +148,7 @@ public class Main {
 			plateau[7][6]="JoyauBleu";
 			break;
 		}	
+		// Pour déterminer quel est le joueur qui va débuter la partie, on fait appelle à une variable aléatoire
 		tourJoueur= (int) (Math.random() * (nbJoueurs-1));
 	}
 	
@@ -144,7 +156,6 @@ public class Main {
 	
 	public static void updatePlateau() {
 		//Fonction de mise à jour du plateau qui est appellee a chaque debut de tour
-		
 		
 		joueurs.get(tourJoueur).piocherCarte(); // le joueur pioche des carte jusqua en avoir 5
 		for(int i=0; i < joueurs.size();i++) {
