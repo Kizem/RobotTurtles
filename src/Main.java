@@ -23,7 +23,10 @@ public class Main {
 	
 	public static void main(String[] args) {
 		initialisation();
+		//On vient créer notre objet interface graphique pour pouvoir interagir avec celle-ci
 		gui = new InterfaceGraphique();
+		
+		//Tant que la variable finDuJeu est à l'état FALSE, alors le jeu continuer de tourner
 		while(!finDuJeu()) {
 			updatePlateau();
 			choixJoueur();
@@ -157,15 +160,24 @@ public class Main {
 	public static void updatePlateau() {
 		//Fonction de mise à jour du plateau qui est appellee a chaque debut de tour
 		
-		joueurs.get(tourJoueur).piocherCarte(); // le joueur pioche des carte jusqua en avoir 5
+		joueurs.get(tourJoueur).piocherCarte(); // le joueur pioche des carte jusqu'a en avoir 5
 		for(int i=0; i < joueurs.size();i++) {
-			plateau[joueurs.get(i).getPositionY()][joueurs.get(i).getPositionX()]=joueurs.get(i).getName()/*+joueurs.get(i).getDirection()*/;//on prend la directionaussi
+			
+			//On récupère les nouvelles valeurs de position, puis on vient placer le joueur à ces coordonnées.
+			
+			plateau[joueurs.get(i).getPositionY()][joueurs.get(i).getPositionX()]=joueurs.get(i).getName();
+			
+			//Après avoir placé le joueur, on fait de même pour sa direction
+			
 			directionJoueur.replace(joueurs.get(i).getName(), joueurs.get(i).getDirection());
 			
 		}
 		gui.setDirectionJoueurs(directionJoueur);//on envoie a l'interface la direction des joueurs
+		//On met à jour le stock de mur du joueur
 		gui.setNombreMur(joueurs.get(tourJoueur).getNombreMur());
+		//idem pour la main
 		gui.setMain(joueurs.get(tourJoueur).main);
+		//On appelle une fonction qui vient mettre à jour le plateau affiché sur l'interface graphique
 		gui.updateTableau(plateau);
 		
 		
@@ -173,12 +185,13 @@ public class Main {
 	}
 	
 	public static boolean finDuJeu() {
-		boolean test=false;
+		
+		boolean fin=false;
 		
 		if(joueurs.size()==1) { //s'il reste un seul joueur, le jeu est fini
-			test=true;
+			fin=true;
 			}
-		return test;
+		return fin;
 	}
 	
 	public static void joueurSuivant() {
@@ -199,14 +212,18 @@ public class Main {
 		//Cette fonction nous permet de récupérer le choix de jeu du joueur
 		String message = (joueurs.get(tourJoueur).getName()+" que souhaitez-vous faire ?");
 		String[] choixProg = {"Compléter le programme", "Construire un mur", "Exécuter le programme"};
+		
 	    int rang = JOptionPane.showOptionDialog(null, 
-	      message,
-	      "Choix",
-	      JOptionPane.YES_NO_CANCEL_OPTION,
-	      JOptionPane.QUESTION_MESSAGE,
-	      null,
-	      choixProg,
-	      choixProg[2]);
+	      message, // Le message qui sera affiché
+	      "Choix", //L'intitulé de la fenêtre
+	      JOptionPane.YES_NO_CANCEL_OPTION, //Le format de la boîte de dialogue
+	      JOptionPane.QUESTION_MESSAGE, //Le format de la boîte de dialogue
+	      null, 
+	      choixProg, // Contenu des boutons que peux choisir le joueur
+	      choixProg[2]); // Choix par défaut
+	    
+	    //En fonction du choix, on vient appeller la fonction correspondante
+	    
 	    switch(rang) {
 		case 0:
 			completerProgramme();
@@ -727,79 +744,8 @@ public class Main {
 					
 				}
 				
-				
-				/*
-				for(int j=1; j<7; j++) {
-					
-					
+			}
 
-					
-					
-					
-					//!caseLibre car la fonction renvoie false si la case est libre
-					
-					// au dessus du joueur
-					if(caseLibre(xPlayer,yPlayer-j)==false) {
-						if(xPlayer == x && yPlayer-j == y) {//on compte pas l'endroit où on a appuyé comme ça on sait si ça bloque ou non
-							
-						}
-						else{
-							cptup++;
-						}
-					}
-					// sous le joueur
-					if(caseLibre(xPlayer,yPlayer+j)==false){
-						if(xPlayer == x && yPlayer+j == y) {
-							
-						}
-						else {
-							cptdown++;
-						}
-						
-					}
-					// à gauche du joueur
-					if(caseLibre(xPlayer-j,yPlayer)==false) {
-						if(xPlayer-j == x && yPlayer == y) {
-							
-						}
-						else {
-							cptleft++;
-						}
-					}
-					// à droite du joueur
-					if(caseLibre(xPlayer+j,yPlayer)==false){
-						if(xPlayer+j == x && yPlayer == y) {
-							
-						}
-						else {
-							cptright++;
-						}
-					}
-					
-				}
-				
-				if(cptup==(0+yPlayer) || cptdown==(7-yPlayer) || cptleft==(0+xPlayer) || cptright==(7-xPlayer)){
-					System.out.println(joueurs.get(i).getName());
-					System.out.println("je suis là");
-					System.out.println(cptup);
-					System.out.println(cptdown);
-					System.out.println(cptleft);
-					System.out.println(cptright);
-					
-					//cpt_bloque=0;
-				}
-				else {
-					System.out.println("WOWOW");
-					//cpt_bloque++;
-					return true;
-				}
-				*/
-			}
-			/*
-			if(cpt_bloque>=1) {
-				return true;
-			}
-			*/
 			return false;
 			
 		}
