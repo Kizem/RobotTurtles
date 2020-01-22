@@ -18,18 +18,16 @@ import java.util.TreeMap;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Graphics;
-
-
-
 import javax.swing.JTextPane;
+//librairies pour l'interface graphique
 
 public class InterfaceGraphique extends JFrame{
 	//On déclare ici les éléments qui seront utilisés dans l'interface graphique
-	JPanel panelMain = new JPanel(new GridLayout(1, 5));
+	JPanel panelMain = new JPanel(new GridLayout(1, 5));// panel qui contiendra la main du joueur. Une ligne et 5 colonne
 	JFrame fenetre = new JFrame();
 	ImageIcon immg = new ImageIcon("image/fon2.jpg");
-	Image img = immg.getImage();
-	JPanel panelTableau = new JPanel(new GridLayout(8,8)) {
+	Image img = immg.getImage();// conversion icone en image
+	JPanel panelTableau = new JPanel(new GridLayout(8,8)) { //jpanel qui contiendra le plateau 8ligne 8colonne
 		@Override
 		public void paintComponent(Graphics g)
 	    {
@@ -43,9 +41,9 @@ public class InterfaceGraphique extends JFrame{
 	        }
 	    }
 	};
-	JPanel panelMur = new JPanel();
-	JLayeredPane panelPrincipal = new JLayeredPane();
-	//reception des icones pour la main du joueur avec une mise à l'échelle pour remplir le bouton
+	JPanel panelMur = new JPanel();//panel mur qui contiendra les boutons murs
+	JLayeredPane panelPrincipal = new JLayeredPane();//panel qui contiendra tout 
+	//reception de toutes les icones avec mise à l'échelle
 	ImageIcon YellowCard = new ImageIcon(new ImageIcon("image/YellowCard.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
 	ImageIcon BlueCard = new ImageIcon(new ImageIcon("image/BlueCard.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
 	ImageIcon LaserCard = new ImageIcon(new ImageIcon("image/LaserCard.png").getImage().getScaledInstance(81, 146, Image.SCALE_DEFAULT));
@@ -75,11 +73,11 @@ public class InterfaceGraphique extends JFrame{
 	ImageIcon glace= new ImageIcon(new ImageIcon("image/ICE.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
 	ImageIcon pierre= new ImageIcon(new ImageIcon("image/WALL.png").getImage().getScaledInstance(53, 53, Image.SCALE_DEFAULT));
 	ImageIcon FOND= new ImageIcon(new ImageIcon("image/fond.jpg").getImage().getScaledInstance(200,200, Image.SCALE_DEFAULT));
-	JTextPane textPane = new JTextPane();
+	JTextPane textPane = new JTextPane();//panel du message
 	private TreeMap<String, String> directionJoueur = new TreeMap<>();
 	private JButton[] boutonCarte = new JButton[5];
 	private JButton[][] boutonPlateau = new JButton[8][8];
-	private JLabel murGlaceLabel = new JLabel("1");
+	private JLabel murGlaceLabel = new JLabel("1");// nombre de murs restants
 	private JLabel murPierreLabel = new JLabel("1");
 	private JLabel murBoisLabel = new JLabel("1");
 	private boolean aucunMurGlace=false;
@@ -87,14 +85,14 @@ public class InterfaceGraphique extends JFrame{
 	private boolean aucunMurBois=false;
 	private String informationsUtilisateur;// variable qui affichera des informations a l'utilisateur
 	private static String murSelectionne; //variable qui permettra au main de savoir quel mur a ete selectionne
-	private boolean evenementMur; // variable qui permettra au main de savoir s'il y a eu un evenement
+	private boolean evenementMur; // variable qui permettra au Main de savoir s'il y a eu un evenement
 	private boolean evenementPlateau; // variable qui permettra au main de savoir s'il y a eu un evenement sur le plateau
 	private boolean evenementMain;
 	private boolean evenementBoutonFini;
 	private int[] coordonnee = new int[2];
 	private int indexMain;
 	 public  InterfaceGraphique() {
-		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//fermeture du programme
+		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//fermeture du programme apres appui sur la croix
 	 	
 		//création de la fenetre
 		this.fenetre.setResizable(false);
@@ -104,7 +102,7 @@ public class InterfaceGraphique extends JFrame{
 		this.fenetre.setLocationRelativeTo(null);
 		this.fenetre.getContentPane().setLayout(null);
 		
-		//création des differents panels
+		//Placement du panel et ajout a la fenetre
 		this.panelPrincipal.setBounds(15, 16, 1044, 648);
 		this.fenetre.getContentPane().add(this.panelPrincipal);
 		this.panelPrincipal.setLayout(null);
@@ -123,13 +121,13 @@ public class InterfaceGraphique extends JFrame{
 				boutton.setVisible(true);
 				boutton.setOpaque(false);
 				boutton.setContentAreaFilled(false);
-				boutton.setName(i+";"+j);/*on donne pour chaque bouton en nom leur coordonnee pour pouvoir les récuperer a c
+				boutton.setName(i+";"+j);/*on donne pour chaque bouton en nom leur coordonnee pour pouvoir les récuperer a
 				chaque evenement*/
 				//ici on gere les evenement des boutons du plateau
-				boutton.addActionListener(new ActionListener() {
+				boutton.addActionListener(new ActionListener() { 
 					public void actionPerformed(ActionEvent e) {
-						JButton b = (JButton)e.getSource();
-						String[] temp=b.getName().split(";");
+						JButton b = (JButton)e.getSource();//on recupere le bouton source de l'évènement
+						String[] temp=b.getName().split(";");// on recupere le nom du bouton car c'est dans le nom que sont indiqué les coordonnées du bouton
 						coordonnee[0]=Integer.parseInt(temp[0]);
 						coordonnee[1]=Integer.parseInt(temp[1]);
 						evenementPlateau=true;
@@ -137,7 +135,7 @@ public class InterfaceGraphique extends JFrame{
 					}
 				});
 				boutonPlateau[i][j]=boutton;
-				this.panelTableau.add(boutonPlateau[i][j]);
+				this.panelTableau.add(boutonPlateau[i][j]);//ajout du bouton dans le panel tableau
 			}
 		}
 		
@@ -150,7 +148,7 @@ public class InterfaceGraphique extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					JButton bbout = (JButton)e.getSource();
 					if (bbout.getIcon()== null) {
-						//si le bouton napas de carte, on ne prend pas en compte le clic
+						//si le bouton n'a pas de carte, on ne prend pas en compte le clic
 						evenementMain=false;
 					}
 					else {
@@ -175,16 +173,6 @@ public class InterfaceGraphique extends JFrame{
 		});
 		boutonValiderCarte.setBounds(771, 554, 156, 56);
 		this.panelPrincipal.add(boutonValiderCarte);
-		
-		/* pas besoin de ce bouton
-		 * JButton boutonFini = new JButton("Annuler");
-		boutonFini.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		boutonFini.setBounds(826, 587, 115, 29);
-		this.panelPrincipal.add(boutonFini);
-		boutonFini.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));*/
 		textPane.setBackground(Color.LIGHT_GRAY);
 		textPane.setForeground(new Color(0, 128, 128));
 		textPane.setFont(new Font("Tahoma", Font.PLAIN, 26));
