@@ -8,4 +8,3 @@ public class Carte {
 	}
 
 }
-//classe mur

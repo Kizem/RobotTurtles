@@ -1,4 +1,3 @@
-
 public class Mur {
 	boolean amovible;
 	boolean destructible;

@@ -5,16 +5,13 @@ import java.util.List;
 // un joueur possede une couleur, un nom, une pioche de carte, une main, une liste d'intruction
 public class Joueur {
 	private String couleur;
-	//main est en public pour que l'on puisse récupérer la main du joueur dans le main
-	public List<Carte> main = new ArrayList<Carte>();
+	private List<Carte> main = new ArrayList<Carte>();
 	private List<Carte> pioche;
 	private List<Mur> murs = new ArrayList<Mur>();
-	//  piocheDefausse est en public pour que l'on puisse ajouter les cartes hors de la classe
-	public List<Carte> piocheDefausse = new ArrayList<Carte>();
-	//le nom du joueurs est en public pour que l'on puisse savoir quel joueur se fait tirer dessus
-	public String nom;
+	private List<Carte> piocheDefausse = new ArrayList<Carte>();
+	private String nom;
 	private String direction;
-	public int[] position = new int[2];
+	private int[] position = new int[2];
 	private ArrayDeque<Carte> file = new ArrayDeque<>();
 	private int[] positionDepart = new int[2];
 	
@@ -22,19 +19,18 @@ public class Joueur {
 		this.couleur=couleurTortue;
 		this.nom=nomTortue;
 		this.direction="s";
-		//initialisation des murs : 3murs de pierre et 2murs de glace
+		//initialisation des murs : 3 murs de pierre et 2 murs de glace
 		this.murs.add(new Mur(false , false, "Pierre"));
 		this.murs.add(new Mur(false , false, "Pierre"));
 		this.murs.add(new Mur(false , false, "Pierre"));
 		this.murs.add(new Mur(false , true, "Glace"));
 		this.murs.add(new Mur(false , true, "Glace"));
 		//fin d'initialisation
-		this.pioche=new ArrayList<Carte>(piocheDeBase);//on recupere les cartes
+		this.pioche=new ArrayList<Carte>(piocheDeBase);//on recupere les cartes de la pioche
 		Collections.shuffle(this.pioche);//on melange les cartes
 		//on cree la main du joueur
 		for(int i=0;i<5; i++) {
 			this.main.add(this.pioche.get(0));
-			//this.piocheDefausse.add(this.pioche.get(0)); //pq ?
 			this.pioche.remove(0);
 		}
 		
@@ -51,36 +47,11 @@ public class Joueur {
 	public void retirerCarte(Carte carte) {
 		this.piocheDefausse.add(carte);
 		this.main.remove(carte);
-		//TODO : cette ligne n'est-elle pas inutile si l'on met la carte dans la pile de défausse à l'éxécution du programme ? 
 	}
-	//on vide toutes les cartes de la main dans la liste de defausse
 	
-	//plus besoind de ca normalement
-	public void defausserMain(String action) {
-		
-		if(action.equals("toutes")) {
-			for(int i=0; i<this.main.size();i++) {
-				this.piocheDefausse.add(this.main.get(i));
-			}
-			this.main.clear();
-		}
-		else {
-			
-			
-			
-		}
-	}
 	//on pioche des cartes jusqu'a ce que le joueur en ait 5
 	public void piocherCarte() {
-		/*
-		if(this.pioche.size()==0) {
-			
-			this.pioche = this.piocheDefausse;
-			this.piocheDefausse.clear();
-			Collections.shuffle(this.pioche);
-			
-		}
-		*/
+
 		while(this.main.size()<5) {
 			if(this.pioche.isEmpty()) {
 				//au cas ou la pioche est vide

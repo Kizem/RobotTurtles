@@ -1,4 +1,3 @@
-
 public class Joyau {
 	private int[] position = new int[2];
 	private String couleur;

@@ -19,9 +19,12 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Graphics;
 
+
+
 import javax.swing.JTextPane;
 
 public class InterfaceGraphique extends JFrame{
+	//On déclare ici les éléments qui seront utilisés dans l'interface graphique
 	JPanel panelMain = new JPanel(new GridLayout(1, 5));
 	JFrame fenetre = new JFrame();
 	ImageIcon immg = new ImageIcon("image/fon2.jpg");

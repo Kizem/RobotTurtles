@@ -37,7 +37,7 @@ public class Main {
 		for(int i=0; i<joueursClassementFinal.size();i++) {
 			
 			//message.concat(i+1+"-"+joueursClassementFinal.get(i).nom+"\n");	
-			message = message+(i+1)+"-"+joueursClassementFinal.get(i).nom+"\n";
+			message = message+(i+1)+"-"+joueursClassementFinal.get(i).getName()+"\n";
 		}
 		
 		//Boîte du message d'information
@@ -176,7 +176,7 @@ public class Main {
 		//On met à jour le stock de mur du joueur
 		gui.setNombreMur(joueurs.get(tourJoueur).getNombreMur());
 		//idem pour la main
-		gui.setMain(joueurs.get(tourJoueur).main);
+		gui.setMain(joueurs.get(tourJoueur).getMain());
 		//On appelle une fonction qui vient mettre à jour le plateau affiché sur l'interface graphique
 		gui.updateTableau(plateau);
 		
@@ -620,6 +620,7 @@ public class Main {
 		}
 	}
 	//fonction qui vérifie si la case du plateau est vide, soit contient l'element "rien"
+	//renvoie true si la case n'est pas libre
 	static boolean caseLibre(int x, int y) {
 		//automatiquement si la case saisie est hors plateau, on considère qu'elle n'est pas vide
 		if(x<0|| x>7|| y<0|| y>7) {
@@ -673,18 +674,6 @@ public class Main {
 		int xPlayer;
 		int yPlayer;
 		
-		/*ce qu'il faut faire, c'est plutotverifier si les x et y recu en parametre sont les coordonnées 
-		 * d'une case a +1 au sud ou au nord ou a lest ou a louest d'un joueur
-		 * et si c'est le cas alors il faut vérifier si la tortue ne possede pas déja 3mur destructible autour d'elle
-		 */
-		
-		//TODO : Samy 19/01 : Oui je suis d'accord mais le soucis c'est que tu prends pas en compte le cas où la tortue est collée à un rebord
-		// du plateau, pcq en vrai tu peux bloquer un joueur avec 2 murs si il est dans le coin par exemple
-		// Mais ça tqt je l'ai géré, j'ai pris en compte les mur de bois et les rebords de plateau (tu peux tester).
-		// Après le soucis qu'il reste c'est que genre vu qu'on vient vérifier à proximité des tortues, bah il est toujours possible d'encercler un joueur
-		// avec des murs de loin genre... Mais en soit ça a très peu de chance d'arriver, donc je pense qu'on peut laisser la fonction telle qu'elle
-		// T'en penses quoi ? Pcq en soit là ça marche très bien
-		
 		//Si le mur choisi est destructible, nul besoin d'effectuer la vérification
 
 		
@@ -694,17 +683,7 @@ public class Main {
 			for(int i=0; i<nbJoueurs;i++) {
 				xPlayer=joueurs.get(i).getPositionX();
 				yPlayer=joueurs.get(i).getPositionY();
-				// SAMY : 
-				// déroulé de la vérif : dans tous les axes, on vérifie si il y a des cases vides
-				// le but étant d'avoir au moins un axe de sortie. Donc on met en place un compteur
-				// qui vient compter le nombre de cases vides, nous permettant de savoir (si on en a le bon nombre)
-				// s'il est toujours possible de sortir de là 
-				/*
-				int cptup=0;
-				int cptdown=0;
-				int cptleft=0;
-				int cptright=0;
-				*/
+
 				//Compteur de mur/obstacles indestrucibles autour d'un joueur
 				int cpt_mur=0;
 				
@@ -817,7 +796,7 @@ public class Main {
 	
 	
 	
-	//fonction qui renvoie les coordonnee suivante en fonction de la direction de la tortue
+	//fonction qui renvoie les coordonnee suivante en fonction de la direction et de la position de la tortue
 	static int[] coordonneeSuivante(int y, int x, String direction) {
 		 int[] coo = new int[2];
 		 coo[0]=y;
@@ -842,7 +821,7 @@ public class Main {
 	
 	
 	
-	//fonction qui renvoie loppose de la direction recue
+	//fonction qui renvoie l'opposé de la direction reçue
 	static String demiTour(String direction) {
 		switch(direction) {
 		case "s":
@@ -869,8 +848,8 @@ public class Main {
 		for(int i=0; i<joueurs.size();i++) {
 			Joueur j = joueurs.get(i);
 			
-			if(j.nom.equals(nom)) {
-				//mohammad 16/12 lorsque l'on met la tortue a sa position de depart, il faut mettre rien sur le plateau dans sa position actuelle:
+			if(j.getName().equals(nom)) {
+				//lorsque l'on met la tortue a sa position de depart, il faut mettre rien sur le plateau dans sa position actuelle:
 				plateau[j.getPositionY()][j.getPositionX()]="rien";
 				//maintenant que l'on sait qu'on est bien sur la bonne tortue, alors on récupère sa position de depart
 				positionDep=j.getPositionDepart();
@@ -895,7 +874,7 @@ public class Main {
 			for(int i=0; i<joueurs.size();i++) {
 				Joueur j = joueurs.get(i);
 				
-				if(j.nom.equals(nom)) {
+				if(j.getName().equals(nom)) {
 					
 					plateau[j.getPositionY()][j.getPositionX()]="rien";
 					
@@ -916,7 +895,7 @@ public class Main {
 			for(int i=0; i<joueurs.size();i++) {
 				Joueur j = joueurs.get(i);
 				
-				if(j.nom.equals(nom)) {
+				if(j.getName().equals(nom)) {
 					//maintenant que l'on sait qu'on est bien sur la bonne tortue, alors on lui fait faire un demi-tour
 					j.setDirection(demiTour(j.getDirection()));
 				}
